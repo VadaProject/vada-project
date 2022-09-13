@@ -1,38 +1,33 @@
-<?php 
-	include('config/db_connect.php');
-	// check GET request id param
-	if(isset($_GET['id'])){
-		
-		// escape sql chars
-		$claimID = mysqli_real_escape_string($conn, $_GET['id']);
-		// make sql
-		$sql = "SELECT * FROM claimsdb WHERE claimID = $claimID";
-		// get the query result
-		$result = mysqli_query($conn, $sql);
-		// fetch result in array format
-		$claimsdb = mysqli_fetch_assoc($result);
-		mysqli_free_result($result);
+<?php
+include 'config/db_connect.php';
+// check GET request id param
+if (isset($_GET['id'])) {
+    // escape sql chars
+    $claimID = mysqli_real_escape_string($conn, $_GET['id']);
+    // make sql
+    $sql = "SELECT * FROM claimsdb WHERE claimID = {$claimID}";
+    // get the query result
+    $result = mysqli_query($conn, $sql);
+    // fetch result in array format
+    $claimsdb = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+}
 
-		}
+$sql2 = 'SELECT claimIDFlagged, claimIDFlagger, flagType, active FROM flagsdb';
+// get the result set (set of rows)
+$result2 = mysqli_query($conn, $sql2);
+// fetch the resulting rows as an array // was $result
+$flagsdb = mysqli_fetch_all($result2, MYSQLI_ASSOC);
 
-	$sql2 = 'SELECT claimIDFlagged, claimIDFlagger, flagType, active FROM flagsdb';
-	// get the result set (set of rows)
-	$result2 = mysqli_query($conn, $sql2);
-	// fetch the resulting rows as an array // was $result
-	$flagsdb = mysqli_fetch_all($result2, MYSQLI_ASSOC);
+$sql3 = 'SELECT claimIDFlagged, claimIDFlagger, flagType, active FROM flagsdb';
+// get the result set (set of rows)
+$result3 = mysqli_query($conn, $sql3);
+// fetch the resulting rows as an array // was $result
+$flagsdb2 = mysqli_fetch_all($result3, MYSQLI_ASSOC);
 
-
-
-	$sql3 = 'SELECT claimIDFlagged, claimIDFlagger, flagType, active FROM flagsdb';
-	// get the result set (set of rows)
-	$result3 = mysqli_query($conn, $sql3);
-	// fetch the resulting rows as an array // was $result
-	$flagsdb2 = mysqli_fetch_all($result3, MYSQLI_ASSOC);
-
-	
-	// close connection
+// close connection
 //	mysqli_close($conn);
-	
+
 ?>
 
 
@@ -40,28 +35,29 @@
 <!DOCTYPE html>
 <html>
  
-	<?php include('templates/header.php'); ?>
+	<?php include 'templates/header.php'; ?>
 <center>
 	<div class="container center">
 
-	<?php foreach($flagsdb as $flagsdb): 
+	<?php foreach ($flagsdb as $flagsdb) {
+	    $color = '';
+	    $claimIDFlagged = $flagsdb['claimIDFlagged'];
+	    $active = $flagsdb['active'];
+	    if ($claimIDFlagged == $claimID && '1' == $active) {
+	        $color = 'red';
 
-		 $color = '';
-		 $claimIDFlagged = $flagsdb['claimIDFlagged'];
-		 $active = $flagsdb['active'];
-		 	if($claimIDFlagged == $claimID && $active == '1')
- { $color = "red"; break;}
-else{ $color = "green"; } 
-endforeach;  ?>
+	        break;
+	    }
+	    $color = 'green';
+	}  ?>
 <font color = "<?php echo $color; ?>">	
 			<p><b>Claim ID:</b>  <?php echo $claimsdb['claimID']; ?> </p>
 			<p><b>Support Means:</b>  <?php echo $claimsdb['supportMeans']; ?> </p></font>
 
 
 
-<?php //------------ ONE
-if( $claimsdb['supportMeans'] == "Inference")
-{ ?>
+<?php // ------------ ONE
+	if ('Inference' == $claimsdb['supportMeans']) { ?>
 	<p><b>Thesis Statement:</b>  <?php echo $claimsdb['thesisST']; ?> </p>
 			<p><b>Reason Statement:</b>  <?php echo $claimsdb['reasonST']; ?> </p>
 			<p><b>Rule Statement:</b>  <?php echo $claimsdb['ruleST']; ?> </p>
@@ -69,100 +65,79 @@ if( $claimsdb['supportMeans'] == "Inference")
   
 
  <?php // ------------- TWO
-if( $claimsdb['supportMeans'] == "Perception")
-{ ?>
+	if ('Perception' == $claimsdb['supportMeans']) { ?>
 	<p><b>Url of perception:</b>  <?php echo $claimsdb['URL']; ?> </p>
 			
 <?php } ?>
 
    <?php // ------------- THREE
-if( $claimsdb['supportMeans'] == "Testimony")
-{ ?>
+	if ('Testimony' == $claimsdb['supportMeans']) { ?>
 	<p><b>Research Document:</b>  <?php echo $claimsdb['rd']; ?> </p>
 	<p><b>Summary:</b>  <?php echo $claimsdb['summary']; ?> </p>
 	<p><b>Description:</b>  <?php echo $claimsdb['description']; ?> </p>
 			
-<?php } 
+<?php }
 
-
-	foreach($flagsdb2 as $flagsdb2):
-?> 
+	foreach ($flagsdb2 as $flagsdb2) {
+	    ?> 
 <?php
-	
-		$claimIDFlagged = $flagsdb2['claimIDFlagged'];
-		 $active = $flagsdb2['active'];
-	if($active == '1')
-	{ // if active 
-		echo "These are active flags";
-		 	if($claimIDFlagged == $claimID)
-	
-			{
 
-?> 
+	            $claimIDFlagged = $flagsdb2['claimIDFlagged'];
+	    $active = $flagsdb2['active'];
+	    if ('1' == $active) { // if active
+	        echo 'These are active flags';
+	        if ($claimIDFlagged == $claimID) {
+	            ?> 
 
-<a href ="details.php?id=<?php echo $flagsdb['claimIDFlagger']?>"><?php echo htmlspecialchars(' Being flagged by: ' . $flagsdb2['claimIDFlagger']); ?> </a> 
+<a href ="details.php?id=<?php echo $flagsdb['claimIDFlagger']; ?>"><?php echo htmlspecialchars(' Being flagged by: '.$flagsdb2['claimIDFlagger']); ?> </a> 
 
-<?php	
-echo nl2br("\r\n");
-echo htmlspecialchars('Type of flag: ' . $flagsdb2['flagType'] ); 
-echo nl2br("\r\n");
+<?php
+	            echo nl2br("\r\n");
+	            echo htmlspecialchars('Type of flag: '.$flagsdb2['flagType']);
+	            echo nl2br("\r\n");
+	        }
+	    } // end if active
 
-}
+	    if ('0' == $active) { // if active
+	        echo 'These are infactive flags';
+	        if ($claimIDFlagged == $claimID) {
+	            ?> 
 
-} // end if active
+<a href ="details.php?id=<?php echo $flagsdb['claimIDFlagger']; ?>"><?php echo htmlspecialchars(' Being flagged by: '.$flagsdb2['claimIDFlagger']); ?> </a> 
 
-
-
-if($active == '0')
-	{ // if active 
-		echo "These are infactive flags";
-		 	if($claimIDFlagged == $claimID)
-	
-			{
-
-?> 
-
-<a href ="details.php?id=<?php echo $flagsdb['claimIDFlagger']?>"><?php echo htmlspecialchars(' Being flagged by: ' . $flagsdb2['claimIDFlagger']); ?> </a> 
-
-<?php	
-echo nl2br("\r\n");
-echo htmlspecialchars('Type of flag: ' . $flagsdb2['flagType'] ); 
-echo nl2br("\r\n");
-
-}
-
-} // end if active
-						
-					
-	endforeach;
+<?php
+	            echo nl2br("\r\n");
+	            echo htmlspecialchars('Type of flag: '.$flagsdb2['flagType']);
+	            echo nl2br("\r\n");
+	        }
+	    } // end if active
+	}
 
 ?> 
 
 <center>
 	<div class="container center">
-		<?php if ($claimsdb): ?>
+		<?php if ($claimsdb) { ?>
 
-			<?php $claimIDFlagged = $claimsdb['claimID']; 
-		session_start();
-			$_SESSION['varname'] = $claimIDFlagged;
+			<?php $claimIDFlagged = $claimsdb['claimID'];
+		    session_start();
+		    $_SESSION['varname'] = $claimIDFlagged;
 
-
-?>
+		    ?>
 
 
 </center>
 
-		<?php else: ?>
+		<?php } else { ?>
 			<h5>Claim not found.</h5>
-		<?php endif ?>
+		<?php } ?>
 
 
 </html>
 
 <?php
-	include('config/db_connect.php');
-	$claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL =  $rd = $reason =  $flagType = $flagURL = $flagSource = $flagID = $inferenceIDFlagger= $active = '';
-
+		        include 'config/db_connect.php';
+$claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $active = '';
 
 $addPage = 'no';
 $_SESSION['addPage'] = $addPage;
@@ -205,21 +180,16 @@ clearInput();
 
 </script>
 <?php
-		// Colorcode *specific* parts of the flag limb. 
-		// IF flag = x, y, z, text = ruleflag/red. if flag = u, m, v, text = reasonflag/red. 
+        // Colorcode *specific* parts of the flag limb.
+        // IF flag = x, y, z, text = ruleflag/red. if flag = u, m, v, text = reasonflag/red.
 
+    // display pramana for each flag in db, including condition for supportmeans in claimsdb for the displa
 
+    // testimony- summary of argument/timestamp/excerpt. also, description.
 
-	// display pramana for each flag in db, including condition for supportmeans in claimsdb for the displa
+    // Use UPDATE in mysql to change flag to 'active = 0' when flagged.
 
-	// testimony- summary of argument/timestamp/excerpt. also, description. 
-
-
-
-	// Use UPDATE in mysql to change flag to 'active = 0' when flagged. 
-
-	// flags are clearly explained
-
+    // flags are clearly explained
 
 ?>
 
@@ -267,7 +237,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 </style>
 
-	<?php include('templates/header.php'); ?>
+	<?php include 'templates/header.php'; ?>
 <br>
 <b>Add claim to flag claim number </b>
 		<br>	
@@ -326,9 +296,8 @@ body {font-family: Arial, Helvetica, sans-serif;}
   display: block;
 }
 </style>
-<?php //------------ ONE
-if( $claimsdb['supportMeans'] == "Inference")
-{ ?>
+<?php // ------------ ONE
+if ('Inference' == $claimsdb['supportMeans']) { ?>
 	
 <br><u>Inference Flags</u><br>
 	<select name="flagType" >
@@ -351,8 +320,7 @@ if( $claimsdb['supportMeans'] == "Inference")
   
 
  <?php // ------------- TWO
-if( $claimsdb['supportMeans'] == "Perception")
-{ ?>
+if ('Perception' == $claimsdb['supportMeans']) { ?>
 	
 	<br><u>Perception Flags</u><br>
 				<select name="flagType">
@@ -366,8 +334,7 @@ if( $claimsdb['supportMeans'] == "Perception")
 <?php } ?>
 
    <?php // ------------- THREE
-if( $claimsdb['supportMeans'] == "Testimony")
-{ ?>
+if ('Testimony' == $claimsdb['supportMeans']) { ?>
 
 <br><u>Testimony Flags</u><br>
 				<select name="flagType">
@@ -397,10 +364,10 @@ if( $claimsdb['supportMeans'] == "Testimony")
 
 
 <label>Subject</label><br>
-			<input type="text" name="subject" value="<?php echo htmlspecialchars($subject) ?>"><br>
+			<input type="text" name="subject" value="<?php echo htmlspecialchars($subject); ?>"><br>
 
 			<label>Target Property</label><br>
-			<input type="text" name="targetP" value="<?php echo htmlspecialchars($targetP) ?>"> <br>
+			<input type="text" name="targetP" value="<?php echo htmlspecialchars($targetP); ?>"> <br>
   			
 	
 
@@ -413,14 +380,14 @@ if( $claimsdb['supportMeans'] == "Testimony")
 </select>
 <br>
 
-<textarea id="reason" name = "reason" value="<?php echo htmlspecialchars($reason) ?>">Enter Reason Property</textarea><br>
-<textarea id="example" name = "example" value="<?php echo htmlspecialchars($example) ?>">Enter Example</textarea><br>
-<textarea id="url" name = "URL" value="<?php echo htmlspecialchars($URL) ?>">Enter URL</textarea><br>
-<textarea id="rd" name = "rd" value="<?php echo htmlspecialchars($rd) ?>">Enter Speech/Research Document</textarea><br>
+<textarea id="reason" name = "reason" value="<?php echo htmlspecialchars($reason); ?>">Enter Reason Property</textarea><br>
+<textarea id="example" name = "example" value="<?php echo htmlspecialchars($example); ?>">Enter Example</textarea><br>
+<textarea id="url" name = "URL" value="<?php echo htmlspecialchars($URL); ?>">Enter URL</textarea><br>
+<textarea id="rd" name = "rd" value="<?php echo htmlspecialchars($rd); ?>">Enter Speech/Research Document</textarea><br>
 <!-- for testimony -->
-<textarea id="summary" name = "summary" value="<?php echo htmlspecialchars($summary) ?>">Summary of Argument/Excerpt. Include timestamps for video, if applicable. </textarea><br>
+<textarea id="summary" name = "summary" value="<?php echo htmlspecialchars($summary); ?>">Summary of Argument/Excerpt. Include timestamps for video, if applicable. </textarea><br>
 
-<textarea id="description" name = "description" value="<?php echo htmlspecialchars($description) ?>">Description</textarea><br>
+<textarea id="description" name = "description" value="<?php echo htmlspecialchars($description); ?>">Description</textarea><br>
 
 <script type="text/javascript">
 
@@ -504,7 +471,7 @@ window.onclick = function(event) {
   }
 }
 </script>
-<?php include('templates/footer.php'); ?>
+<?php include 'templates/footer.php'; ?>
 </body>
 
 </html>
