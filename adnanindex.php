@@ -28,7 +28,7 @@
 
 <!-- Include bootstrap & jQuery -->
 <link rel="stylesheet" href="bootstrap.css" />
-<script src="jquery-3.3.1.min.js"></script> 
+<script src="assets/scripts/jquery-3.3.1.min.js"></script>
 <script src="bootstrap.js"></script>
 
 <!-- Creating table heading -->
@@ -43,7 +43,7 @@
         <?php while ($row = mysqli_fetch_object($result)) { ?>
             <tr>
                 <td><?php echo $row->claimID; ?></td>
-              
+
                 <!--Button to display details -->
         <td>
             <button class = "btn btn-primary" onclick="loadData(this.getAttribute('data-id'));" data-id="<?php echo $row->claimID; ?>">
@@ -84,10 +84,10 @@
 
 <!-- Modal -->
 <div class = "modal fade" id = "myModal" tabindex = "-1" role = "dialog" aria-hidden = "true">
-   
+
    <div class = "modal-dialog">
       <div class = "modal-content">
-         
+
          <div class = "modal-header">
             <h4 class = "modal-title">
                Customer Detail
@@ -97,18 +97,18 @@
                ×
             </button>
          </div>
-         
+
          <div id = "modal-body">
             Press ESC button to exit.
          </div>
-         
+
          <div class = "modal-footer">
             <button type = "button" class = "btn btn-default" data-dismiss = "modal">
                OK
             </button>
          </div>
-         
+
       </div><!-- /.modal-content -->
    </div><!-- /.modal-dialog -->
-   
+
 </div><!-- /.modal -->

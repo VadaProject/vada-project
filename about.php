@@ -4,13 +4,13 @@
 
 <!DOCTYPE html>
 <html>
-   <link rel="stylesheet" href="./style.css"> 
+   <link rel="stylesheet" href="./style.css">
 
 	<?php include 'templates/header.php'; ?>
 
-		<script src="script/jquery-1.8.1.min.js" type="text/javascript"></script>
+		<script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="script/my_script.js" type="text/javascript"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="assets/scripts/jquery-3.3.1.min.js"></script>
 
 <style>
 div.b {
@@ -22,7 +22,7 @@ div.b {
     line-height: 1.8;
 
 
-  
+
 }
 </style>
 
@@ -73,7 +73,7 @@ code:before{
 
 </body>
 </html>
---> 
+-->
 
 
 
@@ -87,7 +87,7 @@ systematization of particular Indian theories of knowledge sources
 </I></FONT>and methods of
 reasoning (</FONT><I>nyāya</I></FONT>).
 This systematization is most directly indebted to the theories and
-methods both of the Nyāya philosophy of 
+methods both of the Nyāya philosophy of
 <a href = "https://en.wikipedia.org/wiki/Ny%C4%81ya_S%C5%ABtras" > Akṣapāda Gautama and his successors</a>, and of the Buddhist philosophy of
 <a href = "https://plato.stanford.edu/entries/dharmakiirti/" > Dharmakīrti</a> and his
 successors.</FONT></P>

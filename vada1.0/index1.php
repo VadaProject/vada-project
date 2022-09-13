@@ -13,10 +13,10 @@ mysqli_close($conn);
 
 <!DOCTYPE html>
 <html>
-	
+
 	<?php include 'templates/header.php'; ?>
 
-	<center> <b> Claims  </b> 
+	<center> <b> Claims  </b>
 	<br><a class="brand-text" href="add.php">Add Claim</a>
 	</center>
 
@@ -37,7 +37,7 @@ mysqli_close($conn);
 
 		<div class="card-action right-align">
 <a class="brand-text" href="details.php?id=<?php echo $claimsdb['claimID']; ?>">details</a>
-							
+
 						</div>
 					</div>
 				</div>
@@ -47,7 +47,7 @@ mysqli_close($conn);
 		</div>
 	</div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="assets/scripts/jquery-3.3.1.min.js"></script>
 
 </body>
 </html>

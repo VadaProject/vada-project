@@ -1,8 +1,8 @@
 <?php include 'config/db_connect.php';
 ?>
 
-<link rel="stylesheet" href="./style.css"> 
-<link rel="stylesheet" href="./detailsstyle.css"> 
+<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="./detailsstyle.css">
 
 
 	<?php include 'templates/header.php';
@@ -11,29 +11,29 @@ session_start();
 ?>
 <center>
 
- <script src="script/jquery-1.8.1.min.js" type="text/javascript"></script>
+ <script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="script/my_script.js" type="text/javascript"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="assets/scripts/jquery-3.3.1.min.js"></script>
 
 <br>
-	
+
   <script>
       $(document).ready(function() {
-  
+
 $("#submit").click(function(){
   window.alert("Submitted!");
 window.location.assign("http://localhost/directory/index.php");
 
- $.post( $("#myForm").attr("action"), 
-         $("#myForm :input").serializeArray(), 
-         function(info){ $("#result").html(info); 
+ $.post( $("#myForm").attr("action"),
+         $("#myForm :input").serializeArray(),
+         function(info){ $("#result").html(info);
   });
 clearInput();
 
     });
 
   $("#myForm").submit( function() {
-  return false; 
+  return false;
 });
 
   function clearInput() {
@@ -58,18 +58,18 @@ clearInput();
 // NA
 // AS IN THE CASE OF : SPACE IN EXAMPLE STATEMENT
 ?>
-			
+
 
    <?php
   if (isset($_GET['topic'])) {
-      ?> <label>Topic</label><br>       
+      ?> <label>Topic</label><br>
 <input type="text" name="topic" value="<?php echo $_GET['topic']; ?>" readonly><br>
 
 <?php
   } else {
       ?>
 
-<label>Topic</label><br>       
+<label>Topic</label><br>
 <input type="text" name="topic" value="<?php echo htmlspecialchars($topic); ?>"><br>
 <?php }
   ?>
@@ -77,24 +77,24 @@ clearInput();
  <p style="color:#000000";>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><u>Subject</u>         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <u>Target Property </u></label><br>
-<textarea class="subject" type="text" id="subject" name = "subject" value="<?php echo htmlspecialchars($subject); ?>">Enter Subject</textarea>     
+<textarea class="subject" type="text" id="subject" name = "subject" value="<?php echo htmlspecialchars($subject); ?>">Enter Subject</textarea>
 <textarea class="targetP" type="text" id="targetP" name = "targetP" value="<?php echo htmlspecialchars($targetP); ?>">Enter Target Property</textarea>
       <br>
 
       <u> <p style="color:grey">Thesis Statement </u><br>
-<span class="jsValue3">subject</span> <span class="jsValue4">target</span> 
+<span class="jsValue3">subject</span> <span class="jsValue4">target</span>
 </p></p>
 
 
-<p style="color:black"> Is the subject an object or a person? 
+<p style="color:black"> Is the subject an object or a person?
 <select name="grammar" id="grammar" value="grammar">
 <option value="">Choose One</option>
 <option value="object">Object</option>
 <option value="person">Person</option>
 </select> <br>
-        
+
 What is your Support Means?
-  
+
 <select name="union" id="union" value="union">
 <option value="">Choose One</option>
 <option value="Inference">Inference</option>
@@ -114,7 +114,7 @@ What is your Support Means?
 
 
 
-<div id="hiddenRule"> 
+<div id="hiddenRule">
 
   <div id="some-div">
   <img src = "assets/img/question_mark.php">
@@ -124,7 +124,7 @@ What is your Support Means?
 <textarea class="reason" type="text" id="reason" name = "reason" value="<?php echo htmlspecialchars($reason); ?>">Enter Reason Property</textarea>
 </p>
   <u> Reason Statement </u><br>
- 
+
  <span class="jsValue5">subject</span>   <span class="jsValue6">reason</span>
 <br><br>
 
@@ -207,8 +207,8 @@ $jsReason2.addEventListener('input', function(event){
   $jsValue6.innerHTML = $jsReason2.value;
 }, false);
 
-</script> 
-</div> 
+</script>
+</div>
 
 <script type="text/javascript">
 
@@ -254,12 +254,12 @@ if (union.options[union.selectedIndex].value === 'Perception') {
 if (union.options[union.selectedIndex].value === 'Testimony') {
         transcription.style.display = '';
         citation.style.display = '';
-    } 
-    
+    }
+
 if (union.options[union.selectedIndex].value === 'Tarka') {
         window.alert("A requirement of Tarka is to use the comments feature in the Tarka claim following submission.");
          citation.style.display = 'none';
-    } 
+    }
 
 }
 
@@ -273,7 +273,7 @@ union.onchange = checkOtherUnion;
 union.onchange();
 </script>
 <br>
-<button onclick="setTimeout(myFunction, 8000)" id="submit">Submit</button>  
+<button onclick="setTimeout(myFunction, 8000)" id="submit">Submit</button>
 
 <script>
 
@@ -308,7 +308,7 @@ if (validTextArea == true && validDropDown == true) {
         jQuery("#submit").prop('disabled', false);
 
     } else {
-                 
+
         jQuery("#submit").prop('disabled', true);
       }
 
@@ -351,7 +351,7 @@ toValidate2.change(function () {
         toValidate2.each(function () {
         if (jQuery(this).data('valid') == true) {
             validDropDown = true;
-                        
+
         } else {
             validDropDown = false;
    //           window.alert(jQuery(this)[0].selectedIndex);
@@ -362,7 +362,7 @@ if (validTextArea == true && validDropDown == true) {
         jQuery("#submit").prop('disabled', false);
 
     } else {
-                  
+
         jQuery("#submit").prop('disabled', true);
       }
 
@@ -372,17 +372,17 @@ if (validTextArea == true && validDropDown == true) {
         jQuery("#submit").prop('disabled', false);
 
     } else {
-              
+
         jQuery("#submit").prop('disabled', true);
       }
 
 });
 
 
-// above IS WHERE SUBMIT BUTTON DISABLED HAPPENS 
+// above IS WHERE SUBMIT BUTTON DISABLED HAPPENS
 
 
-//need to bypass insert page 
+//need to bypass insert page
 </script>
 
 

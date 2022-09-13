@@ -34,7 +34,7 @@ $flagsdb2 = mysqli_fetch_all($result3, MYSQLI_ASSOC);
 
 <!DOCTYPE html>
 <html>
- 
+
 	<?php include 'templates/header.php'; ?>
 <center>
 	<div class="container center">
@@ -50,7 +50,7 @@ $flagsdb2 = mysqli_fetch_all($result3, MYSQLI_ASSOC);
 	    }
 	    $color = 'green';
 	}  ?>
-<font color = "<?php echo $color; ?>">	
+<font color = "<?php echo $color; ?>">
 			<p><b>Claim ID:</b>  <?php echo $claimsdb['claimID']; ?> </p>
 			<p><b>Support Means:</b>  <?php echo $claimsdb['supportMeans']; ?> </p></font>
 
@@ -62,12 +62,12 @@ $flagsdb2 = mysqli_fetch_all($result3, MYSQLI_ASSOC);
 			<p><b>Reason Statement:</b>  <?php echo $claimsdb['reasonST']; ?> </p>
 			<p><b>Rule Statement:</b>  <?php echo $claimsdb['ruleST']; ?> </p>
 <?php } ?>
-  
+
 
  <?php // ------------- TWO
 	if ('Perception' == $claimsdb['supportMeans']) { ?>
 	<p><b>Url of perception:</b>  <?php echo $claimsdb['URL']; ?> </p>
-			
+
 <?php } ?>
 
    <?php // ------------- THREE
@@ -75,11 +75,11 @@ $flagsdb2 = mysqli_fetch_all($result3, MYSQLI_ASSOC);
 	<p><b>Research Document:</b>  <?php echo $claimsdb['rd']; ?> </p>
 	<p><b>Summary:</b>  <?php echo $claimsdb['summary']; ?> </p>
 	<p><b>Description:</b>  <?php echo $claimsdb['description']; ?> </p>
-			
+
 <?php }
 
 	foreach ($flagsdb2 as $flagsdb2) {
-	    ?> 
+	    ?>
 <?php
 
 	            $claimIDFlagged = $flagsdb2['claimIDFlagged'];
@@ -87,9 +87,9 @@ $flagsdb2 = mysqli_fetch_all($result3, MYSQLI_ASSOC);
 	    if ('1' == $active) { // if active
 	        echo 'These are active flags';
 	        if ($claimIDFlagged == $claimID) {
-	            ?> 
+	            ?>
 
-<a href ="details.php?id=<?php echo $flagsdb['claimIDFlagger']; ?>"><?php echo htmlspecialchars(' Being flagged by: '.$flagsdb2['claimIDFlagger']); ?> </a> 
+<a href ="details.php?id=<?php echo $flagsdb['claimIDFlagger']; ?>"><?php echo htmlspecialchars(' Being flagged by: '.$flagsdb2['claimIDFlagger']); ?> </a>
 
 <?php
 	            echo nl2br("\r\n");
@@ -101,9 +101,9 @@ $flagsdb2 = mysqli_fetch_all($result3, MYSQLI_ASSOC);
 	    if ('0' == $active) { // if active
 	        echo 'These are infactive flags';
 	        if ($claimIDFlagged == $claimID) {
-	            ?> 
+	            ?>
 
-<a href ="details.php?id=<?php echo $flagsdb['claimIDFlagger']; ?>"><?php echo htmlspecialchars(' Being flagged by: '.$flagsdb2['claimIDFlagger']); ?> </a> 
+<a href ="details.php?id=<?php echo $flagsdb['claimIDFlagger']; ?>"><?php echo htmlspecialchars(' Being flagged by: '.$flagsdb2['claimIDFlagger']); ?> </a>
 
 <?php
 	            echo nl2br("\r\n");
@@ -113,7 +113,7 @@ $flagsdb2 = mysqli_fetch_all($result3, MYSQLI_ASSOC);
 	    } // end if active
 	}
 
-?> 
+?>
 
 <center>
 	<div class="container center">
@@ -147,27 +147,27 @@ $_SESSION['addPage'] = $addPage;
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="script/jquery-1.8.1.min.js" type="text/javascript"></script>
+		<script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="script/my_script.js" type="text/javascript"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="assets/scripts/jquery-3.3.1.min.js"></script>
 <script>
 
 	$(document).ready(function() {
-	
+
 $("#submit").click(function(){
 
 
 
 
- $.post( $("#myForm").attr("action"), 
-         $("#myForm :input").serializeArray(), 
-         function(info){ $("#result").html(info); 
+ $.post( $("#myForm").attr("action"),
+         $("#myForm :input").serializeArray(),
+         function(info){ $("#result").html(info);
   });
 clearInput();
 		});
 
 	$("#myForm").submit( function() {
-  return false;	
+  return false;
 });
 
 	function clearInput() {
@@ -240,7 +240,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 	<?php include 'templates/header.php'; ?>
 <br>
 <b>Add claim to flag claim number </b>
-		<br>	
+		<br>
 			<!-- Trigger/Open The Modal -->
 <button id="myBtn">Add Claim</button>
 
@@ -248,7 +248,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </div>
 
 	</div>
-	
+
 </head>
 
 
@@ -265,11 +265,11 @@ body {font-family: Arial, Helvetica, sans-serif;}
     <span class="close">&times;</span>
     <center>
 <form method="POST" id = "myForm" action="insert.php">
-			
- 
+
+
 				<div id="some-div">
     <img src = "https://i.ibb.co/YfHKPmM/question.png">
-  
+
   <span id="explain-element">
    Either link to a currently unflagged claim or generate a new claim with the identical subject as the flagee statement asserting that this subject either <br>(a) is not known to possess the flagee thesis statement's target property or <br>(b) does not possess the flagee thesis statement's target property.
   </span>
@@ -298,7 +298,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 </style>
 <?php // ------------ ONE
 if ('Inference' == $claimsdb['supportMeans']) { ?>
-	
+
 <br><u>Inference Flags</u><br>
 	<select name="flagType" >
 		  	<option value="" selected>Select...</option>
@@ -317,11 +317,11 @@ if ('Inference' == $claimsdb['supportMeans']) { ?>
 
 
 <?php } ?>
-  
+
 
  <?php // ------------- TWO
 if ('Perception' == $claimsdb['supportMeans']) { ?>
-	
+
 	<br><u>Perception Flags</u><br>
 				<select name="flagType">
 		  	<option value="" selected>Select...</option>
@@ -345,10 +345,10 @@ if ('Testimony' == $claimsdb['supportMeans']) { ?>
   			<option value="AlternativeAgendas">Alternative agendas/motivations</option>
   			<option value="Misstatement">Misstatement</option>
   			</select><br>
-			
+
 <?php }  ?>
 
-				
+
 <!-- ---------------------   -->
 
 <label>Topic</label><br>
@@ -368,8 +368,8 @@ if ('Testimony' == $claimsdb['supportMeans']) { ?>
 
 			<label>Target Property</label><br>
 			<input type="text" name="targetP" value="<?php echo htmlspecialchars($targetP); ?>"> <br>
-  			
-	
+
+
 
 			<label>Support Means</label><br>
 <select name="union" id="union">
@@ -414,7 +414,7 @@ if (union.options[union.selectedIndex].value === 'Perception') {
         url.style.display = '';
     } else {
         url.style.display = 'none';
-      
+
     }
 
 if (union.options[union.selectedIndex].value === 'Testimony') {
@@ -425,7 +425,7 @@ if (union.options[union.selectedIndex].value === 'Testimony') {
         rd.style.display = 'none';
         summary.style.display = 'none';
         description.style.display = 'none';
-      
+
     }
 
 }
@@ -436,7 +436,7 @@ if (union.options[union.selectedIndex].value === 'Testimony') {
 
 
 			<div class="center">
-				<button id="submit">Submit</button>	
+				<button id="submit">Submit</button>
 					</div>
 		</form>
 	</section>
@@ -454,7 +454,7 @@ var btn = document.getElementById("myBtn");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-// When the user clicks the button, open the modal 
+// When the user clicks the button, open the modal
 btn.onclick = function() {
   modal.style.display = "block";
 }

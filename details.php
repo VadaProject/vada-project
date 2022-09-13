@@ -8,8 +8,8 @@ if (isset($_GET['id'])) {
     $claimID = mysqli_real_escape_string($conn, $_GET['id']);
     // make sql
 
-    ?><link rel="stylesheet" href="./style.css"> 
-  <link rel="stylesheet" href="./detailsstyle.css"> 
+    ?><link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./detailsstyle.css">
 
 <?php
 
@@ -28,7 +28,7 @@ while ($details = $activity->fetch_assoc()) {
     $claimIDFlaggedINSERT = $details['claimID'];
     $topic = $details['topic'];
 
-    ?> 
+    ?>
 <p><b>Claim ID:</b>  <?php echo $details['claimID']; ?> </p>
 		</font>
 <?php
@@ -52,7 +52,7 @@ WHERE claimIDFlagger = ?'; // SQL with parameters
         while ($data = $results->fetch_assoc()) {
             $claimIDFlagged = $data['claimIDFlagged'];
         }
-        ?> <table> <tr> <th> 
+        ?> <table> <tr> <th>
   <style>
 table, th, td {
   border: 1px solid black;
@@ -84,15 +84,15 @@ WHERE claimID = ?'; // SQL with parameters
 <BR><br>
   <p><b>Support Means:</b>  <?php echo $details['supportMeans']; ?> </p>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:red;"> (Subject) </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:orange;">(Reason Property) </span><br>
-      <b>Reason Statement:</b> 
+      <b>Reason Statement:</b>
 <span style="color:red;"> <?php echo $dSubject; ?> </span> <span style="color:orange;"><?php
           echo $details['reason']; ?> </span>
-      
+
       <br><br>
 
   <b>Rule Statement:</b> Whomever/Whatever <span style="color:orange;"> <?php echo $details['reason']; ?> </span> <span style="color:blue;"><?php
-          echo $dTargetP; ?></span>, as in the case of <span style="color:purple;"> <?php echo $details['example']; ?> </span> 
- 
+          echo $dTargetP; ?></span>, as in the case of <span style="color:purple;"> <?php echo $details['example']; ?> </span>
+
 <br><br>
 
       <!-- Trigger/Open The Modal -->
@@ -159,14 +159,14 @@ if (union.options[union.selectedIndex].value === 'reason') {
         reason.style.display = '';
     } else {
         reason.style.display = 'none';
-      
+
     }
 
 if (union.options[union.selectedIndex].value === 'rule') {
         example.style.display = '';
     } else {
         example.style.display = 'none';
-       
+
     }
 
 } */ </script>
@@ -181,7 +181,7 @@ if (union.options[union.selectedIndex].value === 'rule') {
 
 
 <div class="center">
-        <button onclick="setTimeout(myFunction, 5000)" id="submit">Submit</button>  
+        <button onclick="setTimeout(myFunction, 5000)" id="submit">Submit</button>
           </div>
 
 </p>
@@ -227,7 +227,7 @@ if (union.options[union.selectedIndex].value === 'rule') {
 <html>
 <p style="color:#000000";><font = #000000>
 <br>What are you flagging it for?<br> </font>
-  
+
 <?php
                 $claimIDFlaggedINSERT = $details['claimID'];
             $_POST['claimIDFlaggedINSERT'] = $claimIDFlaggedINSERT;
@@ -247,7 +247,7 @@ if (union.options[union.selectedIndex].value === 'rule') {
 <?php flagging($claimIDFlaggedINSERT); ?>
 
 <div class="center">
-<button onclick="setTimeout(myFunction, 5000)" id="submit">Submit</button>  
+<button onclick="setTimeout(myFunction, 5000)" id="submit">Submit</button>
           </div>
 
 </p>
@@ -256,17 +256,17 @@ if (union.options[union.selectedIndex].value === 'rule') {
 </div>
 
 
-    <!-------------------------------------------------------------------------------------------------------------------------TESTIMONY--> 
-  
+    <!-------------------------------------------------------------------------------------------------------------------------TESTIMONY-->
+
 <?php } // end perception check?>
 
    <?php // ------------- THREE
             if ('Testimony' == $details['supportMeans']) {
                 ?>
     <p><b>Support Means:</b>  <?php echo $details['supportMeans']; ?> </p>
-    <br><br><p><b>Transcription:</b>  <?php echo $details['transcription']; ?>  
+    <br><br><p><b>Transcription:</b>  <?php echo $details['transcription']; ?>
     <br><br> <p><b>Citation:</b>  <?php echo $details['citation']; ?> </p>
-  
+
 <button class="openmodal myBtn">Flag Testimony</button>
 
 <!-- The Modal -->
@@ -292,7 +292,7 @@ $FOS = 'flagging';
 <html>
 <p style="color:#000000";><font = #000000>
 <br>What are you flagging it for?<br> </font>
-  
+
 <br><u>Testimony Flags</u><br>
         <select name="flagType" id="flagType" value="flagType">
         <option value="" selected>Select...</option>
@@ -307,7 +307,7 @@ $FOS = 'flagging';
 
 <div class="center">
 
-        <button onclick="setTimeout(myFunction, 5000)" id="submit">Submit</button>  
+        <button onclick="setTimeout(myFunction, 5000)" id="submit">Submit</button>
 
       <?php /* // if submit, then
 
@@ -318,7 +318,7 @@ $FOS = 'flagging';
 } else {
   header("Location: ../directory/details.php?id=" . $claimIDFlagged ."?sf=success");
 } */
-                ?> 
+                ?>
 
 
           </div>
@@ -328,13 +328,13 @@ $FOS = 'flagging';
 </div>
 </div>
 
-      
+
 <?php } // end testimony check
 } // end check for flagtype supporting
 else {
     ?>
 
-  
+
 
 <br> <button class="openmodal myBtn">Support or Flag Claim</button>
 
@@ -378,7 +378,7 @@ else {
 
 <div class="center">
 
-        <button onclick="setTimeout(myFunction, 5000)" id="submit">Submit</button>  
+        <button onclick="setTimeout(myFunction, 5000)" id="submit">Submit</button>
 
 
 
@@ -408,7 +408,7 @@ function checkOtherUnion1() {
 if (union1.options[union1.selectedIndex].value === 'supporting') {
 //window.alert("Please input your support for the claim below");
 hideThesis.style.display = 'none';
-    flaggingDiv.style.display = 'none';      
+    flaggingDiv.style.display = 'none';
     }
 
 
@@ -424,7 +424,7 @@ hideThesis.style.display = 'none';
 } else {
   header("Location: ../directory/details.php?id=" . $claimIDFlagged ."?sf=success");
 } */
-    ?> 
+    ?>
 
 
           </div>
@@ -444,9 +444,9 @@ hideThesis.style.display = 'none';
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="script/jquery-1.8.1.min.js" type="text/javascript"></script>
+		<script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="script/my_script.js" type="text/javascript"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="assets/scripts/jquery-3.3.1.min.js"></script>
 <script>
 
 // BELOW IS WHERE SUBMIT BUTTON DISABLED HAPPENS
@@ -482,7 +482,7 @@ if (validTextArea == true && validDropDown == true) {
         jQuery("#submit").prop('disabled', false);
 
     } else {
-                 
+
         jQuery("#submit").prop('disabled', true);
       }
 
@@ -525,7 +525,7 @@ toValidate2.change(function () {
         toValidate2.each(function () {
         if (jQuery(this).data('valid') == true) {
             validDropDown = true;
-                        
+
         } else {
             validDropDown = false;
    //           window.alert(jQuery(this)[0].selectedIndex);
@@ -536,7 +536,7 @@ if (validTextArea == true && validDropDown == true) {
         jQuery("#submit").prop('disabled', false);
 
     } else {
-                  
+
         jQuery("#submit").prop('disabled', true);
       }
 
@@ -546,41 +546,41 @@ if (validTextArea == true && validDropDown == true) {
         jQuery("#submit").prop('disabled', false);
 
     } else {
-              
+
         jQuery("#submit").prop('disabled', true);
       }
 
 });
 
 */
-// above IS WHERE SUBMIT BUTTON DISABLED HAPPENS 
+// above IS WHERE SUBMIT BUTTON DISABLED HAPPENS
 
 	$(document).ready(function() {
-	
+
 $("#submit").click(function(){
   window.alert("Submitted!");
   window.location.assign("ajaxindex.php?topic=<?php echo $topic; ?>");
   /*
   if (union.options[union.selectedIndex].value === 'Tarka') {
 window.alert("testing to redirect tarka!");
-$newid = $claimID++; 
+$newid = $claimID++;
 window.location.assign("details.php?id=<?php echo $newid; ?>");
-  } 
+  }
   else
   { window.location.assign("ajaxindex.php?topic=<?php echo $topic; ?>"); }
 
   */
-  
- $.post( $("#myForm").attr("action"), 
-         $("#myForm :input").serializeArray(), 
-         function(info){ $("#result").html(info); 
+
+ $.post( $("#myForm").attr("action"),
+         $("#myForm :input").serializeArray(),
+         function(info){ $("#result").html(info);
   });
 clearInput();
 
 		});
 
 	$("#myForm").submit( function() {
-  return false;	
+  return false;
 });
 
 	function clearInput() {
@@ -602,17 +602,17 @@ clearInput();
 </div>
 
 	</div>
-	
+
 </head>
 
 
 
 <body>
 
-		
+
 
 <script>
-			
+
 var modals = document.getElementsByClassName('modal');
 // Get the button that opens the modal
 var btns = document.getElementsByClassName("openmodal");
@@ -681,7 +681,7 @@ function flagging($claimIDFlaggedINSERT)
     ?>
 <html> <p style="color:#000000";>
  <?php global $topic;
-    $topic = $topic; ?> 
+    $topic = $topic; ?>
 
 <label>Topic (Read only)</label><br>
 			<input type="text" name="topic" value="<?php echo htmlspecialchars($topic); ?>" readonly><br>
@@ -690,16 +690,16 @@ function flagging($claimIDFlaggedINSERT)
   Enter your new claim.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><u>Subject</u>         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <u>Target Property </u></label><br>
 
-  <textarea class="subject" type="text" id="subject" name = "subject" value="<?php echo htmlspecialchars($subject); ?>">Enter Subject</textarea>			
+  <textarea class="subject" type="text" id="subject" name = "subject" value="<?php echo htmlspecialchars($subject); ?>">Enter Subject</textarea>
 <textarea class="targetP" type="text" id="targetP" name = "targetP" value="<?php echo htmlspecialchars($targetP); ?>">Enter Target Property</textarea>
 			<br>
 
       <u> <p style="color:grey">Thesis Statement </u><br>
-<span class="jsValue3"></span> <span class="jsValue4"></span> 
+<span class="jsValue3"></span> <span class="jsValue4"></span>
 </p></p>
 
 
-<p style="color:black"> Is the subject an object or a person? 
+<p style="color:black"> Is the subject an object or a person?
 <select name="grammar" id="grammar" value="grammar">
 <option value="">Choose One</option>
 <option value="object">Object</option>
@@ -707,7 +707,7 @@ function flagging($claimIDFlaggedINSERT)
 </select> <br>
   			</div>
 What is your Support Means?
-  
+
 <select name="union" id="union" value="union">
 <option value="">Choose One</option>
 <option value="Inference">Inference</option>
@@ -727,7 +727,7 @@ What is your Support Means?
 
 
 
-<div id="hiddenRule"> 
+<div id="hiddenRule">
 
   <div id="some-div">
   <img src = "assets/img/question_mark.php">
@@ -737,7 +737,7 @@ What is your Support Means?
 <textarea class="reason" type="text" id="reason" name = "reason" value="<?php echo htmlspecialchars($reason); ?>">Enter Reason Property</textarea>
 </p>
   <u> Reason Statement </u><br>
- 
+
 
   <?php
 if ('claim' == retrieveCOS($claimIDFlaggedINSERT)) {
@@ -762,10 +762,10 @@ if ('claim' == retrieveCOS($claimIDFlaggedINSERT)) {
     retrieveTargetP($claimIDFlaggedINSERT);
 } else { ?> <span class="jsValue2"></span>, <?php } ?>
 
-as in the case of: 
+as in the case of:
 <br>
 <textarea id="example" name = "example" value="<?php echo htmlspecialchars($example); ?>">Enter Example</textarea>
-  
+
 </div>
 
 
@@ -790,7 +790,7 @@ as in the case of:
 <textarea id="transcription" name = "transcription" value="<?php echo htmlspecialchars($transcription); ?>">Transcription </textarea><br>
 <div id="hiddenCitation">
 <u>Citation</u>
-<?php $author = $title = $publication = $date = ''; ?> 
+<?php $author = $title = $publication = $date = ''; ?>
 <div id="some-div">
   <img src = "assets/img/question_mark.php">
   <span id="explain-element"> Please include as applicable: author, title, publication, and date of publication. </span>
@@ -878,8 +878,8 @@ $jsReason2.addEventListener('input', function(event){
   $jsValue6.innerHTML = $jsReason2.value;
 }, false);
 
-</script> 
-</div> 
+</script>
+</div>
 <?php } // end of flagging function?>
 
 <script type="text/javascript">
@@ -977,8 +977,8 @@ if (union.options[union.selectedIndex].value === 'Testimony') {
 
         hiddenCitation.style.display = '';
         hiddenTranscription.style.display = '';
-    } 
-    
+    }
+
 if (union.options[union.selectedIndex].value === 'Tarka') {
         window.alert("A requirement of Tarka is to use the comments feature in the Tarka claim following submission.");
          citation.style.display = 'none';
@@ -988,8 +988,8 @@ if (union.options[union.selectedIndex].value === 'Tarka') {
         publication.style.display = 'none';
         date.style.display = 'none';
 
-         
-    } 
+
+    }
 
 }
 
@@ -998,7 +998,7 @@ if (union.options[union.selectedIndex].value === 'Tarka') {
 </script>
 
 
- <!-- 
+ <!--
      <div id="hyvor-talk-view"></div>
 <script type="text/javascript">
     var HYVOR_TALK_WEBSITE = 3313; // DO NOT CHANGE THIS
@@ -1009,7 +1009,7 @@ if (union.options[union.selectedIndex].value === 'Tarka') {
 </script>
 <script async type="text/javascript" src="//talk.hyvor.com/web-api/embed"></script>
 
---> 
+-->
 
 
 
@@ -1019,12 +1019,12 @@ if (union.options[union.selectedIndex].value === 'Tarka') {
     /**
     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-    
+
     var disqus_config = function () {
     this.page.url = document.write(window.location.href);  // Replace PAGE_URL with your page's canonical URL variable
     this.page.identifier = document.write(window.location.href); // Replace PAGE_IDENTIFIER with your page's unique identifier variable
     };
-    
+
     (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
     s.src = 'https://vadaproject.disqus.com/embed.js';
