@@ -20,12 +20,11 @@ include('templates/header.php');?>
 
       <a class="brand-text" href="add.php?topic=<?php echo $topic?>">Add New Claim To This Topic</a><br><br>
       <h3>TOPIC: <?php echo $topic; ?> <BR> </h3>
-
     </center>
     <center>
 
     <div id="floatingRectangle">
-    <img src="https://i.imgur.com/Zg0ijAM.png">
+    <img src="assets/img/alert.png">
     <br> A contested claim or support will have this symbol.  
 </div>
       <?php 
@@ -271,7 +270,7 @@ else {
 
     if($resultFlagType == "supporting")
     {
-      echo "<img height = '45' width = '32' src='https://i.imgur.com/JCHZjr3.png'> <br>";
+      echo "<img height = '45' width = '32' src='assets/img/support.png'> <br>";
       echo $d['supportMeans'] . "<br>"; 
       if($d['supportMeans'] == "Inference")
         { echo "Reason: " . $d['subject'] . " " . $d['reason'] . ", as in the case of " . $d['example'] . "<BR>";
@@ -288,7 +287,7 @@ elseif($resultFlagType == '')
 else
 {
 
-  echo "<img src='https://i.imgur.com/cbVKcmX.png'> <br>";
+  echo "<img src='assets/img/flag.png'> <br>";
 
   echo"<br> Flagged: " . $resultFlagType . "<br>";
   echo "<h1>Thesis</h1>";
@@ -301,11 +300,11 @@ echo $claimid . "<br>";
   // FONT CHANGING
 if($d['active'] == 1)
 { //$font = 'seagreen'; 
-// echo "<img width='50' height='50' src='https://i.imgur.com/2Jcq3kT.png'> <br>! This claim is uncontested. <br>";
+// echo "<img width='50' height='50' src='assets/img/check_mark.php'> <br>! This claim is uncontested. <br>";
 }
 else 
 { //$font = '#B7B802'; 
-echo "<img src='https://i.imgur.com/Zg0ijAM.png'> <br>"; } 
+echo "<img src='assets/img/alert.png'> <br>"; } 
 
 
 // ------------------------- BELOW is modal code
@@ -399,14 +398,14 @@ function sortclaimsRIVAL($claimid)
  while($d = $disp->fetch_assoc())
  {
 
-  echo "<img width='100' height='20' src='https://i.imgur.com/GDcQPD3.png'> <br><br>";
+  echo "<img width='100' height='20' src='assets/img/rivals.png'> <br><br>";
 
 
   if($d['active'] == 1)
-{ //echo "<img width='50' height='50' src='https://i.imgur.com/2Jcq3kT.png'> <br>! This claim is uncontested. <br>"; 
+{ //echo "<img width='50' height='50' src='assets/img/check_mark.php'> <br>! This claim is uncontested. <br>"; 
 }
 else 
- { echo "<img src='https://i.imgur.com/Zg0ijAM.png'> <br>";}
+ { echo "<img src='assets/img/alert.png'> <br>";}
 
 
 

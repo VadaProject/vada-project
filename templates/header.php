@@ -62,11 +62,11 @@ body {
 
 <div class="topnav">
 <!-- <div style="height: 20%; overflow: hidden"> -->
-  <img src="https://i.imgur.com/SyNUNU6.png" width = "283" height = "63"></a>
+  <img src="assets/img/logo.png" width = "283" height = "63"></a>
   <br><br>
-  <a class="active" href="http://www.vadaproject.com/">Home & Topics</a>
-  <a href="http://www.vadaproject.com/about.php">About</a>
-  <a href="http://www.vadaproject.com/userguide.php">User Guide</a>
+  <a class="active" href="index.php">Home & Topics</a>
+  <a href="about.php">About</a>
+  <a href="userguide.php">User Guide</a>
 </div>
 </div>
 
