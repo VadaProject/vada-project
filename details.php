@@ -437,7 +437,7 @@ hideThesis.style.display = 'none';
 
 <?php
 } // end of else statement
-    }// end while loop
+}// end while loop
 
 ?>
 
