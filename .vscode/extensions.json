@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "editorconfig.editorconfig",
+        "xdebug.php-debug",
+        "junstyle.php-cs-fixer",
+        "bmewburn.vscode-intelephense-client"
+    ]
+}
