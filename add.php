@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="./detailsassets/stylesheets/global.css">
 
 
-	<?php include 'templates/header.php';
+	<?php include 'includes/header.php';
 $claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $grammar = $active = '';
 session_start();
 ?>

@@ -6,7 +6,7 @@
 <script src="assets/scripts/jquery-3.3.1.min.js"></script>
 
 
-<?php include 'templates/header.php';
+<?php include 'includes/header.php';
 ?>
 <center>
 

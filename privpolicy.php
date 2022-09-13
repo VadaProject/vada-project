@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="assets/stylesheets/global.css">
 
 <?php
-include 'templates/header.php';
+include 'includes/header.php';
 ?>
 
 <center>

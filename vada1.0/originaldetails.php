@@ -35,7 +35,7 @@ $flagsdb2 = mysqli_fetch_all($result3, MYSQLI_ASSOC);
 <!DOCTYPE html>
 <html>
 
-	<?php include 'templates/header.php'; ?>
+	<?php include 'includes/header.php'; ?>
 <center>
 	<div class="container center">
 
@@ -236,7 +236,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 </style>
 
-	<?php include 'templates/header.php'; ?>
+	<?php include 'includes/header.php'; ?>
 <br>
 <b>Add claim to flag claim number </b>
 		<br>
@@ -470,7 +470,7 @@ window.onclick = function(event) {
   }
 }
 </script>
-<?php include 'templates/footer.php'; ?>
+<?php include 'includes/footer.php'; ?>
 </body>
 
 </html>

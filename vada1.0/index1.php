@@ -14,7 +14,7 @@ mysqli_close($conn);
 <!DOCTYPE html>
 <html>
 
-	<?php include 'templates/header.php'; ?>
+	<?php include 'includes/header.php'; ?>
 
 	<center> <b> Claims  </b>
 	<br><a class="brand-text" href="add.php">Add Claim</a>
@@ -58,6 +58,6 @@ mysqli_close($conn);
 
 </center>
 
-	<?php include 'templates/footer.php'; ?>
+	<?php include 'includes/footer.php'; ?>
 
 </html>
