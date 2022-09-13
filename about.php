@@ -6,7 +6,7 @@
 <html>
    <link rel="stylesheet" href="assets/stylesheets/global.css">
 
-	<?php include 'templates/header.php'; ?>
+	<?php include 'includes/header.php'; ?>
 
 		<script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="script/my_script.js" type="text/javascript"></script>

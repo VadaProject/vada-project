@@ -2,7 +2,7 @@
 <?php
     include 'config/db_connect.php';
 $claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $active = $dSubject = $dTargetP = $domain = $supportingDropCheck = '';
-?> <center><?php include 'templates/header.php';
+?> <center><?php include 'includes/header.php';
 if (isset($_GET['id'])) {
     // escape sql chars
     $claimID = mysqli_real_escape_string($conn, $_GET['id']);

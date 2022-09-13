@@ -1,6 +1,6 @@
 <?php include 'config/db_connect.php';
 
-include 'templates/header.php'; ?>
+include 'includes/header.php'; ?>
 <!--<meta property="fb:app_id" content="910800136088440" /> -->
 
 <link rel="stylesheet" href="assets/stylesheets/global.css">
