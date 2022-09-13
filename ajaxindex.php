@@ -3,8 +3,8 @@
 include 'templates/header.php'; ?>
 <!--<meta property="fb:app_id" content="910800136088440" /> -->
 
-<link rel="stylesheet" href="./style.css"> 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="assets/stylesheets/global.css">
+<script src="assets/scripts/jquery-3.3.1.min.js"></script>
 
 <!--
   //support or flag instead of add -->
@@ -26,14 +26,14 @@ include 'templates/header.php'; ?>
 
     <div id="floatingRectangle">
     <img src="assets/img/alert.png">
-    <br> A contested claim or support will have this symbol.  
+    <br> A contested claim or support will have this symbol.
 </div>
       <?php
 
         // changing the centers above is a fun change
         // this code finds ALL claims that are not flaggers (all root claims)
        $root12 = 'SELECT DISTINCT claimID
-      from claimsdb, flagsdb 
+      from claimsdb, flagsdb
       WHERE claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM flagsdb) AND topic = ?
         '; // SQL with parameters
 $stmt52 = $conn->prepare($root12);
@@ -46,7 +46,7 @@ while ($root2 = $rootresult12->fetch_assoc()) {
 }
 
 $root1 = 'SELECT DISTINCT claimID
-from claimsdb, flagsdb 
+from claimsdb, flagsdb
 WHERE claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM flagsdb) AND topic = ?
         '; // SQL with parameters
 $stmt5 = $conn->prepare($root1);
@@ -60,7 +60,7 @@ while ($root = $rootresult1->fetch_assoc()) {
 }
 
 $root2 = 'SELECT DISTINCT claimIDFlagger
-from flagsdb 
+from flagsdb
 WHERE isRootRival = 1
         '; // SQL with parameters
 $stmt12 = $conn->prepare($root2);
@@ -72,7 +72,7 @@ $numhitsroot28 = mysqli_num_rows($rootresult2);
 while ($root2 = $rootresult2->fetch_assoc()) {
     if ($numhitsroot28 > 0) {
         $r = 'SELECT DISTINCT claimID, topic
-    from claimsdb 
+    from claimsdb
     WHERE claimID = ?
         '; // SQL with parameters
         $s = $conn->prepare($r);
@@ -91,7 +91,7 @@ while ($root2 = $rootresult2->fetch_assoc()) {
 // leafy tests below
 
 $root2 = "SELECT DISTINCT claimIDFlagger
-from flagsdb 
+from flagsdb
 WHERE flagType LIKE 'Thesis Rival'
         "; // SQL with parameters
 $stmt12 = $conn->prepare($root2);
@@ -103,7 +103,7 @@ $numhitsroot28 = mysqli_num_rows($rootresult2);
 while ($root2 = $rootresult2->fetch_assoc()) {
     if ($numhitsroot28 > 0) {
         $r = 'SELECT DISTINCT claimID, topic
-    from claimsdb 
+    from claimsdb
     WHERE claimID = ?
         '; // SQL with parameters
         $s = $conn->prepare($r);
@@ -122,7 +122,7 @@ while ($root2 = $rootresult2->fetch_assoc()) {
 // leafy tests above
 
 $root22 = 'SELECT DISTINCT claimIDFlagger
-  from flagsdb 
+  from flagsdb
   WHERE isRootRival = 1
         '; // SQL with parameters
 $stmt122 = $conn->prepare($root22);
@@ -134,7 +134,7 @@ $numhitsroot29 = mysqli_num_rows($rootresult22);
 while ($root22 = $rootresult22->fetch_assoc()) {
     if ($numhitsroot29 > 0) {
         $r2 = 'SELECT DISTINCT claimID, topic
-    from claimsdb 
+    from claimsdb
     WHERE claimID = ?
         '; // SQL with parameters
         $s2 = $conn->prepare($r2);
@@ -426,10 +426,10 @@ function noSupports($claimid)
     if ('There is an active' != $result) {
         // echo '<script type="text/javascript">alert("ITS HAPPENING: ' . $result . '");</script>';
 
-        $act = 'UPDATE claimsdb 
+        $act = 'UPDATE claimsdb
         SET active = 0
-        WHERE claimID = ? 
-        
+        WHERE claimID = ?
+
     ';
         $upd = $conn->prepare($act);
         $upd->bind_param('i', $claimid);
@@ -471,9 +471,9 @@ function restoreActivity($claimid)
                 global $everyInactiveSupport;
                 $everyInactiveSupport = 'false';
 
-                $act = 'UPDATE claimsdb 
+                $act = 'UPDATE claimsdb
       SET active = 1
-      WHERE claimID = ? 
+      WHERE claimID = ?
 '; // SQL with parameters
                 $upd = $conn->prepare($act);
                 $upd->bind_param('i', $claimid);
@@ -495,9 +495,9 @@ function restoreActivity($claimid)
         */
 
         if ('false' == doesThesisFlag($supports['claimIDFlagger'])) {
-            $act = 'UPDATE claimsdb 
+            $act = 'UPDATE claimsdb
     SET active = 1
-    WHERE claimID = ? 
+    WHERE claimID = ?
 '; // SQL with parameters
             $upd = $conn->prepare($act);
             $upd->bind_param('i', $supports['claimIDFlagger']);
@@ -588,9 +588,9 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
                     global $everyInactive;
                     $everyInactive = 'false';
                                       //    echo $everyInactive;
-                    $act = 'UPDATE claimsdb 
+                    $act = 'UPDATE claimsdb
                                               SET active = 0
-                                              WHERE claimID = ? 
+                                              WHERE claimID = ?
                                     '; // SQL with parameters
                     $upd = $conn->prepare($act);
                     $upd->bind_param('i', $supports['claimIDFlagger']);
@@ -709,18 +709,18 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
             // $activestatus['claimiDflagger'] <--- flagtype like "suppporting"
 
             if (1 == $r90['active']) {
-                $act = 'UPDATE claimsdb 
+                $act = 'UPDATE claimsdb
           SET active = 0
-          WHERE claimID = ? 
+          WHERE claimID = ?
 '; // SQL with parameters
                 $upd = $conn->prepare($act);
                 $upd->bind_param('i', $claimid);
                 $upd->execute();
             } // end of if
             else {
-                $act = 'UPDATE claimsdb 
+                $act = 'UPDATE claimsdb
           SET active = 1
-          WHERE claimID = ? 
+          WHERE claimID = ?
 '; // SQL with parameters
                 $upd = $conn->prepare($act);
                 $upd->bind_param('i', $claimid);
@@ -995,17 +995,17 @@ function restoreActivityRIVAL($claimid)
     //  echo "CLAIM ID:" . $claimid . $rivaling . "<BR> ACTIVE B: " . $statusB . "<BR> ACTIVE A: " . $statusA . "<BR><BR><BR><BR><BR><BR><BR><BR>";
 
     if ('unchallenged' == $statusA && 'unchallenged' == $statusB || 'challenged' == $statusA && 'challenged' == $statusB) {
-        $act = 'UPDATE claimsdb 
+        $act = 'UPDATE claimsdb
   SET active = 0
-  WHERE claimID = ? 
+  WHERE claimID = ?
 '; // SQL with parameters
         $upd = $conn->prepare($act);
         $upd->bind_param('i', $claimid);
         $upd->execute();
 
-        $act = 'UPDATE claimsdb 
+        $act = 'UPDATE claimsdb
 SET active = 0
-WHERE claimID = ? 
+WHERE claimID = ?
 '; // SQL with parameters
         $upd = $conn->prepare($act);
         $upd->bind_param('i', $rivaling);
@@ -1015,17 +1015,17 @@ WHERE claimID = ?
     // if its true, there are no flags.
     // if false, there are flags.
     if ('unchallenged' == $statusA && 'challenged' == $statusB) {
-        $act = 'UPDATE claimsdb 
+        $act = 'UPDATE claimsdb
   SET active = 1
-  WHERE claimID = ? 
+  WHERE claimID = ?
 '; // SQL with parameters
         $upd = $conn->prepare($act);
         $upd->bind_param('i', $claimid);
         $upd->execute();
 
-        $act = 'UPDATE claimsdb 
+        $act = 'UPDATE claimsdb
 SET active = 0
-WHERE claimID = ? 
+WHERE claimID = ?
 '; // SQL with parameters
         $upd = $conn->prepare($act);
         $upd->bind_param('i', $rivaling);
@@ -1033,17 +1033,17 @@ WHERE claimID = ?
     }
 
     if ('unchallenged' == $statusB && 'challenged' == $statusA) {
-        $act = 'UPDATE claimsdb 
+        $act = 'UPDATE claimsdb
   SET active = 0
-  WHERE claimID = ? 
+  WHERE claimID = ?
 '; // SQL with parameters
         $upd = $conn->prepare($act);
         $upd->bind_param('i', $claimid);
         $upd->execute();
 
-        $act = 'UPDATE claimsdb 
+        $act = 'UPDATE claimsdb
 SET active = 1
-WHERE claimID = ? 
+WHERE claimID = ?
 '; // SQL with parameters
         $upd = $conn->prepare($act);
         $upd->bind_param('i', $rivaling);
@@ -1080,9 +1080,9 @@ function createModal($claimid)
     $result = mysqli_query($conn, $sql);
     ?>
 
-<!-- Include bootstrap & jQuery 
+<!-- Include bootstrap & jQuery
   <link rel="stylesheet" href="bootstrap.css" />-->
-  <script src="jquery-3.3.1.min.js"></script> 
+  <script src="assets/scripts/jquery-3.3.1.min.js"></script>
   <script src="bootstrap.js"></script>
 
   <!-- Creating table heading -->
@@ -1180,7 +1180,7 @@ html += " <BR> <div class = \"modal-content-a\"> <a href=\"details.php?id=" + re
 
             response.claimID
           </div>
-        </div> <!-- modal-content-b -->        
+        </div> <!-- modal-content-b -->
 
         <!--         <BR> <a href="details.php?id=<?php echo $claimid; ?>" class = "button">FLAG THIS CLAIM! </a> </div>  -->
 

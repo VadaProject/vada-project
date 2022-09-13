@@ -4,37 +4,17 @@
 
 <!DOCTYPE html>
 <html>
-   <link rel="stylesheet" href="./style.css"> 
+   <link rel="stylesheet" href="assets/stylesheets/global.css">
 
 	<?php include 'templates/header.php'; ?>
 
-		<script src="script/jquery-1.8.1.min.js" type="text/javascript"></script>
+		<script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="script/my_script.js" type="text/javascript"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<style>
-
-p.big {
-
-}
-</style>
 </head>
 
 
 <body>
-
-<style>
-div.b {
-  text-align: left;
-   padding-top: 30px;
-  padding-right: 80px;
-  padding-bottom: 50px;
-  padding-left: 80px;
-    line-height: 1.8;
-
-  
-}
-</style>
 
 <div class = "b">
 
@@ -499,7 +479,7 @@ trustworthy is to have direct knowledge of something. One who
 operates on this basis is a </FONT><B>trustworthy
 authority</B></FONT>. This
 criterion applies equally to sages, respected members of one’s own
-community, and those outside the fold” (Dasti and Phillips: 35).   
+community, and those outside the fold” (Dasti and Phillips: 35).
 </FONT>
 </P>
 <P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">To

@@ -4,80 +4,15 @@
 
 <!DOCTYPE html>
 <html>
-   <link rel="stylesheet" href="./style.css"> 
+   <link rel="stylesheet" href="assets/stylesheets/global.css">
 
 	<?php include 'templates/header.php'; ?>
 
-		<script src="script/jquery-1.8.1.min.js" type="text/javascript"></script>
+		<script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="script/my_script.js" type="text/javascript"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-<style>
-div.b {
-  text-align: left;
-   padding-top: 30px;
-  padding-right: 80px;
-  padding-bottom: 50px;
-  padding-left: 80px;
-    line-height: 1.8;
-
-
-  
-}
-</style>
 
 <div class = "b">
 <h1> About </h1>
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-pre{
-    counter-reset: line;
-}
-code{
-    counter-increment: line;
-}
-code:before{
-    content: counter(line);
-}
-code:before{
-    -webkit-user-select: none;
-}
-</style>
-</head>
-<body>
-
-<pre>
-
-<code>line 1</code>
-<code>line 2</code>
-<code>line 3</code>
-<code>line 4</code>
-<code>line 5</code>
-</pre>
-
-</body>
-</html>
---> 
-
-
-
-
 <BODY LANG="en-US" LINK="#0563c1" DIR="LTR">
 <P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">The
 Vāda Project is a platform for collaborative and reason- and
@@ -87,7 +22,7 @@ systematization of particular Indian theories of knowledge sources
 </I></FONT>and methods of
 reasoning (</FONT><I>nyāya</I></FONT>).
 This systematization is most directly indebted to the theories and
-methods both of the Nyāya philosophy of 
+methods both of the Nyāya philosophy of
 <a href = "https://en.wikipedia.org/wiki/Ny%C4%81ya_S%C5%ABtras" > Akṣapāda Gautama and his successors</a>, and of the Buddhist philosophy of
 <a href = "https://plato.stanford.edu/entries/dharmakiirti/" > Dharmakīrti</a> and his
 successors.</FONT></P>
@@ -162,18 +97,4 @@ Sciences and the Department of History and Philosophy at Kennesaw
 State University, which have provided generous financial and
 logistical support.</FONT></P>
 </BODY>
-</HTML>
-
-
-
-
-
-<br><br><br>
-</head>
-
-<body>
-
-
-</body>
-
 </html>
