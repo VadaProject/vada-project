@@ -1,71 +1,58 @@
 <!DOCTYPE html>
-<?php 
-	include('config/db_connect.php');
-	$claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL =  $rd = $reason =  $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger= $active = $dSubject = $dTargetP = $domain = $supportingDropCheck = '';
-	?> <center><?php include('templates/header.php');
-	if(isset($_GET['id'])){
-		
-		// escape sql chars
-		$claimID = mysqli_real_escape_string($conn, $_GET['id']);
-		// make sql
+<?php
+    include 'config/db_connect.php';
+$claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $active = $dSubject = $dTargetP = $domain = $supportingDropCheck = '';
+?> <center><?php include 'templates/header.php';
+if (isset($_GET['id'])) {
+    // escape sql chars
+    $claimID = mysqli_real_escape_string($conn, $_GET['id']);
+    // make sql
 
-
-?><link rel="stylesheet" href="./style.css"> 
+    ?><link rel="stylesheet" href="./style.css"> 
   <link rel="stylesheet" href="./detailsstyle.css"> 
 
 <?php
 
-$act = "SELECT * FROM claimsdb WHERE claimID = ?"; // SQL with parameters
-$s = $conn->prepare($act); 
-$s->bind_param("i", $claimID);
-$s->execute();
-$activity = $s->get_result(); // get the mysqli result
-} //end of get request 
+    $act = 'SELECT * FROM claimsdb WHERE claimID = ?'; // SQL with parameters
+    $s = $conn->prepare($act);
+    $s->bind_param('i', $claimID);
+    $s->execute();
+    $activity = $s->get_result(); // get the mysqli result
+} // end of get request
 
-include('config/db_connect.php');
-	
+include 'config/db_connect.php';
 
 ?> <center><?php
 
-while($details = $activity->fetch_assoc())
-	{
-        $claimIDFlaggedINSERT = $details['claimID'];
-		$topic = $details['topic']; 
-        
-		?> 
+while ($details = $activity->fetch_assoc()) {
+    $claimIDFlaggedINSERT = $details['claimID'];
+    $topic = $details['topic'];
+
+    ?> 
 <p><b>Claim ID:</b>  <?php echo $details['claimID']; ?> </p>
 		</font>
 <?php
 
-
-if( $details['COS'] == "claim")
-{
-?> <p><b>Claim:</b>  <?php echo $details['subject'] . " " .$details['targetP']; 
+if ('claim' == $details['COS']) {
+    ?> <p><b>Claim:</b>  <?php echo $details['subject'].' '.$details['targetP'];
 }
 
-
-if( $details['COS'] == "support")
-{
-
-
- //----------------------------------------------------------------------------------- INFERENCE
-if( $details['supportMeans'] == "Inference")
-{ $FOS = "flagging";
-$oldclaim = "SELECT claimIDFlagged
+if ('support' == $details['COS']) {
+    // ----------------------------------------------------------------------------------- INFERENCE
+    if ('Inference' == $details['supportMeans']) {
+        $FOS = 'flagging';
+        $oldclaim = 'SELECT claimIDFlagged
 FROM claimsdb, flagsdb
-WHERE claimIDFlagger = ?"; // SQL with parameters
-$oc = $conn->prepare($oldclaim); 
-$oc->bind_param("i", $claimID);
-$oc->execute();
-$results = $oc->get_result(); // get the mysqli result
-  
+WHERE claimIDFlagger = ?'; // SQL with parameters
+        $oc = $conn->prepare($oldclaim);
+        $oc->bind_param('i', $claimID);
+        $oc->execute();
+        $results = $oc->get_result(); // get the mysqli result
 
-while($data = $results->fetch_assoc())
-  {
-    $claimIDFlagged = $data['claimIDFlagged'];
-
-  }
-?> <table> <tr> <th> 
+        while ($data = $results->fetch_assoc()) {
+            $claimIDFlagged = $data['claimIDFlagged'];
+        }
+        ?> <table> <tr> <th> 
   <style>
 table, th, td {
   border: 1px solid black;
@@ -74,40 +61,37 @@ table, th, td {
 
 <?php
 
-echo "THESIS FROM CLAIM #" . $claimIDFlagged . ": <BR>";
+        echo 'THESIS FROM CLAIM #'.$claimIDFlagged.': <BR>';
 
-$oldclaim2 = "SELECT subject, targetP
+        $oldclaim2 = 'SELECT subject, targetP
 FROM claimsdb
-WHERE claimID = ?"; // SQL with parameters
-$oc2 = $conn->prepare($oldclaim2); 
-$oc2->bind_param("i", $claimIDFlagged);
-$oc2->execute();
-$results2 = $oc2->get_result(); // get the mysqli result
-  
-   
-while($data = $results2->fetch_assoc())
-  {
+WHERE claimID = ?'; // SQL with parameters
+        $oc2 = $conn->prepare($oldclaim2);
+        $oc2->bind_param('i', $claimIDFlagged);
+        $oc2->execute();
+        $results2 = $oc2->get_result(); // get the mysqli result
 
-    $subject = $data['subject'];
-    $dTargetP = $data['targetP'];
+        while ($data = $results2->fetch_assoc()) {
+            $subject = $data['subject'];
+            $dTargetP = $data['targetP'];
 
-    ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;"> (Subject) </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:blue;"> (Target Property) </span><br>
+            ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;"> (Subject) </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:blue;"> (Target Property) </span><br>
   <b>Thesis Statement:</b> <span style="color:red;"> <?php echo $data['subject']; ?> </span> <span style="color:blue;"><?php
   echo $dTargetP; ?> </span> </tr> </table>
 <?php
-  }
-?>
+        }
+        ?>
 <BR><br>
   <p><b>Support Means:</b>  <?php echo $details['supportMeans']; ?> </p>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:red;"> (Subject) </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:orange;">(Reason Property) </span><br>
       <b>Reason Statement:</b> 
 <span style="color:red;"> <?php echo $dSubject; ?> </span> <span style="color:orange;"><?php
-  echo $details['reason']; ?> </span>
+          echo $details['reason']; ?> </span>
       
       <br><br>
 
   <b>Rule Statement:</b> Whomever/Whatever <span style="color:orange;"> <?php echo $details['reason']; ?> </span> <span style="color:blue;"><?php
-  echo $dTargetP; ?></span>, as in the case of <span style="color:purple;"> <?php echo $details['example']; ?> </span> 
+          echo $dTargetP; ?></span>, as in the case of <span style="color:purple;"> <?php echo $details['example']; ?> </span> 
  
 <br><br>
 
@@ -122,8 +106,8 @@ while($data = $results2->fetch_assoc())
 <span class="close">&times;</span>
 <form method="POST" id = "myForm" action="insert.php">
 
-<input name="FOS" value="<?php echo htmlspecialchars($FOS) ?>"> </input> <?php
- $_POST['FOS'] = "flagging"; ?>
+<input name="FOS" value="<?php echo htmlspecialchars($FOS); ?>"> </input> <?php
+         $_POST['FOS'] = 'flagging'; ?>
 
 
 <html>
@@ -150,13 +134,12 @@ while($data = $results2->fetch_assoc())
  </select>
 <br>
 <?php
-    $claimIDFlaggedINSERT = $details['claimID'];
+            $claimIDFlaggedINSERT = $details['claimID'];
 
-    
- ?> <input name="claimIDFlaggedINSERT" value="<?php echo htmlspecialchars($claimIDFlaggedINSERT) ?>"> </input> <?php
-$_POST['claimIDFlaggedINSERT'] = $claimIDFlaggedINSERT; 
+        ?> <input name="claimIDFlaggedINSERT" value="<?php echo htmlspecialchars($claimIDFlaggedINSERT); ?>"> </input> <?php
+$_POST['claimIDFlaggedINSERT'] = $claimIDFlaggedINSERT;
 // echo '<script type="text/javascript">alert("a LERT: ' . $claimIDFlaggedINSERT . '");</script>';
-?>
+        ?>
 
 <!-- //------------------------- -->
 
@@ -206,25 +189,22 @@ if (union.options[union.selectedIndex].value === 'rule') {
 </div>
 <!-------------------------------------------------------------------------------------------------------------------------TARKA-->
 
-<?php }  // end inference check ?>
+<?php }  // end inference check?>
   <?php
 
-  if( $details['supportMeans'] == "Tarka")
-{ ?>
+          if ('Tarka' == $details['supportMeans']) { ?>
 
   <p><b>Support Means:</b>  <?php echo $details['supportMeans']; ?> </p>
 <BR><br><?php
-echo'Tarka is an element of conversation used to discuss errors in debate form and communication with moderators.<br><br>'; ?>
-      <b>Claim: </b><br>  <?php echo $details['subject']; ?><?php echo " ".$details['targetP']; 
+        echo 'Tarka is an element of conversation used to discuss errors in debate form and communication with moderators.<br><br>'; ?>
+      <b>Claim: </b><br>  <?php echo $details['subject']; ?><?php echo ' '.$details['targetP'];
 
-
- echo'<br><br><br>Please explain argument in the comments section below.';
-}
-//extra comment 
-  // ------------------------------------------------------------------------------------------------------------------------------- PERCEPTION
-if( $details['supportMeans'] == "Perception")
-{
-?>
+              echo '<br><br><br>Please explain argument in the comments section below.';
+          }
+        // extra comment
+          // ------------------------------------------------------------------------------------------------------------------------------- PERCEPTION
+        if ('Perception' == $details['supportMeans']) {
+            ?>
  <p><b>Support Means:</b>  <?php echo $details['supportMeans']; ?> </p>
   <p><b>Url of perception:</b> <?php echo $details['URL']; ?> </p>
 
@@ -238,10 +218,10 @@ if( $details['supportMeans'] == "Perception")
 <span class="close">&times;</span>
 <form method="POST" id = "myForm" action="insert.php">
 
-<?php 
-$FOS = "flagging";
-?> <input name="FOS" value="<?php echo htmlspecialchars($FOS) ?>"> </input> <?php
-$_POST['FOS'] = "flagging"; ?>
+<?php
+            $FOS = 'flagging';
+            ?> <input name="FOS" value="<?php echo htmlspecialchars($FOS); ?>"> </input> <?php
+            $_POST['FOS'] = 'flagging'; ?>
 
 
 <html>
@@ -249,13 +229,12 @@ $_POST['FOS'] = "flagging"; ?>
 <br>What are you flagging it for?<br> </font>
   
 <?php
-    $claimIDFlaggedINSERT = $details['claimID'];
-$_POST['claimIDFlaggedINSERT'] = $claimIDFlaggedINSERT; 
+                $claimIDFlaggedINSERT = $details['claimID'];
+            $_POST['claimIDFlaggedINSERT'] = $claimIDFlaggedINSERT;
 
-?> <input name="claimIDFlaggedINSERT" value="<?php echo htmlspecialchars($claimIDFlaggedINSERT) ?>"> </input> <?php
+            ?> <input name="claimIDFlaggedINSERT" value="<?php echo htmlspecialchars($claimIDFlaggedINSERT); ?>"> </input> <?php
 
-
-?>
+            ?>
   <br><u>Perception Flags</u><br>
         <select name="flagType" id="flagType" value="flagType">
         <option value="" selected>Select...</option>
@@ -279,12 +258,11 @@ $_POST['claimIDFlaggedINSERT'] = $claimIDFlaggedINSERT;
 
     <!-------------------------------------------------------------------------------------------------------------------------TESTIMONY--> 
   
-<?php } // end perception check ?>
+<?php } // end perception check?>
 
    <?php // ------------- THREE
-if( $details['supportMeans'] == "Testimony")
-{ 
- ?>
+            if ('Testimony' == $details['supportMeans']) {
+                ?>
     <p><b>Support Means:</b>  <?php echo $details['supportMeans']; ?> </p>
     <br><br><p><b>Transcription:</b>  <?php echo $details['transcription']; ?>  
     <br><br> <p><b>Citation:</b>  <?php echo $details['citation']; ?> </p>
@@ -299,18 +277,18 @@ if( $details['supportMeans'] == "Testimony")
 <span class="close">&times;</span>
 <form method="POST" id = "myForm" action="insert.php">
 
-<?php 
-$FOS = "flagging";
-?> <input name="FOS" value="<?php echo htmlspecialchars($FOS) ?>"> </input> <?php
-$_POST['FOS'] = "flagging"; ?>
+<?php
+$FOS = 'flagging';
+                ?> <input name="FOS" value="<?php echo htmlspecialchars($FOS); ?>"> </input> <?php
+                $_POST['FOS'] = 'flagging'; ?>
 
 <?php
-    $claimIDFlaggedINSERT = $details['claimID'];
-    
- ?> <input name="claimIDFlaggedINSERT" value="<?php echo htmlspecialchars($claimIDFlaggedINSERT) ?>"> </input> <?php
- $_POST['claimIDFlaggedINSERT'] = $claimIDFlaggedINSERT;  
-/// echo '<script type="text/javascript">alert("a LERT: ' . $claimIDFlaggedINSERT . '");</script>';
-?>
+                    $claimIDFlaggedINSERT = $details['claimID'];
+
+                ?> <input name="claimIDFlaggedINSERT" value="<?php echo htmlspecialchars($claimIDFlaggedINSERT); ?>"> </input> <?php
+                $_POST['claimIDFlaggedINSERT'] = $claimIDFlaggedINSERT;
+                // / echo '<script type="text/javascript">alert("a LERT: ' . $claimIDFlaggedINSERT . '");</script>';
+                ?>
 <html>
 <p style="color:#000000";><font = #000000>
 <br>What are you flagging it for?<br> </font>
@@ -331,7 +309,7 @@ $_POST['FOS'] = "flagging"; ?>
 
         <button onclick="setTimeout(myFunction, 5000)" id="submit">Submit</button>  
 
-      <?php   /* // if submit, then 
+      <?php /* // if submit, then
 
     if(empty($supportMeans))
 {
@@ -339,8 +317,8 @@ $_POST['FOS'] = "flagging"; ?>
   exit();
 } else {
   header("Location: ../directory/details.php?id=" . $claimIDFlagged ."?sf=success");
-} */ 
-?> 
+} */
+                ?> 
 
 
           </div>
@@ -351,11 +329,10 @@ $_POST['FOS'] = "flagging"; ?>
 </div>
 
       
-<?php } // end testimony check 
-} //end check for flagtype supporting
-else{
-
-?>
+<?php } // end testimony check
+} // end check for flagtype supporting
+else {
+    ?>
 
   
 
@@ -374,12 +351,12 @@ else{
 <p style="color:#000000";><font = #000000>
 
 <?php
-$_POST['claimIDFlaggedINSERT'] = $claimIDFlaggedINSERT;
+    $_POST['claimIDFlaggedINSERT'] = $claimIDFlaggedINSERT;
 
-?> <input name="claimIDFlaggedINSERT" value="<?php echo htmlspecialchars($claimIDFlaggedINSERT) ?>"> </input> <?php
+    ?> <input name="claimIDFlaggedINSERT" value="<?php echo htmlspecialchars($claimIDFlaggedINSERT); ?>"> </input> <?php
 
-// echo '<script type="text/javascript">alert("a LERT: ' . $claimIDFlaggedINSERT . '");</script>';
-?>
+    // echo '<script type="text/javascript">alert("a LERT: ' . $claimIDFlaggedINSERT . '");</script>';
+    ?>
 <br>Are you flagging or supporting this claim?<br> </font>
   <select name="FOS" id="FOS" value="FOS">
         <option value="" selected>Select...</option>
@@ -438,7 +415,7 @@ hideThesis.style.display = 'none';
 }
 </script>
 
-      <?php   /* // if submit, then 
+      <?php /* // if submit, then
 
     if(empty($supportMeans))
 {
@@ -446,8 +423,8 @@ hideThesis.style.display = 'none';
   exit();
 } else {
   header("Location: ../directory/details.php?id=" . $claimIDFlagged ."?sf=success");
-} */ 
-?> 
+} */
+    ?> 
 
 
           </div>
@@ -460,20 +437,8 @@ hideThesis.style.display = 'none';
 
 <?php
 } // end of else statement
+    }// end while loop
 
-
-
-
-
-
-
-
-
-
-
-	}//end while loop
-/*
-*/
 ?>
 
 <!DOCTYPE html>
@@ -594,15 +559,15 @@ if (validTextArea == true && validDropDown == true) {
 	
 $("#submit").click(function(){
   window.alert("Submitted!");
-  window.location.assign("ajaxindex.php?topic=<?php echo $topic?>");
+  window.location.assign("ajaxindex.php?topic=<?php echo $topic; ?>");
   /*
   if (union.options[union.selectedIndex].value === 'Tarka') {
 window.alert("testing to redirect tarka!");
 $newid = $claimID++; 
-window.location.assign("details.php?id=<?php echo $newid ?>");
+window.location.assign("details.php?id=<?php echo $newid; ?>");
   } 
   else
-  { window.location.assign("ajaxindex.php?topic=<?php echo $topic?>"); }
+  { window.location.assign("ajaxindex.php?topic=<?php echo $topic; ?>"); }
 
   */
   
@@ -629,7 +594,7 @@ clearInput();
 
 </script>
 <?php
-		
+
 ?>
 
 
@@ -668,71 +633,65 @@ for(let i=0;i<spans.length;i++){
 
 <?php function retrieveTargetP($claimIDFlaggedINSERT)
 {
+    include 'config/db_connect.php';
 
-  include('config/db_connect.php');
+    $act = 'SELECT * FROM claimsdb WHERE claimID = ?'; // SQL with parameters
+    $s = $conn->prepare($act);
+    $s->bind_param('i', $claimIDFlaggedINSERT);
+    $s->execute();
+    $activity = $s->get_result(); // get the mysqli result
 
-
-  $act = "SELECT * FROM claimsdb WHERE claimID = ?"; // SQL with parameters
-  $s = $conn->prepare($act); 
-  $s->bind_param("i", $claimIDFlaggedINSERT);
-  $s->execute();
-  $activity = $s->get_result(); // get the mysqli result
-  
-  while($details = $activity->fetch_assoc())
-    { echo $details['targetP'];  }
-  
+    while ($details = $activity->fetch_assoc()) {
+        echo $details['targetP'];
+    }
 }
 
 function retrieveSubject($claimIDFlaggedINSERT)
 {
+    include 'config/db_connect.php';
 
-  include('config/db_connect.php');
+    $act = 'SELECT * FROM claimsdb WHERE claimID = ?'; // SQL with parameters
+    $s = $conn->prepare($act);
+    $s->bind_param('i', $claimIDFlaggedINSERT);
+    $s->execute();
+    $activity = $s->get_result(); // get the mysqli result
 
-
-  $act = "SELECT * FROM claimsdb WHERE claimID = ?"; // SQL with parameters
-  $s = $conn->prepare($act); 
-  $s->bind_param("i", $claimIDFlaggedINSERT);
-  $s->execute();
-  $activity = $s->get_result(); // get the mysqli result
-  
-  while($details = $activity->fetch_assoc())
-    { echo $details['subject'];  }
-  
+    while ($details = $activity->fetch_assoc()) {
+        echo $details['subject'];
+    }
 }
 
 function retrieveCOS($claimIDFlaggedINSERT)
 {
+    include 'config/db_connect.php';
 
-  include('config/db_connect.php');
+    $act = 'SELECT * FROM claimsdb WHERE claimID = ?'; // SQL with parameters
+    $s = $conn->prepare($act);
+    $s->bind_param('i', $claimIDFlaggedINSERT);
+    $s->execute();
+    $activity = $s->get_result(); // get the mysqli result
 
-
-  $act = "SELECT * FROM claimsdb WHERE claimID = ?"; // SQL with parameters
-  $s = $conn->prepare($act); 
-  $s->bind_param("i", $claimIDFlaggedINSERT);
-  $s->execute();
-  $activity = $s->get_result(); // get the mysqli result
-  
-  while($details = $activity->fetch_assoc())
-    { return $details['COS'];  }
-  
+    while ($details = $activity->fetch_assoc()) {
+        return $details['COS'];
+    }
 }
 
 function flagging($claimIDFlaggedINSERT)
-{ ?> <div class = 'scroll'> <?php $claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL =  $rd = $reason =  $flagType = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger= $grammar = $active = '';
-?>
+{ ?> <div class = 'scroll'> <?php $claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $grammar = $active = '';
+    ?>
 <html> <p style="color:#000000";>
  <?php global $topic;
- $topic = $topic; ?> 
+    $topic = $topic; ?> 
 
 <label>Topic (Read only)</label><br>
-			<input type="text" name="topic" value="<?php echo htmlspecialchars($topic) ?>" readonly><br>
+			<input type="text" name="topic" value="<?php echo htmlspecialchars($topic); ?>" readonly><br>
 
 <div id="hideThesis">
   Enter your new claim.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><u>Subject</u>         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <u>Target Property </u></label><br>
 
-  <textarea class="subject" type="text" id="subject" name = "subject" value="<?php echo htmlspecialchars($subject) ?>">Enter Subject</textarea>			
-<textarea class="targetP" type="text" id="targetP" name = "targetP" value="<?php echo htmlspecialchars($targetP) ?>">Enter Target Property</textarea>
+  <textarea class="subject" type="text" id="subject" name = "subject" value="<?php echo htmlspecialchars($subject); ?>">Enter Subject</textarea>			
+<textarea class="targetP" type="text" id="targetP" name = "targetP" value="<?php echo htmlspecialchars($targetP); ?>">Enter Target Property</textarea>
 			<br>
 
       <u> <p style="color:grey">Thesis Statement </u><br>
@@ -775,19 +734,15 @@ What is your Support Means?
   <span id="explain-element"> Hint: Your reason statement should answer "Why?". You might think of the reason as what comes after 'because....'.  </span>
   </div>
 <p style="color:black"><u>Reason</u><br>
-<textarea class="reason" type="text" id="reason" name = "reason" value="<?php echo htmlspecialchars($reason) ?>">Enter Reason Property</textarea>
+<textarea class="reason" type="text" id="reason" name = "reason" value="<?php echo htmlspecialchars($reason); ?>">Enter Reason Property</textarea>
 </p>
   <u> Reason Statement </u><br>
  
 
   <?php
-if(retrieveCOS($claimIDFlaggedINSERT) == "claim")
-{
-
-  retrieveSubject($claimIDFlaggedINSERT); 
-  
-}
-else { ?>  <span class="jsValue5"></span>, <?php } ?>
+if ('claim' == retrieveCOS($claimIDFlaggedINSERT)) {
+    retrieveSubject($claimIDFlaggedINSERT);
+} else { ?>  <span class="jsValue5"></span>, <?php } ?>
 
 
 
@@ -803,17 +758,13 @@ Whatever/Whomever
  <!-- Plain Javascript Example -->
   <span class="jsValue"></span>,
 <?php
-if(retrieveCOS($claimIDFlaggedINSERT) == "claim")
-{
-
-  retrieveTargetP($claimIDFlaggedINSERT); 
-  
-}
-else { ?> <span class="jsValue2"></span>, <?php } ?>
+if ('claim' == retrieveCOS($claimIDFlaggedINSERT)) {
+    retrieveTargetP($claimIDFlaggedINSERT);
+} else { ?> <span class="jsValue2"></span>, <?php } ?>
 
 as in the case of: 
 <br>
-<textarea id="example" name = "example" value="<?php echo htmlspecialchars($example) ?>">Enter Example</textarea>
+<textarea id="example" name = "example" value="<?php echo htmlspecialchars($example); ?>">Enter Example</textarea>
   
 </div>
 
@@ -836,33 +787,33 @@ as in the case of:
   </div>
 
   </div>
-<textarea id="transcription" name = "transcription" value="<?php echo htmlspecialchars($transcription) ?>">Transcription </textarea><br>
+<textarea id="transcription" name = "transcription" value="<?php echo htmlspecialchars($transcription); ?>">Transcription </textarea><br>
 <div id="hiddenCitation">
 <u>Citation</u>
 <?php $author = $title = $publication = $date = ''; ?> 
 <div id="some-div">
   <img src = "assets/img/question_mark.php">
   <span id="explain-element"> Please include as applicable: author, title, publication, and date of publication. </span>
-  <br><textarea id="author" name = "author" value="<?php echo htmlspecialchars($author) ?>">Author</textarea><br>
-  <textarea id="title" name = "title" value="<?php echo htmlspecialchars($title) ?>">Title</textarea><br>
-  <textarea id="publication" name = "publication" value="<?php echo htmlspecialchars($publication) ?>">Publication</textarea><br>
-  <textarea id="date" name = "date" value="<?php echo htmlspecialchars($date) ?>">Date of Publication</textarea><br>
-  <textarea id="citationURL" name = "citationURL" value="<?php echo htmlspecialchars($citationURL) ?>">URL of Citation</textarea><br>
+  <br><textarea id="author" name = "author" value="<?php echo htmlspecialchars($author); ?>">Author</textarea><br>
+  <textarea id="title" name = "title" value="<?php echo htmlspecialchars($title); ?>">Title</textarea><br>
+  <textarea id="publication" name = "publication" value="<?php echo htmlspecialchars($publication); ?>">Publication</textarea><br>
+  <textarea id="date" name = "date" value="<?php echo htmlspecialchars($date); ?>">Date of Publication</textarea><br>
+  <textarea id="citationURL" name = "citationURL" value="<?php echo htmlspecialchars($citationURL); ?>">URL of Citation</textarea><br>
 
 </div>
   </div>
 
-  <textarea id="citation" name = "citation" hidden = "hidden" value="<?php echo htmlspecialchars($citation) ?>">Empty Citation</textarea><br>
+  <textarea id="citation" name = "citation" hidden = "hidden" value="<?php echo htmlspecialchars($citation); ?>">Empty Citation</textarea><br>
 
 <div id="hiddenURL">
 <u>URL</u>
   </div>
-<textarea id="url" name = "url" value="<?php echo htmlspecialchars($url) ?>">Enter URL</textarea><br>
+<textarea id="url" name = "url" value="<?php echo htmlspecialchars($url); ?>">Enter URL</textarea><br>
 
 <div id="hiddenTS">
 <u>Timestamp of content</u>
   </div>
-<textarea id="vidtimestamp" name = "vidtimestamp" value="<?php echo htmlspecialchars($vidtimestamp) ?>">Enter timestamp of specified material</textarea>
+<textarea id="vidtimestamp" name = "vidtimestamp" value="<?php echo htmlspecialchars($vidtimestamp); ?>">Enter timestamp of specified material</textarea>
 
 <script>
 
@@ -929,7 +880,7 @@ $jsReason2.addEventListener('input', function(event){
 
 </script> 
 </div> 
-<?php } // end of flagging function ?>
+<?php } // end of flagging function?>
 
 <script type="text/javascript">
 

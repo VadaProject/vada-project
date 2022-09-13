@@ -1,14 +1,13 @@
 <?php
     // Check if user has requested to get detail
-    if (isset($_POST["get_data"]))
-    {
+    if (isset($_POST['get_data'])) {
         // Get the ID of customer user has selected
-        $id = $_POST["id"];
+        $id = $_POST['id'];
 
-         include('config/db_connect.php');
+        include 'config/db_connect.php';
 
         // Getting specific customer's detail
-        $sql = "SELECT * FROM claimsdb WHERE claimID='$id'";
+        $sql = "SELECT * FROM claimsdb WHERE claimID='{$id}'";
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_object($result);
 
@@ -16,16 +15,16 @@
         echo json_encode($row);
 
         // Important to stop further executing the script on AJAX by following line
-        exit();
+        exit;
     }
-?>
+    ?>
 
 <?php
-    // Connecting with database and executing query
-    include('config/db_connect.php');
-     $sql = "SELECT * FROM claimsdb";
+        // Connecting with database and executing query
+        include 'config/db_connect.php';
+    $sql = 'SELECT * FROM claimsdb';
     $result = mysqli_query($conn, $sql);
-?>
+    ?>
 
 <!-- Include bootstrap & jQuery -->
 <link rel="stylesheet" href="bootstrap.css" />

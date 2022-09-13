@@ -1,14 +1,14 @@
-<?php include('config/db_connect.php'); 
+<?php include 'config/db_connect.php';
 ?>
 
 <link rel="stylesheet" href="./style.css"> 
 <link rel="stylesheet" href="./detailsstyle.css"> 
 
 
-	<?php include('templates/header.php');
- $claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL =  $rd = $reason =  $flagType = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger= $grammar = $active = '';
+	<?php include 'templates/header.php';
+$claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $grammar = $active = '';
 session_start();
- ?>
+?>
 <center>
 
  <script src="script/jquery-1.8.1.min.js" type="text/javascript"></script>
@@ -48,40 +48,37 @@ clearInput();
 
 <form method="POST" id = "myForm" action="insert.php">
 
-	<?php 
-  // $addPage = 'yes';
- // $_SESSION['addPage'] = $addPage;
-// get add page variable from another page, hopefully thru post variable. 
+	<?php
+ // $addPage = 'yes';
+// $_SESSION['addPage'] = $addPage;
+// get add page variable from another page, hopefully thru post variable.
 // vada recruitment proposal
 // firefox working? not working?
 // rivals at the leaf level not working? ----> if rival, active = 0
-//NA 
-// AS IN THE CASE OF : SPACE IN EXAMPLE STATEMENT  
-   ?>
+// NA
+// AS IN THE CASE OF : SPACE IN EXAMPLE STATEMENT
+?>
 			
 
-   <?php   
-  if(isset($_GET['topic'])){
+   <?php
+  if (isset($_GET['topic'])) {
+      ?> <label>Topic</label><br>       
+<input type="text" name="topic" value="<?php echo $_GET['topic']; ?>" readonly><br>
 
-?> <label>Topic</label><br>       
-<input type="text" name="topic" value="<?php echo $_GET['topic'] ?>" readonly><br>
-
-<?php 
-
-}
-else{
-?>
+<?php
+  } else {
+      ?>
 
 <label>Topic</label><br>       
-<input type="text" name="topic" value="<?php echo htmlspecialchars($topic) ?>"><br>
+<input type="text" name="topic" value="<?php echo htmlspecialchars($topic); ?>"><br>
 <?php }
-?>
+  ?>
 
  <p style="color:#000000";>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><u>Subject</u>         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <u>Target Property </u></label><br>
-<textarea class="subject" type="text" id="subject" name = "subject" value="<?php echo htmlspecialchars($subject) ?>">Enter Subject</textarea>     
-<textarea class="targetP" type="text" id="targetP" name = "targetP" value="<?php echo htmlspecialchars($targetP) ?>">Enter Target Property</textarea>
+<textarea class="subject" type="text" id="subject" name = "subject" value="<?php echo htmlspecialchars($subject); ?>">Enter Subject</textarea>     
+<textarea class="targetP" type="text" id="targetP" name = "targetP" value="<?php echo htmlspecialchars($targetP); ?>">Enter Target Property</textarea>
       <br>
 
       <u> <p style="color:grey">Thesis Statement </u><br>
@@ -124,7 +121,7 @@ What is your Support Means?
   <span id="explain-element"> Hint: Your reason statement should answer "Why?". You might think of the reason as what comes after 'because....'.  </span>
   </div>
 <p style="color:black"><u>Reason</u><br>
-<textarea class="reason" type="text" id="reason" name = "reason" value="<?php echo htmlspecialchars($reason) ?>">Enter Reason Property</textarea>
+<textarea class="reason" type="text" id="reason" name = "reason" value="<?php echo htmlspecialchars($reason); ?>">Enter Reason Property</textarea>
 </p>
   <u> Reason Statement </u><br>
  
@@ -140,13 +137,13 @@ Whatever/Whomever
 
 as in the case of: </div>
 <br>
-<textarea id="example" name = "example" value="<?php echo htmlspecialchars($example) ?>">Enter Example</textarea>
+<textarea id="example" name = "example" value="<?php echo htmlspecialchars($example); ?>">Enter Example</textarea>
 
 
-<textarea id="transcription" name = "transcription" value="<?php echo htmlspecialchars($transcription) ?>">Transcription </textarea><br>
-<textarea id="citation" name = "citation" value="<?php echo htmlspecialchars($citation) ?>">Please include: Author, title, publication, and date of publication.  </textarea><br>
-<textarea id="url" name = "url" value="<?php echo htmlspecialchars($url) ?>">Enter URL</textarea><br>
-<textarea id="vidtimestamp" name = "vidtimestamp" value="<?php echo htmlspecialchars($vidtimestamp) ?>">Enter timestamp of specified material</textarea>
+<textarea id="transcription" name = "transcription" value="<?php echo htmlspecialchars($transcription); ?>">Transcription </textarea><br>
+<textarea id="citation" name = "citation" value="<?php echo htmlspecialchars($citation); ?>">Please include: Author, title, publication, and date of publication.  </textarea><br>
+<textarea id="url" name = "url" value="<?php echo htmlspecialchars($url); ?>">Enter URL</textarea><br>
+<textarea id="vidtimestamp" name = "vidtimestamp" value="<?php echo htmlspecialchars($vidtimestamp); ?>">Enter timestamp of specified material</textarea>
 
 <script>
 
