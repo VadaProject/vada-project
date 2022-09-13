@@ -730,7 +730,7 @@ What is your Support Means?
 <div id="hiddenRule">
 
   <div id="some-div">
-  <img src = "assets/img/question_mark.php">
+  <img src = "assets/img/question_mark.png">
   <span id="explain-element"> Hint: Your reason statement should answer "Why?". You might think of the reason as what comes after 'because....'.  </span>
   </div>
 <p style="color:black"><u>Reason</u><br>
@@ -749,7 +749,7 @@ if ('claim' == retrieveCOS($claimIDFlaggedINSERT)) {
    <span class="jsValue6"></span>
 <br><br>
 <div id="some-div">
-  <img src = "assets/img/question_mark.php">
+  <img src = "assets/img/question_mark.png">
   <span id="explain-element"> Hint: The example cannot be the same as the subject.  </span>
   </div>
 <u> Rule and Example Statement </u><br>
@@ -771,7 +771,7 @@ as in the case of:
 
 <div id="perceptionHint">
     <div id="some-div">
-  <img src = "assets/img/question_mark.php">
+  <img src = "assets/img/question_mark.png">
   <span id="explain-element"> Hint: Perception MUST be audio or video.  </span>
   </div>
 
@@ -782,7 +782,7 @@ as in the case of:
 <u>Transcription</u>
 
 <div id="some-div">
-  <img src = "assets/img/question_mark.php">
+  <img src = "assets/img/question_mark.png">
   <span id="explain-element"> Hint: The transcription MUST be a quotation from the source with no additional dialogue.  </span>
   </div>
 
@@ -792,7 +792,7 @@ as in the case of:
 <u>Citation</u>
 <?php $author = $title = $publication = $date = ''; ?>
 <div id="some-div">
-  <img src = "assets/img/question_mark.php">
+  <img src = "assets/img/question_mark.png">
   <span id="explain-element"> Please include as applicable: author, title, publication, and date of publication. </span>
   <br><textarea id="author" name = "author" value="<?php echo htmlspecialchars($author); ?>">Author</textarea><br>
   <textarea id="title" name = "title" value="<?php echo htmlspecialchars($title); ?>">Title</textarea><br>
