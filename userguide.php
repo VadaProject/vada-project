@@ -10,7 +10,6 @@
 
 		<script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="script/my_script.js" type="text/javascript"></script>
-		<script src="assets/scripts/jquery-3.3.1.min.js"></script>
 
 <style>
 
