@@ -4,7 +4,7 @@
 
 <!DOCTYPE html>
 <html>
-   <link rel="stylesheet" href="./style.css">
+   <link rel="stylesheet" href="assets/stylesheets/global.css">
 
 	<?php include 'templates/header.php'; ?>
 

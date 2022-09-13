@@ -1,8 +1,8 @@
 <?php include 'config/db_connect.php';
 ?>
 
-<link rel="stylesheet" href="./style.css">
-<link rel="stylesheet" href="./detailsstyle.css">
+<link rel="stylesheet" href="assets/stylesheets/global.css">
+<link rel="stylesheet" href="./detailsassets/stylesheets/global.css">
 
 
 	<?php include 'templates/header.php';

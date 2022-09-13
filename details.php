@@ -8,8 +8,8 @@ if (isset($_GET['id'])) {
     $claimID = mysqli_real_escape_string($conn, $_GET['id']);
     // make sql
 
-    ?><link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href="./detailsstyle.css">
+    ?><link rel="stylesheet" href="assets/stylesheets/global.css">
+  <link rel="stylesheet" href="./detailsassets/stylesheets/global.css">
 
 <?php
 

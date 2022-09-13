@@ -3,7 +3,7 @@
 include 'templates/header.php'; ?>
 <!--<meta property="fb:app_id" content="910800136088440" /> -->
 
-<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="assets/stylesheets/global.css">
 <script src="assets/scripts/jquery-3.3.1.min.js"></script>
 
 <!--

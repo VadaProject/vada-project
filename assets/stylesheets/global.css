@@ -85,7 +85,7 @@ ul, li {
   position: relative;
   display: inline-block;
   vertical-align: top;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   margin: 0;
   padding: 0px;
 
@@ -166,8 +166,8 @@ body .wrapper ul > li.noline:before {
 body .wrapper ul > li label {
   padding: 0.5em 1em;
   border: 1px solid grey;
-  max-width: 600px; 
-  white-space: normal; 
+  max-width: 600px;
+  white-space: normal;
   display: inline-block;
   cursor: pointer;
 }
@@ -210,7 +210,7 @@ div.x {
   }
 
 .button {
-  background-color: #d3d3d3; 
+  background-color: #d3d3d3;
   border: none;
   font-color: white;
   padding: 7px 10px;

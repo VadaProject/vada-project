@@ -1,6 +1,6 @@
 
 <?php include 'config/db_connect.php'; ?>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="assets/stylesheets/global.css">
 
 
 <script src="assets/scripts/jquery-3.3.1.min.js"></script>
