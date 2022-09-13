@@ -82,7 +82,7 @@ $flagsdb2 = mysqli_fetch_all($result3, MYSQLI_ASSOC);
 	    ?>
 <?php
 
-	            $claimIDFlagged = $flagsdb2['claimIDFlagged'];
+	    $claimIDFlagged = $flagsdb2['claimIDFlagged'];
 	    $active = $flagsdb2['active'];
 	    if ('1' == $active) { // if active
 	        echo 'These are active flags';
