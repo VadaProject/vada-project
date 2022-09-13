@@ -11,29 +11,10 @@
 		<script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="script/my_script.js" type="text/javascript"></script>
 
-<style>
-
-p.big {
-
-}
-</style>
 </head>
 
 
 <body>
-
-<style>
-div.b {
-  text-align: left;
-   padding-top: 30px;
-  padding-right: 80px;
-  padding-bottom: 50px;
-  padding-left: 80px;
-    line-height: 1.8;
-
-
-}
-</style>
 
 <div class = "b">
 
