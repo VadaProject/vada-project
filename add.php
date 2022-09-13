@@ -120,7 +120,7 @@ What is your Support Means?
 <div id="hiddenRule"> 
 
   <div id="some-div">
-  <img src = "https://i.imgur.com/o4qSiRD.png">
+  <img src = "assets/img/question_mark.php">
   <span id="explain-element"> Hint: Your reason statement should answer "Why?". You might think of the reason as what comes after 'because....'.  </span>
   </div>
 <p style="color:black"><u>Reason</u><br>
