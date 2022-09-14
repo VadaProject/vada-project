@@ -6,8 +6,15 @@ This repository holds the PHP files which make up the application's front-end.
 
 ## Installation (local development)
 
-1. Download and install [XAMPP](https://www.apachefriends.org/download.html).
-    * From the control panel, start the Apache and MySQL servers.
+1. Download and install...
+    * [XAMPP](https://www.apachefriends.org/download.html)
+    * [Composer](https://getcomposer.org/download/) (globally)
+        * macOS: `brew install php composer`
+    * [PHP-CS-Fixer]()
+        * ```sh
+            composer require --global friendsofphp/php-cs-fixer
+            ```
+1. From the control panel, start the Apache and MySQL servers.
 1. From XAMPP's `htdocs/` folder, clone this repository, and name the folder `directory`.
     * ```sh
       cd [xampp_root]/htdocs
