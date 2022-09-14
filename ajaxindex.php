@@ -1080,11 +1080,6 @@ function createModal($claimid)
     $result = mysqli_query($conn, $sql);
     ?>
 
-            <!-- Include bootstrap & jQuery
-  <link rel="stylesheet" href="bootstrap.css" />-->
-            <script src="assets/scripts/jquery-3.3.1.min.js"></script>
-            <script src="bootstrap.js"></script>
-
             <!-- Creating table heading -->
             <div class="container">
 
