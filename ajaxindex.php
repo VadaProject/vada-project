@@ -1,43 +1,36 @@
-<?php include 'config/db_connect.php';
-
-include 'includes/header.php'; ?>
-<!--<meta property="fb:app_id" content="910800136088440" /> -->
-
-<link rel="stylesheet" href="assets/stylesheets/global.css">
-<script src="assets/scripts/jquery-3.3.1.min.js"></script>
-
-<!--
-  //support or flag instead of add -->
-  <?php
+<?php include 'config/db_connect.php'; ?>
+<?php include 'includes/page_top.php'; ?>
+<?php
   if (isset($_GET['topic'])) {
       $topic = mysqli_real_escape_string($conn, $_GET['topic']);
   } // end isset check?>
 
+<div class="wrapper">
+    <ul>
+        <li class="noline">
+            <BR><BR>
 
- <div class="wrapper">
-  <ul>
-    <li class="noline">
-      <BR><BR>
-          	
-           <center>	
-    <div style= "height:175px; width:800px; background: rgba(76, 78, 175, 0.3);">	
-    <br><img src="https://i.imgur.com/Zg0ijAM.png">	
-    <br> 	
-    <p style="color:black;">	
-A contested claim or support will have this symbol.	
-    <br>	
-    Rival claims will be yellow. </p> </div> <br>	
-    </center>	
-    	
-      <a class="brand-text" href="add.php?topic=<?php echo $topic?>">Add New Claim To This Topic</a><br><br>	
-      	
-      <h3>TOPIC: <?php echo $topic; ?> <BR> </h3>	
-      	
-    	
-    </center>	
-    <center>	
-    	
-      <?php 	
+            <center>
+                <div style="height:175px; width:800px; background: rgba(76, 78, 175, 0.3);">
+                    <br><img src="https://i.imgur.com/Zg0ijAM.png">
+                    <br>
+                    <p style="color:black;">
+                        A contested claim or support will have this symbol.
+                        <br>
+                        Rival claims will be yellow.
+                    </p>
+                </div> <br>
+            </center>
+
+            <a class="brand-text" href="add.php?topic=<?php echo $topic?>">Add New Claim To This Topic</a><br><br>
+
+            <h3>TOPIC: <?php echo $topic; ?> <BR> </h3>
+
+
+            </center>
+            <center>
+
+                <?php
 
 
         // changing the centers above is a fun change
@@ -217,7 +210,7 @@ from flagsdb
     // for the CORRESPONDING claimid - check for flaggers that aren't rival .. sort claim those.
     } else {
         ?>
-  <li> <label for="<?php echo $claimid; ?>"><?php
+        <li> <label for="<?php echo $claimid; ?>"><?php
         while ($d = $disp->fetch_assoc()) {
             if ('supporting' == $resultFlagType) {
                 echo "<img height = '45' width = '32' src='assets/img/support.png'> <br>";
@@ -255,11 +248,10 @@ from flagsdb
             // ------------------------- ABOVE is modal code
         } // end of while statement
 
-        ?> </label><input id="<?php echo $claimid; ?>" type="checkbox"> <ul> <span class="more">&hellip;</span>
+        ?> </label><input id="<?php echo $claimid; ?>" type="checkbox">
+            <ul> <span class="more">&hellip;</span>
 
-
-
-  <?php
+                <?php
 
 // below is to continue recursion
           $sql1 = "SELECT DISTINCT claimIDFlagger
@@ -321,9 +313,7 @@ function sortclaimsRIVAL($claimid)
 
     ?>
 
-
-<li> <label style="background:#FFFFE0" for="<?php echo $claimid; ?>">
-     <?php
+        <li> <label style="background:#FFFFE0" for="<?php echo $claimid; ?>"><?php
     while ($d = $disp->fetch_assoc()) {
         echo "<img width='100' height='20' src='assets/img/rivals.png'> <br><br>";
 
@@ -343,9 +333,10 @@ function sortclaimsRIVAL($claimid)
 
     ?>
 
-</label><input id="<?php echo $claimid; ?>" type="checkbox"><ul> <span class="more">&hellip;</span>
-  <!--</font>-->
-  <?php
+            </label><input id="<?php echo $claimid; ?>" type="checkbox">
+            <ul> <span class="more">&hellip;</span>
+                <!--</font>-->
+                <?php
     // below finds the flagger and continues the recursion by pushing it back to sortclaims recursion
       $sql1 = "SELECT DISTINCT claimIDFlagger
   from claimsdb, flagsdb
@@ -366,7 +357,8 @@ function sortclaimsRIVAL($claimid)
 
     // it's pushed - now the function is finished!
 
-    ?></ul><?php
+    ?>
+            </ul><?php
 } // end of rivalfunction
 
 function doesThesisFlag($claimid)
@@ -657,7 +649,6 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
 
     }// end of else
 
-
      if($allSupportsInactive == 'true')
       {
 
@@ -942,7 +933,6 @@ function restoreActivityRIVAL($claimid)
 
     /*
 
-
       $rivalsupports = "SELECT DISTINCT claimIDFlagger
       from claimsdb, flagsdb
       where ? = claimIDFlagged AND flagType LIKE 'supporting'
@@ -981,7 +971,6 @@ function restoreActivityRIVAL($claimid)
         if($numhitsSupports2 == 0)
           { }
         else {restoreActivity($rivalsupporting2['claimIDFlagger']); }
-
 
     } // end of while
     */
@@ -1091,129 +1080,125 @@ function createModal($claimid)
     $result = mysqli_query($conn, $sql);
     ?>
 
-<!-- Include bootstrap & jQuery
+            <!-- Include bootstrap & jQuery
   <link rel="stylesheet" href="bootstrap.css" />-->
-  <script src="assets/scripts/jquery-3.3.1.min.js"></script>
-  <script src="bootstrap.js"></script>
+            <script src="assets/scripts/jquery-3.3.1.min.js"></script>
+            <script src="bootstrap.js"></script>
 
-  <!-- Creating table heading -->
-  <div class="container">
+            <!-- Creating table heading -->
+            <div class="container">
 
+                <!-- Display dynamic records from database -->
+                <?php while ($row = mysqli_fetch_object($result)) { ?>
+                <button class="btn btn-primary" onclick="loadData(this.getAttribute('data-id'));"
+                    data-id="<?php echo $row->claimID; ?>">
+                    Details
+                </button>
+                <?php } ?>
 
-    <!-- Display dynamic records from database -->
-    <?php while ($row = mysqli_fetch_object($result)) { ?>
-      <button class = "btn btn-primary" onclick="loadData(this.getAttribute('data-id'));" data-id="<?php echo $row->claimID; ?>">
-        Details
-      </button>
-    <?php } ?>
+            </div>
 
-  </div>
+            <script>
+            function loadData(id) {
+                console.log(id);
+                $.ajax({
+                    url: "adnanindex.php",
+                    method: "POST",
+                    data: {
+                        get_data: 1,
+                        id: id
+                    },
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        console.log(response);
+                        var html = "";
 
-  <script>
-    function loadData(id) {
-      console.log(id);
-      $.ajax({
-        url: "adnanindex.php",
-        method: "POST",
-        data: {get_data: 1, id: id},
-        success: function (response) {
-          response = JSON.parse(response);
-          console.log(response);
-          var html = "";
+                        // Displaying city
+                        //                html += "<div class='row'>";
+                        //                   html += "<div class='col-md-6'></div>";
+                        html += "<div class='col-md-6'><p style=\"color:black\">" + response.ts +
+                            "<BR> ClaimID: " + response.claimID + "</div><BR><p style=\"color:black\">";
 
-                // Displaying city
-//                html += "<div class='row'>";
- //                   html += "<div class='col-md-6'></div>";
- html += "<div class='col-md-6'><p style=\"color:black\">" + response.ts + "<BR> ClaimID: " + response.claimID +  "</div><BR><p style=\"color:black\">";
+                        if (response.supportMeans == 'NA') {
+                            html += "<BR> Claim: " + response.subject + " " + response.targetP;
+                        }
 
+                        if (response.supportMeans == 'Testimony') {
+                            html += "Transcription: " + response.transcription +
+                                " <BR><br><br> Citation: " + response.citation;
+                        }
 
- if(response.supportMeans == 'NA')
- {
-  html +=  "<BR> Claim: " + response.subject + " " + response.targetP;
-}
+                        if (response.supportMeans == 'Perception') {
+                            html += " <BR> URL: " + response.URL + " <BR> Timestamp: " + response
+                                .timestamp + " <BR> Citation: " + response.citation;
+                        }
 
-if(response.supportMeans == 'Testimony')
-{
-  html +=  "Transcription: " + response.transcription + " <BR><br><br> Citation: " + response.citation;
-}
+                        if (response.supportMeans == 'Inference') {
+                            html += " <BR> Reason: " + response.subject + " " + response.reason +
+                                "<BR> Rule & Example: Whatever/Whomever " + response.reason + ', ' +
+                                response.targetP + " as in the case of " + response.example;
 
-if(response.supportMeans == 'Perception')
-{
- html += " <BR> URL: " + response.URL + " <BR> Timestamp: " + response.timestamp + " <BR> Citation: " + response.citation;
-}
+                        }
+                        if (response.supportMeans == 'Tarka') {
+                            html +=
+                                "Tarka is an element of conversation used to discuss errors in debate form and communication with moderators.";
 
-if(response.supportMeans == 'Inference')
-{
-  html += " <BR> Reason: " + response.subject + " " + response.reason + "<BR> Rule & Example: Whatever/Whomever " + response.reason + ', ' + response.targetP + " as in the case of " + response.example;
+                        }
 
-}
-if(response.supportMeans == 'Tarka')
-{
-  html += "Tarka is an element of conversation used to discuss errors in debate form and communication with moderators.";
+                        html += " <BR> <div class = \"modal-content-a\"> <a href=\"details.php?id=" +
+                            response.claimID + "\" class = \"button\">  DETAILS PAGE </a> </div></div>";
 
-}
+                        // And now assign this HTML layout in pop-up body
+                        $("#modal-body").html(html);
 
-html += " <BR> <div class = \"modal-content-a\"> <a href=\"details.php?id=" + response.claimID + "\" class = \"button\">  DETAILS PAGE </a> </div></div>";
+                        $("#myModal").modal();
 
-                // And now assign this HTML layout in pop-up body
-                $("#modal-body").html(html);
+                    }
+                });
+            }
+            </script>
 
-                $("#myModal").modal();
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
 
+                <div class="modal-dialog">
+                    <div class="modal-content-a">
+                        <b>Claim Details</b> <br>
+                        <div class="modal-content-b">
 
+                            <div class="modal-header">
+                                <h4 class="modal-title">
 
-              }
-            });
-    }
-  </script>
+                                </h4>
 
-  <!-- Modal -->
-  <div class = "modal fade" id = "myModal" tabindex = "-1" role = "dialog" aria-hidden = "true">
-
-   <div class = "modal-dialog">
-    <div class = "modal-content-a">
-      <b>Claim Details</b> <br>
-      <div class = "modal-content-b">
-
-       <div class = "modal-header">
-        <h4 class = "modal-title">
-
-        </h4>
-
-<!--            <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                                <!--            <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
                ×
              </button> -->
-           </div>
+                            </div>
 
-           <div id = "modal-body">
+                            <div id="modal-body">
 
-            Press ESC button to exit.
+                                Press ESC button to exit.
 
-            response.claimID
-          </div>
-        </div> <!-- modal-content-b -->
+                                response.claimID
+                            </div>
+                        </div> <!-- modal-content-b -->
 
-        <!--         <BR> <a href="details.php?id=<?php echo $claimid; ?>" class = "button">FLAG THIS CLAIM! </a> </div>  -->
+                        <!--         <BR> <a href="details.php?id=<?php echo $claimid; ?>" class = "button">FLAG THIS CLAIM! </a> </div>  -->
 
-           <!-- <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                        <!-- <button type = "button" class = "btn btn-default" data-dismiss = "modal">
                OK
              </button> -->
 
+                    </div><!-- /.modal-content-a-->
+                </div><!-- /.modal-dialog -->
 
-           </div><!-- /.modal-content-a-->
-         </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
 
-       </div><!-- /.modal -->
-
-
-
-       <?php
+            <?php
 
 } // end of function
-
 ?>
-
-
-
-</html>
+</div>
+<?php include 'includes/page_bottom.php'; ?>
 <?php mysqli_close($conn); ?>

@@ -1,824 +1,589 @@
 <?php include 'config/db_connect.php'; ?>
+<?php include 'includes/page_top.php'; ?>
+<main class="page-container">
+    <h2>User Guide</h2>
+    <h3>Support Means</h3>
+    <hr>
+    <p>
+        Go to <a href="#Inference">Inference</a>.
+    <p>
+        Go to <a href="#Testimony">Testimony</a>.
+    <p>
+        Go to <a href="#Perception">Perception</a>.
+        <hr>
+    <p>
+        A claim is the most basic element of debate on the Vāda Project platform. Each claim consists of a <b>subject</b> (<i>pakṣa</i>) and a <b>target property</b> (<i>sādhya</i>). A subject is what a claim is about. A target property is what a claim asserts about a subject. For example, in the claim “The hill is on fire,” the subject is “the hill” and the target property is “is on fire.”
+    <p>
+        When entering a claim, a user will be prompted to enter a subject and a target property. To minimize grammatical bugs in later statements, the user will be prompted to indicate whether the subject is a person or a thing.
+    <p>
+        All claims entered on the Vāda Project platform must be justified through one of four <b>support means</b>. Support means are distinct ways of supporting claims. In this iteration of the Vāda Project platform, support means include three <b>knowledge sources</b> (<i>pramāṇa</i>s) and <b>philosophical argument</b> (<i>tarka</i>).
+    <p>
+        On the Vāda Project platform, philosophical argument is a method of administratively moderated argument that is conducted through a Facebook plugin; as Vātsyāyana writes in his commentary on <i>Nyāya Sūtra</i>1.1.40, in a <i>vāda</i> debate, <i>tarka</i> serves only a supplementary role to debate that is conducted through appeal to knowledge sources.<a class="sdendnoteanc" name="sdendnote1anc" href="#sdendnote1sym"><sup>i</sup></a>
+        The three knowledge sources in this iteration of the Vāda Project platform are <b>inference</b>, <b>testimony</b>, and <b>perception</b>.
+    <h3 id="Inference">Inference</h3>
+    <p>
+        Inference (<i>anumāna</i>) is a way of generating knowledge about something that is presently uncertain through knowledge about something that is presently certain. In a <i>vāda</i> debate, all initial claims should be controversial, or uncertain. To support a claim through inference, a user asserts that the claim’s subject is known to possess a <b>reason</b> <b>property</b>(<i>hetu</i>) that is invariably present with the claim’s target property.
 
+    <p>
+        For example, a user might select “inference” as a support means to justify the claim, “The hill is on fire.” Afterwards, when prompted to enter a reason property, the user might type “has smoke billowing from it” in the “reason property” field.
+    <p>
+        To help to establish that the reason property is known to be invariably present with the target property, the user will be prompted to enter an <b>example</b> of a similar subject (<i>sapakṣa</i>). An appropriate similar subject will differ from the subject of the claim (the hill) and be known to possess both the reason property and the target property of the inference. For example, the user might enter “a kitchen” in the “example” field and click “submit.”
+    <p>
+        After clicking “submit,” the user will be notified that the claim has been submitted. Upon returning to the debate topic page, users will see that the claim has been added. By clicking on the “details” link on the claim box, users will see that the inference has automatically generated the following three statements:
+    <p>
+        Thesis: The hill is on fire.
+    <p>
+        Reason: The hill has smoke billowing from it.
+    <p>
+        Rule &amp; Example: Whatever has smoke billowing from it is on fire, as in the case of a kitchen.
+    <p>
+        The thesis statement of the inference conjoins the subject with the target property of the claim. The reason statement conjoins the same subject with the reason property. The rule and example statement is an automatically generated assertion that the target property is present in whatever the reason property is present in, and that a similar subject exemplifies this universal association.
+    <p>
+        If they would like, users can now raise doubts about the claim by clicking the “<b>Flag this claim</b>” tab from the “details” pop-up. Flags that can be raised against a claim are specific to the knowledge source that supports it.
+    <p>
+        The following flags can be raised against the thesis, reason, and rule &amp; example statements of a claim supported by inference:
+        <style type="text/css">
+            table,
+            td,
+            th {
+                border: 1px solid;
+            }
 
+            th {
+                color: black;
+            }
+        </style>
+    <div class="ritz grid-container">
+        <h4>Hetvābhasas (Reason Flags)</h4>
+        <table>
+            <tr>
+                <th>Flag Name</td>
+                <th>Explanation</td>
+                <th>Example</td>
+                <th>Counter-claim</td>
+            </tr>
+            <tr>
+                <td>Unestablished Subject (aśrayāsiddha)</td>
+                <td>The subject is either ambiguous, in doubt, or non-existent.</td>
+                <td>&quot;Sentient extraterrestial aliens are vegetarian.&quot;</td>
+                <td>&quot;Sentient extraterrestial aliens are not known to exist.&quot;</td>
+            </tr>
+            <tr>
+                <td>Itself Unestablished (svarupāsiddha)</td>
+                <td>The reason property is not present, or is not known to be present, in the subject.</td>
+                <td>&quot;These nutritional supplements are healthy, because these nutritional supplements boost the immune system.&quot;</td>
+                <td>&quot;These nutritional supplements are not known to boost the immune system.&quot;</td>
+            </tr>
+            <tr>
+                <td>Too Narrow (asādhāraṇa)</td>
+                <td>Either a) the example is ambiguous, in doubt, or non-existent; or b) the reason property is not present, or is not known to be present, with the target property in the example; or c) the example is the same as, or is contained within, the subject.</td>
+                <td>&quot;Gods value critical examination, because gods value truth, as in the case of Loki.&quot;</td>
+                <td>a) &quot;Loki isn&#39;t known to exist,&quot; b) &quot;Loki doesn&#39;t value truth and critical thinking,&quot; or c) &quot;Loki is included in the subject, &#39;gods&#39;.&quot;</td>
+            </tr>
+            <tr>
+                <td>Too Broad -- Counterexample (sādhāraṇa)</td>
+                <td>The reason property is present without the target property in a specifiable counterexample.</td>
+                <td>&quot;I will pass the exam today, because I always pass exams when I wear this ring.&quot;</td>
+                <td>&quot;You wore that ring during last week&#39;s exam and did not pass.&quot;</td>
+            </tr>
+            <tr>
+                <td>Too Broad -- Unestablished Universal (vyāpyatvāsiddha)</td>
+                <td>There is no causal or conceptual reason to assume a universal association between the reason property and the target property; therefore, unspecifiable counterexamples may exist.</td>
+                <td>&quot;I will pass the exam today, because I always pass exams when I wear this ring.&quot;</td>
+                <td>&quot;Student accessories do not factor into the exam&#39;s grading rubric.&quot;</td>
+            </tr>
+            <tr>
 
-<!DOCTYPE html>
-<html>
-   <link rel="stylesheet" href="assets/stylesheets/global.css">
+                <td>Contrived Universal (upādhi)</td>
+                <td>The universal association between the reason property and the target property exists only because of the presence of an additional property (upādhi).</td>
+                <td>&quot;I will pass the exam today, because I always pass exams when I wear this ring.&quot;</td>
+                <td>&quot;As well as wearing the ring during every exam you have passed, you have also studied for every exam you have attempted while wearing the ring.</td>
+            </tr>
+        </table>
+        <h4>Nigrahasthānas (Defeaters)</h4>
+        <table>
+            <tr>
+                <th>Flag Name</th>
+                <th>Explanation</th>
+                <th>Example</th>
+                <th>Counter-claim</th>
+            </tr>
+            <tr>
+                <td>Has Rival (prakaraṇasama)</td>
+                <td>An unflagged rival claim speaks or advocates for the antithesis.</td>
+                <td>&quot;Vanilla ice cream is flavorful.&quot;</td>
+                <td>&quot;Vanilla ice cream is not flavorful.&quot;</td>
+            </tr>
+            <tr>
+                <td>Too Early</td>
+                <td>This claim is not controversial; no party in the debate speaks or advocates for the antithesis.</td>
+                <td>&quot;The grass is green.&quot;</td>
+                <td>&quot;No one says that the grass isn&#39;t green.&quot;</td>
+            </tr>
+            <tr>
+                <td>Too Late (kālātyāpadiṣṭa)</td>
+                <td>This claim has already been flagged or discredited.</td>
+                <td>&quot;The Earth is flat.&quot;</td>
+                <td>&quot;This claim repeats claim #100, which has active flags against it.&quot;</td>
+            </tr>
+            <tr>
+                <td>Hostile (viruddha)</td>
+                <td>The reason property establishes that the target property is not present in the subject.</td>
+                <td>&quot;Firearms should be accessible to children, because firearms are lethal.&quot;</td>
+                <td>&quot;Firearms should not be accessible to children, because firearms are lethal, as in the case of poison.&quot;</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <table width=623 cellpadding=7 cellspacing=0>
+        <col width=105>
+        <col width=160>
+        <col width=315>
+        <tr valign=TOP>
+            <td width=105 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Statement
 
-	<?php include 'includes/header.php'; ?>
+            </td>
+            <td width=160 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Flag
 
-		<script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
-<script src="script/my_script.js" type="text/javascript"></script>
+            </td>
+            <td width=315 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Explanation
 
-</head>
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=105 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Thesis:
 
+            </td>
+            <td width=160 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Has Rival
 
-<body>
+            </td>
+            <td width=315 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    An unflagged
+                    rival claim speaks or advocates for the antithesis.
 
-<div class = "b">
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=105 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    <br>
 
+            </td>
+            <td width=160 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Too Early
 
-<center>  <h1> User Guide </h1>
+            </td>
+            <td width=315 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    This claim is
+                    not controversial; no party in the debate speaks or advocates for
+                    the antithesis.
 
-<h1> Support Means </h1>
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=105 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    <br>
 
--------------------------------------------------------------------------------------
-</center>
-<br>
+            </td>
+            <td width=160 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Too Late
 
-<br>
-Go to
-      <a href="#Inference">Inference</a>.<br>
-Go to
-      <a href="#Testimony">Testimony</a>.<br>
-Go to
-      <a href="#Perception">Perception</a>.<br>
+            </td>
+            <td width=315 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    This claim
+                    has already been flagged or discredited in vāda debate
 
--------------------------------------------------------------------------------------
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=105 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Reason:
 
+            </td>
+            <td width=160 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Unestablished
+                    Subject
 
-<BODY LANG="en-US" LINK="#0563c1" DIR="LTR">
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">A
-claim is the most basic element of debate on the Vāda Project
-platform. Each claim consists of a </FONT><B>subject</B></FONT>
-(</FONT><I>pakṣa</I></FONT>)
-and a </FONT><B>target property</B></FONT>
-(</FONT><I>sādhya</I></FONT>).
-A subject is what a claim is about. A target property is what a claim
-asserts about a subject. For example, in the claim “The hill is on
-fire,” the subject is “the hill” and the target property is “is
-on fire.” </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">When
-entering a claim, a user will be prompted to enter a subject and a
-target property. To minimize grammatical bugs in later statements,
-the user will be prompted to indicate whether the subject is a person
-or a thing.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">All
-claims entered on the Vāda Project platform must be justified
-through one of four </FONT><B>support
-means</B></FONT>. Support means
-are distinct ways of supporting claims. In this iteration of the Vāda
-Project platform, support means include three </FONT><B>knowledge
-sources</B></FONT> (</FONT><I>pramāṇa</I></FONT>s)
-and </FONT><B>philosophical
-argument</B></FONT> (</FONT><I>tarka</I></FONT>).
-</FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">On
-the Vāda Project platform, philosophical argument is a method of
-administratively moderated argument that is conducted through a
-Facebook plugin; as Vātsyāyana writes in his commentary on </FONT><I>Nyāya
-Sūtra </I></FONT>1.1.40, in a
-</FONT><I>vāda</I></FONT>
-debate, </FONT><I>tarka</I></FONT>
-serves only a supplementary role to debate that is conducted through
-appeal to knowledge sources.<A CLASS="sdendnoteanc" NAME="sdendnote1anc" HREF="#sdendnote1sym"><SUP>i</SUP></A>
-The three knowledge sources in this iteration of the Vāda Project
-platform are </FONT><B>inference</B></FONT>,
-</FONT><B>testimony</B></FONT>,
-and </FONT><B>perception</B></FONT>.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in"><BR><BR>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in"><h2 id="Inference"> Inference </h2><o:p></o:p></span></i></p>
-</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">Inference
-(</FONT><I>anumāna</I></FONT>)</FONT><I>
-</I></FONT>is a way of generating
-knowledge about something that is presently uncertain through
-knowledge about something that is presently certain. In a </FONT><I>vāda</I></FONT>
-debate, all initial claims should be controversial, or uncertain. To
-support a claim through inference, a user asserts that the claim’s
-subject is known to possess a </FONT><B>reason</B></FONT>
-</FONT><B>property </B></FONT>(</FONT><I>hetu</I></FONT>)</FONT><I>
-</I></FONT>that is invariably
-present with the claim’s target property.   </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">For
-example, a user might select “inference” as a support means to
-justify the claim, “The hill is on fire.” Afterwards, when
-prompted to enter a reason property, the user might type “has smoke
-billowing from it” in the “reason property” field.  </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">To
-help to establish that the reason property is known to be invariably
-present with the target property, the user will be prompted to enter
-an </FONT><B>example</B></FONT>
-of a similar subject (</FONT><I>sapakṣa</I></FONT>).
-An appropriate similar subject will differ from the subject of the
-claim (the hill) and be known to possess both the reason property and
-the target property of the inference. For example, the user might
-enter “a kitchen” in the “example” field and click “submit.”</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">After
-clicking “submit,” the user will be notified that the claim has
-been submitted. Upon returning to the debate topic page, users will
-see that the claim has been added. By clicking on the “details”
-link on the claim box, users will see that the inference has
-automatically generated the following three statements: </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.11in">Thesis:
-The hill is on fire.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.11in">Reason:
-The hill has smoke billowing from it.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.11in">Rule
-&amp; Example: Whatever has smoke billowing from it is on fire, as in
-the case of a kitchen.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">The
-thesis statement of the inference conjoins the subject with the
-target property of the claim. The reason statement conjoins the same
-subject with the reason property. The rule and example statement is
-an automatically generated assertion that the target property is
-present in whatever the reason property is present in, and that a
-similar subject exemplifies this universal association.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">If
-they would like, users can now raise doubts about the claim by
-clicking the “</FONT><B>Flag
-this claim</B></FONT>” tab from
-the “details” pop-up. Flags that can be raised against a claim
-are specific to the knowledge source that supports it. </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">The
-following flags can be raised against the thesis, reason, and rule &amp;
-example statements of a claim supported by inference:</FONT></P>
+            </td>
+            <td width=315 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The subject
+                    is either ambiguous, not known to exist, or non-existent.
 
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=105 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    <br>
 
+            </td>
+            <td width=160 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Itself
+                    Unestablished
 
-<style type="text/css">.ritz .waffle a { color: inherit; }.ritz .waffle .s2{background-color:#e8e7df;text-align:left;color:#000000;font-family:'docs-Calibri',Arial;font-size:11pt;vertical-align:top;white-space:normal;overflow:hidden;word-wrap:break-word;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s1{background-color:#e8e7df;text-align:left;color:#000000;font-family:'docs-Calibri',Arial;font-size:11pt;vertical-align:bottom;white-space:nowrap;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s3{background-color:#e8e7df;text-align:left;font-style:italic;color:#808080;font-family:'Arial';font-size:13pt;vertical-align:top;white-space:normal;overflow:hidden;word-wrap:break-word;direction:ltr;padding:0px 3px 0px 3px;}.ritz .waffle .s0{background-color:#e8e7df;text-align:left;color:#000000;font-family:'docs-Calibri',Arial;font-size:11pt;vertical-align:bottom;white-space:normal;overflow:hidden;word-wrap:break-word;direction:ltr;padding:0px 3px 0px 3px;}</style><div class="ritz grid-container" dir="ltr"><table class="waffle" cellspacing="0" cellpadding="0"><thead><tr><th class="row-header freezebar-origin-ltr"></th><th id="1416512302C0" style="width:162px;" class="column-headers-background">A</th><th id="1416512302C1" style="width:472px;" class="column-headers-background">B</th><th id="1416512302C2" style="width:233px;" class="column-headers-background">C</th><th id="1416512302C3" style="width:228px;" class="column-headers-background">D</th></tr></thead><tbody><tr style="height: 18px"><th id="1416512302R0" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">1</div></th><td class="s0">Hetvābhasas (Reason Flags)</td><td></td><td></td><td></td></tr><tr style="height: 18px"><th id="1416512302R1" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">2</div></th><td class="s0"></td><td></td><td></td><td></td></tr><tr style="height: 18px"><th id="1416512302R2" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">3</div></th><td class="s0">Flag Name</td><td class="s1">Explanation</td><td class="s1">Example</td><td class="s0">Counter-claim</td></tr><tr style="height: 18px"><th id="1416512302R3" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">4</div></th><td class="s2">Unestablished Subject (aśrayāsiddha)</td><td class="s2">The subject is either ambiguous, in doubt, or non-existent.</td><td class="s2">&quot;Sentient extraterrestial aliens are vegetarian.&quot;</td><td class="s2">&quot;Sentient extraterrestial aliens are not known to exist.&quot;</td></tr><tr style="height: 18px"><th id="1416512302R4" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">5</div></th><td class="s2">Itself Unestablished (svarupāsiddha)</td><td class="s2">The reason property is not present, or is not known to be present, in the subject.</td><td class="s2">&quot;These nutritional supplements are healthy, because these nutritional supplements boost the immune system.&quot; </td><td class="s2">&quot;These nutritional supplements are not known to boost the immune system.&quot;</td></tr><tr style="height: 18px"><th id="1416512302R5" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">6</div></th><td class="s2">Too Narrow (asādhāraṇa)</td><td class="s2">Either a) the example is ambiguous, in doubt, or non-existent; or b) the reason property is not present, or is not known to be present, with the target property in the example; or c) the example is the same as, or is contained within, the subject.</td><td class="s2">&quot;Gods value critical examination, because gods value truth, as in the case of Loki.&quot;</td><td class="s2">a) &quot;Loki isn&#39;t known to exist,&quot; b) &quot;Loki doesn&#39;t value truth and critical thinking,&quot; or c) &quot;Loki is included in the subject, &#39;gods&#39;.&quot;</td></tr><tr style="height: 18px"><th id="1416512302R6" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">7</div></th><td class="s2">Too Broad -- Counterexample (sādhāraṇa)</td><td class="s2">The reason property is present without the target property in a specifiable counterexample.</td><td class="s2">&quot;I will pass the exam today, because I always pass exams when I wear this ring.&quot; </td><td class="s2">&quot;You wore that ring during last week&#39;s exam and did not pass.&quot;</td></tr><tr style="height: 18px"><th id="1416512302R7" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">8</div></th><td class="s2">Too Broad -- Unestablished Universal (vyāpyatvāsiddha)</td><td class="s2">There is no causal or conceptual reason to assume a universal association between the reason property and the target property; therefore, unspecifiable counterexamples may exist.</td><td class="s2">&quot;I will pass the exam today, because I always pass exams when I wear this ring.&quot; </td><td class="s2">&quot;Student accessories do not factor into the exam&#39;s grading rubric.&quot;</td></tr><tr style="height: 18px"><th id="1416512302R8" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">9</div></th><td class="s2">Contrived Universal (upādhi)</td><td class="s2">The universal association between the reason property and the target property exists only because of the presence of an additional property (upādhi).</td><td class="s2">&quot;I will pass the exam today, because I always pass exams when I wear this ring.&quot; </td><td class="s2">&quot;As well as wearing the ring during every exam you have passed, you have also studied for every exam you have attempted while wearing the ring.</td></tr><tr style="height: 18px"><th id="1416512302R9" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">10</div></th><td class="s2"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td></tr><tr style="height: 18px"><th id="1416512302R10" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">11</div></th><td class="s3"></td><td class="s2"></td><td class="s2"></td><td class="s2"></td></tr><tr style="height: 18px"><th id="1416512302R11" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">12</div></th><td class="s2">Nigrahasthānas (Defeaters)</td><td class="s2"></td><td class="s2"></td><td class="s2"></td></tr><tr style="height: 18px"><th id="1416512302R12" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">13</div></th><td class="s0">Flag Name</td><td class="s1">Explanation</td><td class="s1">Example</td><td class="s0">Counter-claim</td></tr><tr style="height: 18px"><th id="1416512302R13" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">14</div></th><td class="s2">Has Rival (prakaraṇasama)</td><td class="s2">An unflagged rival claim speaks or advocates for the antithesis.</td><td class="s2">&quot;Vanilla ice cream is flavorful.&quot;</td><td class="s2">&quot;Vanilla ice cream is not flavorful.&quot;</td></tr><tr style="height: 40px"><th id="1416512302R14" style="height: 40px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 40px">15</div></th><td class="s2">Too Early</td><td class="s2">This claim is not controversial; no party in the debate speaks or advocates for the antithesis.</td><td class="s2">&quot;The grass is green.&quot;</td><td class="s2">&quot;No one says that the grass isn&#39;t green.&quot;</td></tr><tr style="height: 18px"><th id="1416512302R15" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">16</div></th><td class="s2">Too Late (kālātyāpadiṣṭa)</td><td class="s2">This claim has already been flagged or discredited.</td><td class="s2">&quot;The Earth is flat.&quot;</td><td class="s2">&quot;This claim repeats claim #100, which has active flags against it.&quot;</td></tr><tr style="height: 18px"><th id="1416512302R16" style="height: 18px;" class="row-headers-background"><div class="row-header-wrapper" style="line-height: 18px">17</div></th><td class="s2">Hostile (viruddha)</td><td class="s2">The reason property establishes that the target property is not present in the subject.</td><td class="s2">&quot;Firearms should be accessible to children, because firearms are lethal.&quot; </td><td class="s2">&quot;Firearms should not be accessible to children, because firearms are lethal, as in the case of poison.&quot;</td></tr></tbody></table></div>
+            </td>
+            <td width=315 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The reason
+                    property is not present, or is not known to be present, in the
+                    subject.
 
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=105 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    <br>
 
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in"><BR><BR>
-</P>
-<TABLE WIDTH=623 CELLPADDING=7 CELLSPACING=0>
-  <COL WIDTH=105>
-  <COL WIDTH=160>
-  <COL WIDTH=315>
-  <TR VALIGN=TOP>
-    <TD WIDTH=105 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Statement</FONT></P>
-    </TD>
-    <TD WIDTH=160 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Flag</FONT></P>
-    </TD>
-    <TD WIDTH=315 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Explanation</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=105 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Thesis:</FONT></P>
-    </TD>
-    <TD WIDTH=160 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Has Rival</FONT></P>
-    </TD>
-    <TD WIDTH=315 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>An unflagged
-      rival claim speaks or advocates for the antithesis.</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=105 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY><BR>
-      </P>
-    </TD>
-    <TD WIDTH=160 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Too Early</FONT></P>
-    </TD>
-    <TD WIDTH=315 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>This claim is
-      not controversial; no party in the debate speaks or advocates for
-      the antithesis.</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=105 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY><BR>
-      </P>
-    </TD>
-    <TD WIDTH=160 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Too Late</FONT></P>
-    </TD>
-    <TD WIDTH=315 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>This claim
-      has already been flagged or discredited in vāda debate</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=105 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Reason: </FONT>
-      </P>
-    </TD>
-    <TD WIDTH=160 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Unestablished
-      Subject</FONT></P>
-    </TD>
-    <TD WIDTH=315 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The subject
-      is either ambiguous, not known to exist, or non-existent.</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=105 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY><BR>
-      </P>
-    </TD>
-    <TD WIDTH=160 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Itself
-      Unestablished</FONT></P>
-    </TD>
-    <TD WIDTH=315 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The reason
-      property is not present, or is not known to be present, in the
-      subject.</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=105 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY><BR>
-      </P>
-    </TD>
-    <TD WIDTH=160 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Hostile</FONT></P>
-    </TD>
-    <TD WIDTH=315 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The reason
-      property establishes, by inference, that the target property is
-      </FONT><I>not</I></FONT>
-      present in the subject.</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=105 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Rule &amp;
-      Example:</FONT></P>
-    </TD>
-    <TD WIDTH=160 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Too Narrow</FONT></P>
-    </TD>
-    <TD WIDTH=315 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Either a) the
-      similar subject is ambiguous, not known to exist, or non-existent;
-      or b) the reason property is not present, or is not known to be
-      present, with the target property in the similar subject; or c)
-      the similar subject is the same as, or is contained within, the
-      subject.</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=105 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY><BR>
-      </P>
-    </TD>
-    <TD WIDTH=160 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY STYLE="margin-bottom: 0in">Too
-      Broad</FONT></P>
-      <P ALIGN=JUSTIFY>(Counterexample)</FONT></P>
-    </TD>
-    <TD WIDTH=315 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The reason
-      property is known to be present without the target property in a
-      </FONT><B>dissimilar subject</B></FONT>
-      (</FONT><I>vipakṣa</I></FONT>);
-      i.e., a counterexample has the reason property but not the target
-      property. </FONT>
-      </P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=105 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY><BR>
-      </P>
-    </TD>
-    <TD WIDTH=160 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY STYLE="margin-bottom: 0in">Too
-      Broad </FONT>
-      </P>
-      <P ALIGN=JUSTIFY>(Unestablished
-      Universal)</FONT></P>
-    </TD>
-    <TD WIDTH=315 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>There is no
-      causal or conceptual reason to assume a universal association
-      between the reason property and the target property; therefore,
-      yet undiscovered counterexamples may exist. </FONT>
-      </P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=105 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY><BR>
-      </P>
-    </TD>
-    <TD WIDTH=160 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Contrived
-      Universal</FONT></P>
-    </TD>
-    <TD WIDTH=315 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The universal
-      association between the reason property and the target property
-      exists only because of the presence of an additional property
-      (</FONT><I>upādhi</I></FONT>).
-      </FONT>
-      </P>
-    </TD>
-  </TR>
-</TABLE>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">   </FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in"><BR><BR>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in"><h2 id="Testimony"> Testimony </h2></span></FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">Testimony
-(</FONT><I>śabda</I></FONT>)
-is a way of generating knowledge about something previously uncertain
-through the words of a </FONT><B>trustworthy
-authority</B></FONT> (</FONT><I>āpta</I></FONT>).
-As Vātsyāyana writes in his commentary on </FONT><I>Nyāya
-Sūtra</I></FONT> 1.1.7, “A
-trustworthy authority is someone who knows something directly, an
-instructor with the desire to communicate it faithfully as it is
-known” (Dasti and Phillips: 35).</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">The
-Sanskrit term </FONT><I>śabda</I></FONT>
-means “word.” When one comes to know something through testimony,
-words are the cause or instrument of this knowledge.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">Yogācāra
-Buddhist and other philosophers contested </FONT><I>śabda</I></FONT>’s
-status as a source of knowledge, and preferred to limit </FONT><I>pramāṇa</I></FONT>s
-in </FONT><I>vāda</I></FONT>
-debates to sources such as inference and perception. However, Nyāya
-philosophers argued that to refuse to acknowledge testimony as a
-</FONT><I>pramāṇa</I></FONT>
-would contradict lived epistemic practice. In their everyday lives,
-even Buddhists who claim to reject </FONT><I>śabda</I></FONT>
-recognize the Buddha’s words and other textual and verbal sources
-as trustworthy authorities, they argued. </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">Buddhist
-philosophers such as Dignāga and Dharmakīrti responded by
-attempting to show that in day-to-day life, knowing through words
-does not practically differ from knowing through inference.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">For
-the sake of coordinating open, truth-directed debate about
-contemporary controversies among users of diverse backgrounds and
-perspectives, this iteration of the Vāda Project platform includes
-testimony as a source of knowledge. However, it might theoretically
-be possible to translate all verbal and textual claims made by
-supposedly trustworthy authorities into the standard logical form of
-an inference. </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">Users
-are expected to select inference as a support means for claims that
-various speakers and advocates attempt to justify, not by relying on
-the direct knowledge of particular, supposedly trustworthy
-authorities, but on the basis of recurring reasons and examples. For
-example, critics of abortion commonly put forward the following
-inference:</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.11in">Thesis:
-Abortion should be illegal.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.11in">Reason:
-Abortion is murder.   </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.11in">Rule
-&amp; Example: Whatever is murder should be illegal, as in the case
-of infanticide.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">When
-speakers and advocates use reasons, general rules, and examples to
-support claims without appealing to the direct knowledge of
-particular textual or verbal sources, inference is the appropriate
-support means.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">Even
-if an argument appeals to the supposedly direct knowledge of a
-particular textual or verbal source, users can sometimes translate
-this argument into the standard logical form of an inference without
-much distortion. For example, specific scientific testimony in the
-area of fetal neurology<A CLASS="sdendnoteanc" NAME="sdendnote2anc" HREF="#sdendnote2sym"><SUP>ii</SUP></A>
-might be translated into the following inference: </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.11in">Thesis:
-A human fetus in the first trimester of pregnancy lacks capacity for
-sentience.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.11in">Reason:
-A human fetus in the first trimester of pregnancy lacks established
-and functional somatosensory pathways from the periphery to the
-primary somatosensory region of the cerebral cortex. </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.11in">Rule
-and Example: Whatever lacks established and functional somatosensory
-pathways from the periphery to the primary somatosensory region of
-the cerebral cortex lacks capacity for sentience, as in the case of a
-human zygote.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">However,
-to exclude </FONT><I>śabda</I></FONT>
-as a </FONT><I>pramāṇa</I></FONT>
-and insist that users be equipped to do such translation work would
-be both cumbersome and counterproductive to the purposes of this
-iteration of the Vāda Project platform. </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">First,
-extracting reason properties and examples from written and verbal
-sources that are composed in various rhetorical styles is typically
-an art and not a mechanical process. Because not all textual or
-verbal sources state specific reason properties or similar cases,
-translators usually need to create their own examples and reason
-properties either wholesale or from scattered textual elements. This
-sort of translation work can be time consuming and difficult; it is
-also unnecessary if testimony is made available, contingently, as a
-plausible support means for the Vāda Project platform. </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">Second,
-to insist that all textual and verbal testimony be translated into
-the standard logical form of an inference would become increasingly
-counterproductive as textual and verbal sources become more and more
-specialized. To be able to support technical claims whether through
-testimony or inference, users must have or be equipped to develop a
-degree of understanding in subject areas as varied, to use the topic
-of the inferences above as a case in point, as fetal neurology,
-privacy law, and criminal homicide codes. But to require that all
-users master these various technical subject areas to an extent that
-would enable them to translate specialized arguments into the
-standard logical form of an inference would limit the abilities of
-diverse users to debate controversial topics on the platform. </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">This
-first iteration of the Vāda Project platform therefore contingently
-includes </FONT><I>śabda</I></FONT>
-as a support means—to preclude testimony would impose unnecessary
-burdens and be counterproductive to the Vāda Project’s aim of
-coordinating open, truth-directed debate about contemporary
-controversies among users of diverse backgrounds and perspectives. </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">As
-stated above, testimony is a way of acquiring knowledge through the
-words of a </FONT><B>trustworthy
-authority</B></FONT> (</FONT><I>āpta</I></FONT>).
-Because well-intentioned actions can err, and because persons who
-faithfully desire to communicate what they know can misspeak or
-miswrite what they intend to convey, this iteration of the Vāda
-Project platform adopts the following definition of an </FONT><I>āpta</I></FONT>:
-</FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.11in">A
-trustworthy authority is a textual or verbal source that knows
-something directly, desires to communicate it faithfully as it is
-known, and fulfills this aim.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">For
-Nyāya philosophers, a textual or verbal source’s status as an </FONT><I>āpta</I></FONT>
-depends on reality rather than on the subjective assessments of
-readers or hearers. It either is or is not the case that a source has
-direct knowledge about what is testified, faithfully intends to
-communicate what is known, and manages to do so, no matter what
-readers and hearers personally think. If, as a matter of fact, any
-condition is not met, then regardless of the authority’s
-credentials and social status, the authority is not trustworthy.
-Conversely, if all conditions are met, then the authority </FONT><I>is</I></FONT>
-trustworthy, regardless of the authority’s possible lack of
-credentials and social status or generally dodgy demeanor. As
-Vātsyāyana writes in his commentary on </FONT><I>Nyāya
-Sūtra </I></FONT>1.1.7, “To be
-trustworthy is to have direct knowledge of something. One who
-operates on this basis is a </FONT><B>trustworthy
-authority</B></FONT>. This
-criterion applies equally to sages, respected members of one’s own
-community, and those outside the fold” (Dasti and Phillips: 35).
-</FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">To
-support a claim through testimony, users should select “testimony”
-as a support means for the claim. They will then be prompted to enter
-a URL that links to the textual or verbal source in a text box
-labeled “Enter Speech/Research Document,” and to transcribe, or
-copy and paste, relevant words from the source in a text box labeled
-“Relevant Excerpt. Include timestamps for audio/video, if
-applicable.” The transcription should be verbatim.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">After
-clicking “submit,” the user will be notified that the claim has
-been submitted. Upon returning to the debate topic page, users will
-see that the claim has been added. By clicking on the “details”
-link on the claim box, users will see that the platform has generated
-a hyperlink to the textual or verbal source and displays the
-transcribed words. </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">If
-they would like, users can now raise doubts about the claim by
-clicking the “</FONT><B>Flag
-this claim</B></FONT>” tab from
-the “Details” pop-up. The following flags can be raised against a
-claim supported by testimony:</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in"><BR><BR>
-</P>
-<TABLE WIDTH=623 CELLPADDING=7 CELLSPACING=0>
-  <COL WIDTH=201>
-  <COL WIDTH=393>
-  <TR VALIGN=TOP>
-    <TD WIDTH=201 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Flag</FONT></P>
-    </TD>
-    <TD WIDTH=393 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Explanation</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=201 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>No Direct
-      Familiarity</FONT></P>
-    </TD>
-    <TD WIDTH=393 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The source
-      either lacks direct familiarity, or is not known to have direct
-      familiarity, with the state of affairs that the claim is about.</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=201 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Errant or
-      Uncertain Information</FONT></P>
-    </TD>
-    <TD WIDTH=393 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The
-      information the source conveys either is incorrect or is disputed
-      by an equally authoritative source.</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=201 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Ambiguous</FONT></P>
-    </TD>
-    <TD WIDTH=393 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The
-      transcribed words do not unambiguously support the claim.</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=201 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Faithless</FONT></P>
-    </TD>
-    <TD WIDTH=393 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The source
-      does not faithfully intend to communicate knowledge, but is
-      motivated, on this occasion, by another desire. </FONT>
-      </P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=201 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Misstatement</FONT></P>
-    </TD>
-    <TD WIDTH=393 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The
-      transcribed words that support the claim are the result of a
-      misstatement by the source, or are an inaccurate transcription of
-      the source. </FONT>
-      </P>
-    </TD>
-  </TR>
-</TABLE>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in"><BR><BR>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in"><h2 id="Perception"> Perception </h2></span></FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">Perception
-(</FONT><I>pratyakṣa</I></FONT>)
-is a way of generating knowledge about something previously uncertain
-through sensory evidence. As Akṣapāda Gautama writes in </FONT><I>Nyāya
-Sūtra</I></FONT> 1.1.4,
-“Perceptual knowledge arises from connection of a sense faculty and
-object, does not depend on language, is inerrant, and is definitive”
-(Dasti and Phillips: 20).</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">For
-the purpose of this digital platform, perceptual faculties are
-limited to the audio and visual senses. Because smelling, tasting,
-touching, and inner understanding (</FONT><I>manas</I></FONT>)
-lack corresponding objects in digital space, there can be no
-connection of these sense faculties with digital objects. Conversely,
-contemporary A/V technologies allow hearing and seeing to connect
-with audible and visible objects in the digital realm. To support
-claims about smells, tastes, touches and inner awareness, users
-should instead rely on testimony as a support means. To support
-claims through audio or visual evidence, users should enter a
-hyperlink directing users to this digital evidence, and include a
-timestamp, if appropriate. </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">The
-</FONT><I>Nyāya Sūtra</I></FONT>’s
-definition of perception stipulates necessary and sufficient
-conditions that sensory stimulations must satisfy to generate
-perceptual knowledge. For example, suppose a user wishes to use
-perception to support the claim, “Cats and dogs sometimes get
-along.”</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">The
-first condition, </FONT><B>sense-object
-contact</B></FONT>, requires that
-the linked content present sights and/or sounds directly of the
-subject of the claim—that is, “Cats and dogs.” If the linked
-content features images or sounds that are not of cats and dogs—for
-example, if the linked content features dogs but not cats, or cartoon
-renderings of cats and dogs—then the intended support would not
-satisfy the first criterion of perceptual evidence.   </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">The
-second condition requires that perceptual evidence </FONT><B>does
-not depend on language </B></FONT>(</FONT><I>avyapadeśyam</I></FONT>).
-Nyāya philosophers variously interpreted this criterion. For the
-purposes of this iteration of the Vāda Project platform, the
-condition requires that all users, regardless of their linguistic
-backgrounds, would assent to the claim (assuming the proposition were
-faithfully translated) solely on the basis of the provided sensory
-evidence. Hindi, Urdu and English speakers could all presumably agree
-that cats and dogs sometimes get along on the basis of a video of a
-cat and dog closely resting together.     </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">The
-second condition further helps to ensure that claims that users
-intend to support through perception minimize editorializing. The
-provided sensory evidence should provoke users’ assent to the claim
-regardless of, not only their linguistic backgrounds, but also their
-conceptual backgrounds. Reasonable persons can construe “getting
-along” in different ways. For example, a video of a cat and dog at
-play could fail to satisfy the second condition if, based on the
-provided sensory evidence, some users believe the video illustrates
-one animal abusing the other.     </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">Finally,
-the second condition also helps to distinguish perception from
-testimony. Testimony uses words to produce knowledge about a state of
-affairs. In contrast, perception uses sense faculties to produce
-knowledge of perceptible objects in ways that do not depend on
-language. A trustworthy authority might inform us through digital
-oral testimony that their cat and dog get along. However, perception
-of this oral evidence may only establish that the person has uttered
-particular sounds, such as the utterance, “My cat and dog get
-along.”  </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">The
-third condition, </FONT><B>is
-inerrant</B></FONT>, requires
-that the perceptual evidence not be false. In the classical
-literature, this criterion is said to exclude perceptual illusions.
-In his commentary on </FONT><I>Nyāya
-Sūtra </I></FONT>1.1.4,
-Vātsyāyana writes:</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-left: 0.5in; margin-bottom: 0.11in">During
-the summer, the sun rays and the warmth radiating from the hot ground
-pulsate together and come into sensory connection with the visual
-organ of a person situated at a distance. In such a situation, the
-cognition “Water” arises for the observer owing to the connection
-between his sense organ and the object. So to exclude such false
-cognition from the definition of perception proper, the author of the
-sutras includes the qualifier “</FONT><B>inerrant</B></FONT>.”
-(Dasti and Phillips: 23).</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">In
-contemporary contexts, this third criterion would exclude “deep
-fakes,” in which A/V evidence is manipulated to establish something
-that is not the case. It would also exclude perceptual evidence that
-is sublated by further perceptual evidence. For example, a video of a
-cat and dog resting together that was submitted to support the claim
-that “Cats and dogs sometimes get along” would fail to satisfy
-this criterion if, later in the video, one of the animals wakes in
-apparent terror of its proximity to the other. Similarly, to use a
-more pressing example, it would exclude perceptual evidence that has
-been taken out of context. For example, in 2018, a video circulated
-through WhatsApp that appeared to show a gang of “child lifters”
-kidnapping children off streets in India. The video camera captured a
-real perceptual event and therefore satisfied the first condition of
-perceptual knowledge. Further, because the video was free of
-dialogue, it also satisfied the second condition of perceptual
-knowledge. However, subsequently released perceptual evidence showed
-that the video “was part of a public service announcement” that
-sought to warn parents to be vigilant against child abductions.<A CLASS="sdendnoteanc" NAME="sdendnote3anc" HREF="#sdendnote3sym"><SUP>iii</SUP></A>
-Just as further perceptual activity sometimes reveals that a
-perceived “snake” is a rope, in this case, further perceptual
-activity revealed that the perceived “child kidnapping” was
-theater. Conversely, unlike false perceptual cognitions, genuine
-perceptual knowledge cannot be defeated by later perceptual evidence
-that itself meets the conditions of perceptual knowledge.</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">The
-fourth and final condition, </FONT><B>is
-definitive</B></FONT>, requires
-that the perceptual evidence be unambiguous. In the classical
-literature, prior to Vācaspatimiśra’s significant
-reinterpretation of </FONT><I>Nyāya
-Sūtra</I></FONT> 1.1.4 in
-response to technical challenges by Buddhist and Mīmāṃsā
-philosophers, the fourth criterion was intended to exclude sensory
-evidence that provides doubtful or uncertain support for perceptual
-judgment. As Vātsyāyana writes in his commentary on the sūtra, “A
-person looking at something at a distance is unable to determine
-precisely what it is, whether it is smoke or a cloud of dust. So to
-exclude from the ranks of genuine perception such unclear cognition
-which does arise from a connection between a sense faculty and an
-object, the sūtra-maker uses the qualifier “</FONT><B>definitive</B></FONT>”
-(Dasti and Phillips: 23).  </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">To
-support a claim through perception, users should select “perception”
-as a support means for the claim. They will then be prompted to enter
-a URL that links to the audio/video source in a text box labeled
-“</FONT><B>Enter link to A/V
-evidence</B></FONT>,” and, if
-applicable, to enter an appropriate timestamp for the linked A/V
-evidence in a text box labeled “Timestamp for audio/video, if
-applicable.” </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">After
-clicking “submit,” the user will be notified that the claim has
-been submitted. Upon returning to the debate topic page, users will
-see that the claim has been added. By clicking on the “details”
-link on the claim box, users will see that the platform has generated
-a hyperlink to the audio/video evidence and displays a timestamp if
-one has been entered. </FONT>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in">If
-they would like, users can now raise doubts about the claim by
-clicking the “</FONT><B>Flag
-this claim</B></FONT>” tab from
-the “Details” pop-up. The following flags can be raised against a
-claim supported by perception:</FONT></P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in"><BR><BR>
-</P>
-<TABLE WIDTH=623 CELLPADDING=7 CELLSPACING=0>
-  <COL WIDTH=201>
-  <COL WIDTH=393>
-  <TR VALIGN=TOP>
-    <TD WIDTH=201 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Flag</FONT></P>
-    </TD>
-    <TD WIDTH=393 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Explanation</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=201 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>No
-      Sense-Object Contact</FONT></P>
-    </TD>
-    <TD WIDTH=393 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The linked
-      content does not present sights and/or sounds directly of the
-      subject of the claim.</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=201 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Depends on
-      Words</FONT></P>
-    </TD>
-    <TD WIDTH=393 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Either the
-      linked content relies on words to support the claim, or the claim
-      depends on words or concepts that exceed the linked content. </FONT>
-      </P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=201 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Errant</FONT></P>
-    </TD>
-    <TD WIDTH=393 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The linked
-      content presents perceptual evidence that is illusory or false.</FONT></P>
-    </TD>
-  </TR>
-  <TR VALIGN=TOP>
-    <TD WIDTH=201 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>Ambiguous</FONT></P>
-    </TD>
-    <TD WIDTH=393 STYLE="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
-      <P ALIGN=JUSTIFY>The linked
-      content does not clearly and unambiguously support the claim. </FONT>
-      </P>
-    </TD>
-  </TR>
-</TABLE>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in"><BR><BR>
-</P>
-<P ALIGN=JUSTIFY STYLE="margin-bottom: 0.11in"><BR><BR>
-</P>
-<DIV ID="sdendnote1">
-  <P STYLE="margin-bottom: 0in; line-height: 100%; page-break-before: always">
-  <FONT SIZE=2><A CLASS="sdendnotesym" NAME="sdendnote1sym" HREF="#sdendnote1anc">i</A><SUP></SUP>
-  Matthew Dasti and Stephen Phillips (2017), <I>The Ny</I><I>ā</I></FONT><I>ya-s</I><I>ū</I></FONT><I>tra:
-  Selections with Early Commentaries</I>, Indianapolis, IN: Hackett
-  Publishing Company, p. 46. </FONT>
-  </P>
-</DIV>
-<DIV ID="sdendnote2">
-  <P STYLE="margin-bottom: 0in; line-height: 100%; page-break-before: always">
-  <FONT SIZE=2><A CLASS="sdendnotesym" NAME="sdendnote2sym" HREF="#sdendnote2anc">ii</A><SUP></SUP>
-  Susan Tawia&nbsp;(1992),&nbsp;“When is the Capacity for Sentience
-  Acquired During Human Fetal Development?”, <I>Journal of
-  Maternal-Fetal Medicine</I>,&nbsp;1:3,
-  153-165.&nbsp;DOI:&nbsp;<A HREF="https://doi.org/10.3109/14767059209161911">10.3109/14767059209161911</A>.</FONT></P>
-</DIV>
-<DIV ID="sdendnote3">
-  <P STYLE="margin-bottom: 0in; line-height: 100%; page-break-before: always">
-  <FONT SIZE=2><A CLASS="sdendnotesym" NAME="sdendnote3sym" HREF="#sdendnote3anc">iii</A><SUP></SUP>
-  Goel, Vindu, Raj, Suhasini, and Ravichandran, Priyadarshini, “How
-  WhatsApp Leads Mobs to Murder in India,” <I>New York Times</I>,
-  July 18, 2018.
-  https://www.nytimes.com/interactive/2018/07/18/technology/whatsapp-india-killings.html.
-  Accessed on September 3, 2019.</FONT></P>
-</DIV>
-</BODY>
-</HTML>
+            </td>
+            <td width=160 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Hostile
 
+            </td>
+            <td width=315 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The reason
+                    property establishes, by inference, that the target property is
+                    <i>not</i> present in the subject.
 
-</div>
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=105 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Rule &amp;
+                    Example:
+
+            </td>
+            <td width=160 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Too Narrow
+
+            </td>
+            <td width=315 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Either a) the
+                    similar subject is ambiguous, not known to exist, or non-existent;
+                    or b) the reason property is not present, or is not known to be
+                    present, with the target property in the similar subject; or c)
+                    the similar subject is the same as, or is contained within, the
+                    subject.
+
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=105 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    <br>
+
+            </td>
+            <td width=160 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Too
+                    Broad
+
+                <p>
+                    (Counterexample)
+
+            </td>
+            <td width=315 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The reason
+                    property is known to be present without the target property in a
+                    <b>dissimilar subject</b> (<i>vipakṣa</i>);
+                    i.e., a counterexample has the reason property but not the target
+                    property.
+
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=105 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    <br>
+
+            </td>
+            <td width=160 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Too
+                    Broad
+
+                <p>
+                    (Unestablished
+                    Universal)
+
+            </td>
+            <td width=315 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    There is no
+                    causal or conceptual reason to assume a universal association
+                    between the reason property and the target property; therefore,
+                    yet undiscovered counterexamples may exist.
+
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=105 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    <br>
+
+            </td>
+            <td width=160 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Contrived
+                    Universal
+
+            </td>
+            <td width=315 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The universal
+                    association between the reason property and the target property
+                    exists only because of the presence of an additional property
+                    (<i>upādhi</i>).
+            </td>
+        </tr>
+    </table>
+    <h3 id="Testimony">Testimony</h3></span>
+    <p>
+        Testimony (<i>śabda</i>) is a way of generating knowledge about something previously uncertain through the words of a <b>trustworthy authority</b> (<i>āpta</i>). As Vātsyāyana writes in his commentary on <i>Nyāya Sūtra</i> 1.1.7, “A trustworthy authority is someone who knows something directly, an instructor with the desire to communicate it faithfully as it is known” (Dasti and Phillips: 35).
+    <p>
+        The Sanskrit term <i>śabda</i> means “word.” When one comes to know something through testimony, words are the cause or instrument of this knowledge.
+    <p>
+        Yogācāra Buddhist and other philosophers contested <i>śabda</i>’s status as a source of knowledge, and preferred to limit <i>pramāṇa</i>s in <i>vāda</i> debates to sources such as inference and perception. However, Nyāya philosophers argued that to refuse to acknowledge testimony as a <i>pramāṇa</i> would contradict lived epistemic practice. In their everyday lives, even Buddhists who claim to reject <i>śabda</i> recognize the Buddha’s words and other textual and verbal sources as trustworthy authorities, they argued.
+    <p>
+        Buddhist philosophers such as Dignāga and Dharmakīrti responded by attempting to show that in day-to-day life, knowing through words does not practically differ from knowing through inference.
+    <p>
+        For the sake of coordinating open, truth-directed debate about contemporary controversies among users of diverse backgrounds and perspectives, this iteration of the Vāda Project platform includes testimony as a source of knowledge. However, it might theoretically be possible to translate all verbal and textual claims made by supposedly trustworthy authorities into the standard logical form of an inference.
+    <p>
+        Users are expected to select inference as a support means for claims that various speakers and advocates attempt to justify, not by relying on the direct knowledge of particular, supposedly trustworthy authorities, but on the basis of recurring reasons and examples. For example, critics of abortion commonly put forward the following inference:
+    <p>
+        Thesis: Abortion should be illegal.
+    <p>
+        Reason: Abortion is murder.
+    <p>
+        Rule &amp; Example: Whatever is murder should be illegal, as in the case of infanticide.
+    <p>
+        When speakers and advocates use reasons, general rules, and examples to support claims without appealing to the direct knowledge of particular textual or verbal sources, inference is the appropriate support means.
+    <p>
+        Even if an argument appeals to the supposedly direct knowledge of a particular textual or verbal source, users can sometimes translate this argument into the standard logical form of an inference without much distortion. For example, specific scientific testimony in the area of fetal neurology<a class="sdendnoteanc" name="sdendnote2anc" href="#sdendnote2sym"><sup>ii</sup></a>
+        might be translated into the following inference:
+    <p>
+        Thesis: A human fetus in the first trimester of pregnancy lacks capacity for sentience.
+    <p>
+        Reason: A human fetus in the first trimester of pregnancy lacks established and functional somatosensory pathways from the periphery to the primary somatosensory region of the cerebral cortex.
+    <p>
+        Rule and Example: Whatever lacks established and functional somatosensory pathways from the periphery to the primary somatosensory region of the cerebral cortex lacks capacity for sentience, as in the case of a human zygote.
+    <p>
+        However, to exclude <i>śabda</i> as a <i>pramāṇa</i> and insist that users be equipped to do such translation work would be both cumbersome and counterproductive to the purposes of this iteration of the Vāda Project platform.
+    <p>
+        First, extracting reason properties and examples from written and verbal sources that are composed in various rhetorical styles is typically an art and not a mechanical process. Because not all textual or verbal sources state specific reason properties or similar cases, translators usually need to create their own examples and reason properties either wholesale or from scattered textual elements. This sort of translation work can be time consuming and difficult; it is also unnecessary if testimony is made available, contingently, as a plausible support means for the Vāda Project platform.
+    <p>
+        Second, to insist that all textual and verbal testimony be translated into the standard logical form of an inference would become increasingly counterproductive as textual and verbal sources become more and more specialized. To be able to support technical claims whether through testimony or inference, users must have or be equipped to develop a degree of understanding in subject areas as varied, to use the topic of the inferences above as a case in point, as fetal neurology, privacy law, and criminal homicide codes. But to require that all users master these various technical subject areas to an extent that would enable them to translate specialized arguments into the standard logical form of an inference would limit the abilities of diverse users to debate controversial topics on the platform.
+    <p>
+        This first iteration of the Vāda Project platform therefore contingently includes <i>śabda</i> as a support means—to preclude testimony would impose unnecessary burdens and be counterproductive to the Vāda Project’s aim of coordinating open, truth-directed debate about contemporary controversies among users of diverse backgrounds and perspectives.
+    <p>
+        As stated above, testimony is a way of acquiring knowledge through the words of a <b>trustworthy authority</b> (<i>āpta</i>). Because well-intentioned actions can err, and because persons who faithfully desire to communicate what they know can misspeak or miswrite what they intend to convey, this iteration of the Vāda Project platform adopts the following definition of an <i>āpta</i>:
+    <p>
+        A trustworthy authority is a textual or verbal source that knows something directly, desires to communicate it faithfully as it is known, and fulfills this aim.
+    <p>
+        For Nyāya philosophers, a textual or verbal source’s status as an <i>āpta</i> depends on reality rather than on the subjective assessments of readers or hearers. It either is or is not the case that a source has direct knowledge about what is testified, faithfully intends to communicate what is known, and manages to do so, no matter what readers and hearers personally think. If, as a matter of fact, any condition is not met, then regardless of the authority’s credentials and social status, the authority is not trustworthy. Conversely, if all conditions are met, then the authority <i>is</i> trustworthy, regardless of the authority’s possible lack of credentials and social status or generally dodgy demeanor. As Vātsyāyana writes in his commentary on <i>Nyāya Sūtra</i>1.1.7, “To be trustworthy is to have direct knowledge of something. One who operates on this basis is a <b>trustworthy authority</b>. This criterion applies equally to sages, respected members of one’s own community, and those outside the fold” (Dasti and Phillips: 35).
+    <p>
+        To support a claim through testimony, users should select “testimony” as a support means for the claim. They will then be prompted to enter a URL that links to the textual or verbal source in a text box labeled “Enter Speech/Research Document,” and to transcribe, or copy and paste, relevant words from the source in a text box labeled “Relevant Excerpt. Include timestamps for audio/video, if applicable.” The transcription should be verbatim.
+    <p>
+        After clicking “submit,” the user will be notified that the claim has been submitted. Upon returning to the debate topic page, users will see that the claim has been added. By clicking on the “details” link on the claim box, users will see that the platform has generated a hyperlink to the textual or verbal source and displays the transcribed words.
+    <p>
+        If they would like, users can now raise doubts about the claim by clicking the “<b>Flag this claim</b>” tab from the “Details” pop-up. The following flags can be raised against a claim supported by testimony:
+    <table width=623 cellpadding=7 cellspacing=0>
+        <col width=201>
+        <col width=393>
+        <tr valign=TOP>
+            <td width=201 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Flag
+            </td>
+            <td width=393 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Explanation
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=201 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    No Direct Familiarity
+            </td>
+            <td width=393 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The source either lacks direct familiarity, or is not known to have direct familiarity, with the state of affairs that the claim is about.
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=201 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Errant or Uncertain Information
+            </td>
+            <td width=393 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The information the source conveys either is incorrect or is disputed by an equally authoritative source.
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=201 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Ambiguous
+            </td>
+            <td width=393 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The transcribed words do not unambiguously support the claim.
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=201 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Faithless
+            </td>
+            <td width=393 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The source does not faithfully intend to communicate knowledge, but is motivated, on this occasion, by another desire.
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=201 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Misstatement
+            </td>
+            <td width=393 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The transcribed words that support the claim are the result of a misstatement by the source, or are an inaccurate transcription of the source.
+            </td>
+        </tr>
+    </table>
+    <p>
+
+    <h2 id="Perception">Perception</h2></span>
+
+    <p>
+        Perception (<i>pratyakṣa</i>) is a way of generating knowledge about something previously uncertain through sensory evidence. As Akṣapāda Gautama writes in <i>Nyāya Sūtra</i> 1.1.4, “Perceptual knowledge arises from connection of a sense faculty and object, does not depend on language, is inerrant, and is definitive” (Dasti and Phillips: 20).
+    <p>
+        For the purpose of this digital platform, perceptual faculties are limited to the audio and visual senses. Because smelling, tasting, touching, and inner understanding (<i>manas</i>) lack corresponding objects in digital space, there can be no connection of these sense faculties with digital objects. Conversely, contemporary A/V technologies allow hearing and seeing to connect with audible and visible objects in the digital realm. To support claims about smells, tastes, touches and inner awareness, users should instead rely on testimony as a support means. To support claims through audio or visual evidence, users should enter a hyperlink directing users to this digital evidence, and include a timestamp, if appropriate.
+    <p>
+        The <i>Nyāya Sūtra</i>’s definition of perception stipulates necessary and sufficient conditions that sensory stimulations must satisfy to generate perceptual knowledge. For example, suppose a user wishes to use perception to support the claim, “Cats and dogs sometimes get along.”
+    <p>
+        The first condition, <b>sense-object contact</b>, requires that the linked content present sights and/or sounds directly of the subject of the claim—that is, “Cats and dogs.” If the linked content features images or sounds that are not of cats and dogs—for example, if the linked content features dogs but not cats, or cartoon renderings of cats and dogs—then the intended support would not satisfy the first criterion of perceptual evidence.
+    <p>
+        The second condition requires that perceptual evidence <b>does not depend on language</b>(<i>avyapadeśyam</i>). Nyāya philosophers variously interpreted this criterion. For the purposes of this iteration of the Vāda Project platform, the condition requires that all users, regardless of their linguistic backgrounds, would assent to the claim (assuming the proposition were faithfully translated) solely on the basis of the provided sensory evidence. Hindi, Urdu and English speakers could all presumably agree that cats and dogs sometimes get along on the basis of a video of a cat and dog closely resting together.
+    <p>
+        The second condition further helps to ensure that claims that users intend to support through perception minimize editorializing. The provided sensory evidence should provoke users’ assent to the claim regardless of, not only their linguistic backgrounds, but also their conceptual backgrounds. Reasonable persons can construe “getting along” in different ways. For example, a video of a cat and dog at play could fail to satisfy the second condition if, based on the provided sensory evidence, some users believe the video illustrates one animal abusing the other.
+    <p>
+        Finally, the second condition also helps to distinguish perception from testimony. Testimony uses words to produce knowledge about a state of affairs. In contrast, perception uses sense faculties to produce knowledge of perceptible objects in ways that do not depend on language. A trustworthy authority might inform us through digital oral testimony that their cat and dog get along. However, perception of this oral evidence may only establish that the person has uttered particular sounds, such as the utterance, “My cat and dog get along.”
+    <p>
+        The third condition, <b>is inerrant</b>, requires that the perceptual evidence not be false. In the classical literature, this criterion is said to exclude perceptual illusions. In his commentary on <i>Nyāya Sūtra</i>1.1.4, Vātsyāyana writes:
+    <p>
+        During the summer, the sun rays and the warmth radiating from the hot ground pulsate together and come into sensory connection with the visual organ of a person situated at a distance. In such a situation, the cognition “Water” arises for the observer owing to the connection between his sense organ and the object. So to exclude such false cognition from the definition of perception proper, the author of the sutras includes the qualifier “<b>inerrant</b>.” (Dasti and Phillips: 23).
+    <p>
+        In contemporary contexts, this third criterion would exclude “deep fakes,” in which A/V evidence is manipulated to establish something that is not the case. It would also exclude perceptual evidence that is sublated by further perceptual evidence. For example, a video of a cat and dog resting together that was submitted to support the claim that “Cats and dogs sometimes get along” would fail to satisfy this criterion if, later in the video, one of the animals wakes in apparent terror of its proximity to the other. Similarly, to use a more pressing example, it would exclude perceptual evidence that has been taken out of context. For example, in 2018, a video circulated through WhatsApp that appeared to show a gang of “child lifters” kidnapping children off streets in India. The video camera captured a real perceptual event and therefore satisfied the first condition of perceptual knowledge. Further, because the video was free of dialogue, it also satisfied the second condition of perceptual knowledge. However, subsequently released perceptual evidence showed that the video “was part of a public service announcement” that sought to warn parents to be vigilant against child abductions.<a class="sdendnoteanc" name="sdendnote3anc" href="#sdendnote3sym"><sup>iii</sup></a>
+        Just as further perceptual activity sometimes reveals that a perceived “snake” is a rope, in this case, further perceptual activity revealed that the perceived “child kidnapping” was theater. Conversely, unlike false perceptual cognitions, genuine perceptual knowledge cannot be defeated by later perceptual evidence that itself meets the conditions of perceptual knowledge.
+    <p>
+        The fourth and final condition, <b>is definitive</b>, requires that the perceptual evidence be unambiguous. In the classical literature, prior to Vācaspatimiśra’s significant reinterpretation of <i>Nyāya Sūtra</i> 1.1.4 in response to technical challenges by Buddhist and Mīmāṃsā philosophers, the fourth criterion was intended to exclude sensory evidence that provides doubtful or uncertain support for perceptual judgment. As Vātsyāyana writes in his commentary on the sūtra, “A person looking at something at a distance is unable to determine precisely what it is, whether it is smoke or a cloud of dust. So to exclude from the ranks of genuine perception such unclear cognition which does arise from a connection between a sense faculty and an object, the sūtra-maker uses the qualifier “<b>definitive</b>” (Dasti and Phillips: 23).
+    <p>
+        To support a claim through perception, users should select “perception” as a support means for the claim. They will then be prompted to enter a URL that links to the audio/video source in a text box labeled “<b>Enter link to A/V evidence</b>,” and, if applicable, to enter an appropriate timestamp for the linked A/V evidence in a text box labeled “Timestamp for audio/video, if applicable.”
+    <p>
+        After clicking “submit,” the user will be notified that the claim has been submitted. Upon returning to the debate topic page, users will see that the claim has been added. By clicking on the “details” link on the claim box, users will see that the platform has generated a hyperlink to the audio/video evidence and displays a timestamp if one has been entered.
+    <p>
+        If they would like, users can now raise doubts about the claim by clicking the “<b>Flag this claim</b>” tab from the “Details” pop-up. The following flags can be raised against a claim supported by perception:
+    <table width=623 cellpadding=7 cellspacing=0>
+        <col width=201>
+        <col width=393>
+        <tr valign=TOP>
+            <td width=201 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Flag
+            </td>
+            <td width=393 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Explanation
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=201 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    No Sense-Object Contact
+            </td>
+            <td width=393 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The linked content does not present sights and/or sounds directly of the subject of the claim.
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=201 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Depends on Words
+            </td>
+            <td width=393 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Either the linked content relies on words to support the claim, or the claim depends on words or concepts that exceed the linked content.
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=201 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Errant
+            </td>
+            <td width=393 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The linked content presents perceptual evidence that is illusory or false.
+            </td>
+        </tr>
+        <tr valign=TOP>
+            <td width=201 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    Ambiguous
+            </td>
+            <td width=393 style="border: 1px solid #00000a; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <p>
+                    The linked content does not clearly and unambiguously support the claim.
+            </td>
+        </tr>
+    </table>
+    <div id="sdendnote1">
+        <p>
+
+            <a class="sdendnotesym" name="sdendnote1sym" href="#sdendnote1anc">i</a><sup></sup>
+            Matthew Dasti and Stephen Phillips (2017), <i>The Ny</i><i>ā</i><i>ya-s</i><i>ū</i><i>tra: Selections with Early Commentaries</i>, Indianapolis, IN: Hackett Publishing Company, p. 46.
+
+    </div>
+    <div id="sdendnote2">
+        <p>
+
+            <a class="sdendnotesym" name="sdendnote2sym" href="#sdendnote2anc">ii</a><sup></sup>
+            Susan Tawia&nbsp;(1992),&nbsp;“When is the Capacity for Sentience Acquired During Human Fetal Development?”, <i>Journal of Maternal-Fetal Medicine</i>,&nbsp;1:3, 153-165.&nbsp;DOI:&nbsp;<a href="https://doi.org/10.3109/14767059209161911">10.3109/14767059209161911</a>.
+
+    </div>
+    <div id="sdendnote3">
+        <p>
+
+            <a class="sdendnotesym" name="sdendnote3sym" href="#sdendnote3anc">iii</a><sup></sup>
+            Goel, Vindu, Raj, Suhasini, and Ravichandran, Priyadarshini, “How WhatsApp Leads Mobs to Murder in India,” <i>New York Times</i>, July 18, 2018. https://www.nytimes.com/interactive/2018/07/18/technology/whatsapp-india-killings.html. Accessed on September 3, 2019.
+
+    </div>
+</main>
+<?php include 'includes/page_bottom.php'; ?>

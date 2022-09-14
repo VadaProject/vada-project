@@ -1,6 +1,5 @@
 
-<?php
-include 'config/db_connect.php';
+<?php include 'config/db_connect.php';
 
 $flagType = $union = $subject = $targetP = $topic = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $claimIDFlagged = $flaggingSupport = ' ';
 $supportMeans = mysqli_real_escape_string($conn, $_POST['union']);
@@ -8,7 +7,7 @@ $supportMeans = mysqli_real_escape_string($conn, $_POST['union']);
 $subject = mysqli_real_escape_string($conn, $_POST['subject']);
 $targetP = mysqli_real_escape_string($conn, $_POST['targetP']);
 $claimIDFlagged = mysqli_real_escape_string($conn, $_POST['claimIDFlaggedINSERT']);
-?><script> window.alert($claimIDFlagged); </script> <?php
+?><script> window.alert($claimIDFlagged); </script><?php
 
 // pulled from our details page. it is the claimID of the claim being flagged.
 
@@ -183,7 +182,7 @@ if ('flagging' == $FOS || 'true' == $flaggingSupport) {
     // $active = 0;
 // CHECKING TO SEE IF IT IS A ROOT CLAIM
         $root1 = 'SELECT DISTINCT claimID
-        from claimsdb, flagsdb 
+        from claimsdb, flagsdb
             WHERE claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM flagsdb) AND claimID = ?
         '; // SQL with parameters
         $stmt5 = $conn->prepare($root1);
@@ -224,7 +223,7 @@ if ('flagging' == $FOS || 'true' == $flaggingSupport) {
         }
 
         if (1 == $numhitsroot) {
-            $fix2 = 'UPDATE flagsdb 
+            $fix2 = 'UPDATE flagsdb
 SET isRootRival = 1
 WHERE flagID = ? '; // SQL with parameters
             $stmt10 = $conn->prepare($fix2);
@@ -234,7 +233,7 @@ WHERE flagID = ? '; // SQL with parameters
 
             $flagID = $flagID - 1;
 
-            $fix3 = 'UPDATE flagsdb 
+            $fix3 = 'UPDATE flagsdb
 SET isRootRival = 1
 WHERE flagID = ? '; // SQL with parameters
             $stmt11 = $conn->prepare($fix3);
@@ -251,7 +250,7 @@ WHERE flagID = ? '; // SQL with parameters
 
     $COS = 'support';
 
-    $sql_support3 = "INSERT INTO claimsdb(subject, targetP, supportMeans, supportID, example, URL, reason, thesisST, reasonST, ruleST, topic, active, vidtimestamp, citation, transcription, COS) 
+    $sql_support3 = "INSERT INTO claimsdb(subject, targetP, supportMeans, supportID, example, URL, reason, thesisST, reasonST, ruleST, topic, active, vidtimestamp, citation, transcription, COS)
 VALUES('{$subject}', '{$targetP}', '{$supportMeans}', '{$supportID}','{$example}','{$url}','{$reason}', '{$thesisST}','{$reasonST}','{$ruleST}', '{$topic}', '{$active}', '{$vidtimestamp}','{$citation}','{$transcription}', '{$COS}')";
 
     if (mysqli_query($conn, $sql_support3)) {
@@ -262,7 +261,7 @@ VALUES('{$subject}', '{$targetP}', '{$supportMeans}', '{$supportID}','{$example}
 
 // this below just updates our newly-flagged claim to be inactive.
     if ('supporting' !== $flagType) { // if we're adding a support it isn't inactivating anything
-        $update = 'UPDATE claimsdb 
+        $update = 'UPDATE claimsdb
 SET active = 0
 WHERE claimID = ? '; // SQL with parameters
         $stmt2 = $conn->prepare($update);

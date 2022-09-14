@@ -1,6 +1,19 @@
 /* FUNCTIONAL - Needed for the tree diagram */
 @import url("https://fonts.googleapis.com/css?family=Questrial");
 
+body {
+	margin: 0;
+	color: grey;
+	font-family: 'Questrial', sans-serif;
+	background: #e8e7df;
+	position: relative;
+	line-height: 1.8;
+}
+
+h1, h2, h3, h4 {
+	text-align: center;
+}
+
 .wrapper {
 	position: relative;
 	top: 0;
@@ -60,12 +73,6 @@
 	border: 2px solid rgba(26, 26, 26, 0);
 }
 
-body {
-	scrollbar-face-color: white;
-	scrollbar-track-color: transparent;
-}
-
-
 @media (min-width: 480px) {
 	:root {
 		font-size: calc(0.75rem + ((1vw - 4.8px) * 0.5556));
@@ -107,15 +114,6 @@ li:after {
 	position: absolute;
 }
 
-
-
-body {
-	color: grey;
-	font-family: 'Questrial', sans-serif;
-	background: #e8e7df;
-	position: relative;
-}
-
 #floatingRectangle {
 	z-index: 1;
 	position: fixed;
@@ -127,7 +125,6 @@ body {
 	color: black;
 	padding: 0px;
 }
-
 
 body .message {
 	position: absolute;
@@ -230,13 +227,13 @@ div.a {
 	word-wrap: break-word;
 }
 
-div.b {
-	text-align: left;
-	padding-top: 30px;
-	padding-right: 80px;
-	padding-bottom: 50px;
-	padding-left: 80px;
-	line-height: 1.8;
+.page-container {
+	max-width: 60em;
+	margin: 0 auto;
+	padding: 1rem;
+}
+.text-center {
+	text-align: center;
 }
 
 div.x {
@@ -255,13 +252,6 @@ div.x {
 	font-size: 16px;
 	font-family: 'Questrial', sans-serif;
 }
-
-
-
-
-
-
-
 
 /* The Modal (background) */
 .modal {
@@ -298,7 +288,6 @@ div.x {
 	width: 80%;
 }
 
-
 /* Modal Content */
 .modal-content-b {
 	text-align: left;
@@ -323,9 +312,6 @@ div.x {
 	text-decoration: none;
 	cursor: pointer;
 }
-
-
-
 
 /* Style the header with a grey background and some padding */
 .header {
@@ -374,21 +360,13 @@ div.x {
 	float: none;
 }
 
-
-
 footer {
 	text-align: center;
 	padding: 10px;
 	background-color: #3F3E67;
 	color: white;
-	position: fixed;
 	bottom: 0;
 	width: 100%;
-}
-
-
-body {
-	margin: 0;
 }
 
 .topnav {
@@ -419,12 +397,6 @@ body {
 .topnav a.active {
 	background-color: #585772;
 	color: white;
-}
-
-
-
-body {
-	font-family: Arial, Helvetica, sans-serif;
 }
 
 /* The Modal (background) */
@@ -475,9 +447,6 @@ body {
 	text-decoration: none;
 	cursor: pointer;
 }
-
-
-
 
 .union {}
 
