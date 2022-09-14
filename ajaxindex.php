@@ -1,9 +1,9 @@
 <?php include 'config/db_connect.php'; ?>
 <?php include 'includes/page_top.php'; ?>
 <?php
-  if (isset($_GET['topic'])) {
-      $topic = mysqli_real_escape_string($conn, $_GET['topic']);
-  } // end isset check?>
+if (isset($_GET['topic'])) {
+    $topic = mysqli_real_escape_string($conn, $_GET['topic']);
+} // end isset check?>
 
 <div class="wrapper">
     <ul>
@@ -35,7 +35,7 @@
 
         // changing the centers above is a fun change
         // this code finds ALL claims that are not flaggers (all root claims)
-       $root12 = 'SELECT DISTINCT claimID
+     $root12 = 'SELECT DISTINCT claimID
       from claimsdb, flagsdb
       WHERE claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM flagsdb) AND topic = ?
         '; // SQL with parameters
@@ -232,7 +232,7 @@ from flagsdb
                 echo '<h1>Thesis</h1>';
                 echo '<br>'.$d['subject'].' '.$d['targetP'].'<br>';
             }
-            echo $claimid.'<br>';
+            echo '#'.$claimid.'<br>';
 
             // add is subject person or object to inference div
 
@@ -1117,7 +1117,7 @@ function createModal($claimid)
                         //                html += "<div class='row'>";
                         //                   html += "<div class='col-md-6'></div>";
                         html += "<div class='col-md-6'><p style=\"color:black\">" + response.ts +
-                            "<BR> ClaimID: " + response.claimID + "</div><BR><p style=\"color:black\">";
+                            "<BR> ClaimID: #" + response.claimID + "</div><BR><p style=\"color:black\">";
 
                         if (response.supportMeans == 'NA') {
                             html += "<BR> Claim: " + response.subject + " " + response.targetP;
