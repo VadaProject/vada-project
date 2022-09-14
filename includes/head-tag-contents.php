@@ -19,3 +19,4 @@ switch ($_SERVER['SCRIPT_NAME']) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="assets/stylesheets/global.css">
 <script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
+<script src="assets/scripts/bootstrap.js" type="text/javascript"></script>
