@@ -18,17 +18,27 @@ include 'templates/header.php'; ?>
   <ul>
     <li class="noline">
       <BR><BR>
+          	
+           <center>	
+    <div style= "height:175px; width:800px; background: rgba(76, 78, 175, 0.3);">	
+    <br><img src="https://i.imgur.com/Zg0ijAM.png">	
+    <br> 	
+    <p style="color:black;">	
+A contested claim or support will have this symbol.	
+    <br>	
+    Rival claims will be yellow. </p> </div> <br>	
+    </center>	
+    	
+      <a class="brand-text" href="add.php?topic=<?php echo $topic?>">Add New Claim To This Topic</a><br><br>	
+      	
+      <h3>TOPIC: <?php echo $topic; ?> <BR> </h3>	
+      	
+    	
+    </center>	
+    <center>	
+    	
+      <?php 	
 
-      <a class="brand-text" href="add.php?topic=<?php echo $topic; ?>">Add New Claim To This Topic</a><br><br>
-      <h3>TOPIC: <?php echo $topic; ?> <BR> </h3>
-    </center>
-    <center>
-
-    <div id="floatingRectangle">
-    <img src="assets/img/alert.png">
-    <br> A contested claim or support will have this symbol.
-</div>
-      <?php
 
         // changing the centers above is a fun change
         // this code finds ALL claims that are not flaggers (all root claims)
@@ -312,7 +322,8 @@ function sortclaimsRIVAL($claimid)
     ?>
 
 
- <li> <label for="<?php echo $claimid; ?>"><?php
+<li> <label style="background:#FFFFE0" for="<?php echo $claimid; ?>">
+     <?php
     while ($d = $disp->fetch_assoc()) {
         echo "<img width='100' height='20' src='assets/img/rivals.png'> <br><br>";
 
