@@ -1,0 +1,8 @@
+{
+    "editor.formatOnSave": true,
+    "[php]": {
+        "editor.defaultFormatter": "mansoorkhan96.php-cs-fixer"
+    },
+    "php-cs-fixer.toolPath": "vendor/bin/php-cs-fixer",
+    "phpcs.executablePath": "vendor/bin/phpcs"
+}
