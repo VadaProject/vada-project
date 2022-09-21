@@ -9,5 +9,10 @@
         "allow-plugins": {
             "phpro/grumphp-shim": true
         }
+    },
+    "extra": {
+        "grumphp": {
+            "config-default-path": ".grumphp.yml.dist"
+        }
     }
 }
