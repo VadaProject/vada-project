@@ -1,5 +1,6 @@
 <?php include 'config/db_connect.php'; ?>
 <?php include 'includes/page_top.php'; ?>
+<!-- Hello world! <3 -->
 <?php
 $claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $grammar = $active = '';
 session_start();
