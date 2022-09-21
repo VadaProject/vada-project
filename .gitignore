@@ -1,5 +1,13 @@
-# Created by https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,php-cs-fixer,visualstudio,windows,linux
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,visualstudiocode,php-cs-fixer,visualstudio,windows,linux
+# Created by https://www.toptal.com/developers/gitignore/api/macos,linux,windows,php-cs-fixer,visualstudio,visualstudiocode,composer
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,linux,windows,php-cs-fixer,visualstudio,visualstudiocode,composer
+
+### Composer ###
+composer.phar
+/vendor/
+
+# Commit your application's lock file https://getcomposer.org/doc/01-basic-usage.md#commit-your-composer-lock-file-to-version-control
+# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
+# composer.lock
 
 ### Linux ###
 *~
@@ -23,7 +31,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -497,4 +506,4 @@ FodyWeavers.xsd
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
-# End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,php-cs-fixer,visualstudio,windows,linux
+# End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows,php-cs-fixer,visualstudio,visualstudiocode,composer
