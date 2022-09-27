@@ -20,3 +20,4 @@ switch ($_SERVER['SCRIPT_NAME']) {
 <link rel="stylesheet" href="assets/stylesheets/global.css">
 <script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>
 <script src="assets/scripts/bootstrap.js" type="text/javascript"></script>
+<link rel="icon" href="assets/img/icon.svg"/>
