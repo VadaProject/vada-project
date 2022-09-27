@@ -29,7 +29,7 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////// NUMBER ONE
     if (mysqli_query($conn, $sql_AP)) {
         // success
     } else {
-        echo 'query error: '.mysqli_error($conn);
+        echo 'query error: ' . mysqli_error($conn);
     }
 } // end of FOS
 // NOW WE'RE CHECKING TO SEE IF THE DETAILS PAGE IS ADDING A FLAG OR A SUPPORT
@@ -48,22 +48,22 @@ $publication = mysqli_real_escape_string($conn, $_POST['publication']);
 $date = mysqli_real_escape_string($conn, $_POST['date']);
 $citationURL = mysqli_real_escape_string($conn, $_POST['citationURL']);
 
-$citation = $author.', '.$title.', '.$publication.', '.$date.', '.$citationURL;
+$citation = $author . ', ' . $title . ', ' . $publication . ', ' . $date . ', ' . $citationURL;
 
 $vidtimestamp = mysqli_real_escape_string($conn, $_POST['vidtimestamp']);
 
 $grammar = mysqli_real_escape_string($conn, $_POST['grammar']);
 ?><script> window.alert($grammar); </script> <?php
 
- if ('person' == $grammar) {
-     $ruleST = 'Whomever '.$reason.' '.$targetP.', as in the case of '.$example;
- } else {
-     $ruleST = 'Whatever '.$reason.' '.$targetP.', as in the case of '.$example;
- }
+if ('person' == $grammar) {
+    $ruleST = 'Whomever ' . $reason . ' ' . $targetP . ', as in the case of ' . $example;
+} else {
+    $ruleST = 'Whatever ' . $reason . ' ' . $targetP . ', as in the case of ' . $example;
+}
 
-$thesisST = $subject.' '.$targetP;
+$thesisST = $subject . ' ' . $targetP;
 
-$reasonST = $subject.' '.$reason;
+$reasonST = $subject . ' ' . $reason;
 
 if ('Thesis Rival' == $flagType) {
     $active = '0';
@@ -119,7 +119,7 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////THREE
     if (mysqli_query($conn, $sql_support2)) {
         // success
     } else {
-        echo 'query error: '.mysqli_error($conn);
+        echo 'query error: ' . mysqli_error($conn);
     }
 
     $order_support1 = 'SELECT * from claimsdb ORDER BY claimID DESC LIMIT 1';
@@ -136,9 +136,9 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////THREE
 
     if (mysqli_query($conn, $sql5_support1)) {
         // success
-        //	header('Location: insert.php');
+        //  header('Location: insert.php');
     } else {
-        echo 'query error: '.mysqli_error($conn);
+        echo 'query error: ' . mysqli_error($conn);
     }
 }// end of addpage = yes
 // add page? no add page?
@@ -153,7 +153,7 @@ if ('flagging' == $FOS || 'true' == $flaggingSupport) {
     if (mysqli_query($conn, $sql1)) {
         // success
     } else {
-        echo 'query error: '.mysqli_error($conn);
+        echo 'query error: ' . mysqli_error($conn);
     }
 
     $order = 'SELECT * from claimsdb ORDER BY claimID DESC LIMIT 1';
@@ -170,9 +170,9 @@ if ('flagging' == $FOS || 'true' == $flaggingSupport) {
 
     if (mysqli_query($conn, $sql5)) {
         // success
-        //	header('Location: insert.php');
+        //  header('Location: insert.php');
     } else {
-        echo 'query error: '.mysqli_error($conn);
+        echo 'query error: ' . mysqli_error($conn);
     }
 
     // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// im working here
@@ -212,7 +212,7 @@ if ('flagging' == $FOS || 'true' == $flaggingSupport) {
             // success
             // header('Location: insert.php');
         } else {
-            echo 'query error: '.mysqli_error($conn);
+            echo 'query error: ' . mysqli_error($conn);
         }
 
         $fix = 'SELECT flagID from flagsdb ORDER BY flagID DESC LIMIT 1';
@@ -256,7 +256,7 @@ VALUES('{$subject}', '{$targetP}', '{$supportMeans}', '{$supportID}','{$example}
     if (mysqli_query($conn, $sql_support3)) {
         // success
     } else {
-        echo 'query error: '.mysqli_error($conn);
+        echo 'query error: ' . mysqli_error($conn);
     }
 
 // this below just updates our newly-flagged claim to be inactive.
@@ -284,9 +284,9 @@ WHERE claimID = ? '; // SQL with parameters
 
     if (mysqli_query($conn, $sql5_support)) {
         // success
-        //	header('Location: insert.php');
+        //  header('Location: insert.php');
     } else {
-        echo 'query error: '.mysqli_error($conn);
+        echo 'query error: ' . mysqli_error($conn);
     }
 }
 
@@ -313,7 +313,7 @@ if ('supporting' == $FOS) {
     if (mysqli_query($conn, $sql1)) {
         // success
     } else {
-        echo 'query error: '.mysqli_error($conn);
+        echo 'query error: ' . mysqli_error($conn);
     }
 
     $order_support_else = 'SELECT * from claimsdb ORDER BY claimID DESC LIMIT 1';
@@ -329,9 +329,9 @@ if ('supporting' == $FOS) {
 
     if (mysqli_query($conn, $sql5_support_else)) {
         // success
-        //	header('Location: insert.php');
+        //  header('Location: insert.php');
     } else {
-        echo 'query error: '.mysqli_error($conn);
+        echo 'query error: ' . mysqli_error($conn);
     }
 }// end of addpage check
 

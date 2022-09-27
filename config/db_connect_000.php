@@ -5,5 +5,5 @@ $conn = mysqli_connect('localhost', 'id13241729_leafy', 'VN#B2pRU7xb_/s=[', 'id1
 
 // check connection
 if (!$conn) {
-    echo 'Connection Error: '.mysqli_connect_error();
+    echo 'Connection Error: ' . mysqli_connect_error();
 }

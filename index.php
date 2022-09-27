@@ -13,7 +13,7 @@
     $rootresult12 = $stmt52->get_result(); // get the mysqli result
     $numhitsroot = mysqli_num_rows($rootresult12);
     while ($root2 = $rootresult12->fetch_assoc()) {
-    ?>
+        ?>
         <a href="ajaxindex.php?topic=<?php echo $root2['topic']; ?>"><button> <?php echo $root2['topic']; ?></button></a>
     <?php } ?>
     <p>Want to start a new topic?</p>

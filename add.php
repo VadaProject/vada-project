@@ -273,4 +273,5 @@ session_start();
         </script>
     </form>
 </main>
+
 <?php include 'includes/page_bottom.php'; ?>
