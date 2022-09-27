@@ -2,3 +2,6 @@ grumphp:
   tasks:
     phpmd: null
     phpcs: null
+  fixer:
+    enabled: true
+    fix_by_default: false
