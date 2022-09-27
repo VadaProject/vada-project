@@ -13,7 +13,7 @@ session_start();
         $("#submit").click(function() {
             window.alert("Submitted!");
             window.location.assign(
-                "http://localhost/directory/index.php");
+                "index.php");
             $.post($("#myForm").attr("action"),
                 $("#myForm :input").serializeArray(),
                 function(info) {
@@ -35,12 +35,10 @@ session_start();
     <form method="POST" id="myForm" action="insert.php">
         <?php if (isset($_GET['topic'])) { ?>
         <label>Topic</label><br>
-        <input type="text" name="topic" value="<?php echo $_GET['topic']; ?>"
-            readonly><br>
+        <input type="text" name="topic" value="<?php echo $_GET['topic']; ?>" readonly><br>
         <?php } else { ?>
         <label>Topic</label><br>
-        <input type="text" name="topic"
-            value="<?php echo htmlspecialchars($topic); ?>"><br>
+        <input type="text" name="topic" value="<?php echo htmlspecialchars($topic); ?>"><br>
         <?php } ?>
         <p style="color:#000000" ;>
             <label><u>Subject</u>
@@ -53,8 +51,7 @@ session_start();
             <u>
                 <p style="color:grey">Thesis Statement
             </u><br>
-            <span class="jsValue3">subject</span> <span
-                class="jsValue4">target</span>
+            <span class="jsValue3">subject</span> <span class="jsValue4">target</span>
         </p>
         </p>
         <p style="color:black"> Is the subject an object or a person?
@@ -85,8 +82,7 @@ session_start();
                     value="<?php echo htmlspecialchars($reason); ?>">Enter Reason Property</textarea>
             </p>
             <u> Reason Statement </u><br>
-            <span class="jsValue5">subject</span> <span
-                class="jsValue6">reason</span>
+            <span class="jsValue5">subject</span> <span class="jsValue6">reason</span>
             <br><br>
             <u> Rule and Example Statement </u><br>
             Whatever/Whomever
@@ -96,15 +92,12 @@ session_start();
             as in the case of:
         </div>
         <br>
-        <textarea id="example" name="example"
-            value="<?php echo htmlspecialchars($example); ?>">Enter Example</textarea>
+        <textarea id="example" name="example" value="<?php echo htmlspecialchars($example); ?>">Enter Example</textarea>
         <textarea id="transcription" name="transcription"
             value="<?php echo htmlspecialchars($transcription); ?>">Transcription </textarea><br>
-        <textarea id="citation" name="citation"
-            value="<?php echo htmlspecialchars($citation); ?>">
+        <textarea id="citation" name="citation" value="<?php echo htmlspecialchars($citation); ?>">
             Please include: Author, title, publication, and date of publication.</textarea><br>
-        <textarea id="url" name="url"
-            value="<?php echo htmlspecialchars($url); ?>">Enter URL</textarea><br>
+        <textarea id="url" name="url" value="<?php echo htmlspecialchars($url); ?>">Enter URL</textarea><br>
         <textarea id="vidtimestamp" name="vidtimestamp"
             value="<?php echo htmlspecialchars($vidtimestamp); ?>">Enter timestamp of specified material</textarea>
         <script>
@@ -202,8 +195,7 @@ session_start();
         union.onchange();
         </script>
         <br>
-        <button onclick="setTimeout(myFunction, 8000)"
-            id="submit">Submit</button>
+        <button onclick="setTimeout(myFunction, 8000)" id="submit">Submit</button>
         <script>
         // BELOW IS WHERE SUBMIT BUTTON DISABLED HAPPENS
         jQuery("#submit").prop('disabled', true);
