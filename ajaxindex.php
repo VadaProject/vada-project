@@ -10,20 +10,16 @@ if (isset($_GET['topic'])) {
         <li class="noline">
             <BR><BR>
 
-            <center>
-                <div style="height:175px; width:800px; background: rgba(76, 78, 175, 0.3);">
-                    <br><img src="https://i.imgur.com/Zg0ijAM.png">
-                    <br>
-                    <p style="color:black;">
-                        A contested claim or support will have this symbol.
-                        <br>
-                        Rival claims will be yellow.
-                    </p>
-                </div> <br>
-            </center>
-
-            <a class="brand-text" href="add.php?topic=<?php echo $topic?>">Add New Claim To This Topic</a><br><br>
-
+            <span>
+                <div class="notification">
+                    <img alt="Contested claim icon"
+                        src="assets/img/alert.png">
+                    <p>A contested claim or support will have this symbol.<br>Rival
+                        claims will be yellow.</p>
+                </div>
+                <p><a href="add.php?topic=<?php echo $topic ?>">Add New Claim To
+                        This Topic</a></p>
+            </span>
             <h3>TOPIC: <?php echo $topic; ?> <BR> </h3>
 
 
