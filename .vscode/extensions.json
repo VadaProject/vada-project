@@ -4,6 +4,5 @@
                 "xdebug.php-debug",
                 "bmewburn.vscode-intelephense-client",
                 "shevaua.phpcs",
-                "rifi2k.format-html-in-php",
         ]
 }
