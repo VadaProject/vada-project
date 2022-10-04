@@ -1,4 +1,3 @@
-<?php include 'config/db_connect.php'; ?>
 <?php include 'includes/page_top.php'; ?>
 <main class="page-container">
     <h2>About</h2>

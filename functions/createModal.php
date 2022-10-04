@@ -2,14 +2,15 @@
 
 function createModal($claimid)
 {
-    require __DIR__ . '/../config/db_connect.php';
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
 
     // Check if user has requested to get detail
     if (isset($_POST['get_data'])) {
         // Get the ID of customer user has selected
         $id = $_POST['id'];
 
-        require __DIR__ . '/../config/db_connect.php';
+        require_once __DIR__ . '/../config/db_connect.php';
 
         // Getting specific customer's detail
         $sql = "SELECT * FROM claimsdb WHERE claimID='{$id}'";
@@ -24,7 +25,6 @@ function createModal($claimid)
     }
 
     // Connecting with database and executing query
-    include 'config/db_connect.php';
     $sql = "SELECT * FROM claimsdb WHERE claimID = '{$claimid}'";
     $result = mysqli_query($conn, $sql);
     ?>

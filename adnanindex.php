@@ -1,9 +1,10 @@
 <?php
+require_once 'config/db_connect.php';
 // Check if user has requested to get detail
 if (isset($_POST['get_data'])) {
     // Get the ID of customer user has selected
     $id = $_POST['id'];
-    include 'config/db_connect.php';
+    $conn = db_connect();
     // Getting specific customer's detail
     $sql = "SELECT * FROM claimsdb WHERE claimID='{$id}'";
     $result = mysqli_query($conn, $sql);
@@ -18,7 +19,7 @@ if (isset($_POST['get_data'])) {
 
 <?php
 // Connecting with database and executing query
-include 'config/db_connect.php';
+$conn = db_connect();
 $sql = 'SELECT * FROM claimsdb';
 $result = mysqli_query($conn, $sql);
 ?>

@@ -1,10 +1,7 @@
-<?php include 'config/db_connect.php'; ?>
 <?php include 'includes/page_top.php'; ?>
 <?php
-$claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST =
-$ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID =
-$example = $URL = $rd = $reason = $flagType = $flagType = $flagTypeT = $flagTypeR = $flagTypeE =
-$flagURL = $flagSource = $flagID = $inferenceIDFlagger = $grammar = $active = '';
+$claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $grammar = $active =
+    '';
 session_start();
 ?>
 <main class="page-container text-center">
@@ -35,18 +32,26 @@ session_start();
     <form method="POST" id="myForm" action="insert.php">
         <?php if (isset($_GET['topic'])) { ?>
         <label>Topic</label><br>
-        <input type="text" name="topic" value="<?php echo $_GET['topic']; ?>" readonly><br>
+        <input type="text" name="topic" value="<?php echo $_GET[
+            'topic'
+        ]; ?>" readonly><br>
         <?php } else { ?>
         <label>Topic</label><br>
-        <input type="text" name="topic" value="<?php echo htmlspecialchars($topic); ?>"><br>
+        <input type="text" name="topic" value="<?php echo htmlspecialchars(
+            $topic
+        ); ?>"><br>
         <?php } ?>
         <p style="color:#000000" ;>
             <label><u>Subject</u>
                 <u>Target Property </u></label><br>
             <textarea class="subject" type="text" id="subject" name="subject"
-                value="<?php echo htmlspecialchars($subject); ?>">Enter Subject</textarea>
+                value="<?php echo htmlspecialchars(
+                    $subject
+                ); ?>">Enter Subject</textarea>
             <textarea class="targetP" type="text" id="targetP" name="targetP"
-                value="<?php echo htmlspecialchars($targetP); ?>">Enter Target Property</textarea>
+                value="<?php echo htmlspecialchars(
+                    $targetP
+                ); ?>">Enter Target Property</textarea>
             <br>
             <u>
                 <p style="color:grey">Thesis Statement
@@ -79,7 +84,9 @@ session_start();
             </div>
             <p style="color:black"><u>Reason</u><br>
                 <textarea class="reason" type="text" id="reason" name="reason"
-                    value="<?php echo htmlspecialchars($reason); ?>">Enter Reason Property</textarea>
+                    value="<?php echo htmlspecialchars(
+                        $reason
+                    ); ?>">Enter Reason Property</textarea>
             </p>
             <u> Reason Statement </u><br>
             <span class="jsValue5">subject</span> <span class="jsValue6">reason</span>
@@ -92,14 +99,24 @@ session_start();
             as in the case of:
         </div>
         <br>
-        <textarea id="example" name="example" value="<?php echo htmlspecialchars($example); ?>">Enter Example</textarea>
+        <textarea id="example" name="example" value="<?php echo htmlspecialchars(
+            $example
+        ); ?>">Enter Example</textarea>
         <textarea id="transcription" name="transcription"
-            value="<?php echo htmlspecialchars($transcription); ?>">Transcription </textarea><br>
-        <textarea id="citation" name="citation" value="<?php echo htmlspecialchars($citation); ?>">
+            value="<?php echo htmlspecialchars(
+                $transcription
+            ); ?>">Transcription </textarea><br>
+        <textarea id="citation" name="citation" value="<?php echo htmlspecialchars(
+            $citation
+        ); ?>">
             Please include: Author, title, publication, and date of publication.</textarea><br>
-        <textarea id="url" name="url" value="<?php echo htmlspecialchars($url); ?>">Enter URL</textarea><br>
+        <textarea id="url" name="url" value="<?php echo htmlspecialchars(
+            $url
+        ); ?>">Enter URL</textarea><br>
         <textarea id="vidtimestamp" name="vidtimestamp"
-            value="<?php echo htmlspecialchars($vidtimestamp); ?>">Enter timestamp of specified material</textarea>
+            value="<?php echo htmlspecialchars(
+                $vidtimestamp
+            ); ?>">Enter timestamp of specified material</textarea>
         <script>
         // This is for reason
         var $jsReason = document.querySelector('.reason');
