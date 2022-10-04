@@ -1,5 +1,6 @@
 
-<?php include 'config/db_connect.php';
+<?php require_once 'config/db_connect.php';
+$conn = db_connect();
 
 $flagType = $union = $subject = $targetP = $topic = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $claimIDFlagged = $flaggingSupport = ' ';
 $supportMeans = mysqli_real_escape_string($conn, $_POST['union']);

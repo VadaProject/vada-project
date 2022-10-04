@@ -2,8 +2,8 @@
 
 function noSupports($claimid)
 {
-    require __DIR__ . '/../config/db_connect.php';
-
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
     $result = 'no active supports';
 
     $act2 = "SELECT DISTINCT claimIDFlagger
@@ -50,8 +50,8 @@ function noSupports($claimid)
 
 function noSupportsRival($claimidA)
 {
-    require __DIR__ . '/../config/db_connect.php';
-
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
     $result = 'no active supports';
 
     $act2 = "SELECT DISTINCT claimIDFlagger

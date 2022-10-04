@@ -1,7 +1,8 @@
 <?php
 function doesThesisFlag($claimid)
     {
-    require __DIR__ . '/../config/db_connect.php';
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
     $answer = 'false';
     $act2 = "SELECT DISTINCT claimIDFlagger
     from flagsdb
@@ -31,7 +32,8 @@ function doesThesisFlag($claimid)
                 }
 function doesThesisFlagRival($claimid)
 {
-                    include 'config/db_connect.php';
+                    require_once 'config/db_connect.php';
+                    $conn = db_connect();
                     $answer = 'false';
 
                     $act2 = "SELECT DISTINCT claimIDFlagger

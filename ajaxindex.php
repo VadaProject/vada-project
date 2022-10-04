@@ -1,5 +1,6 @@
-<?php include 'includes/page_top.php'; ?>
-<?php require 'config/db_connect.php';
+<?php require_once 'config/db_connect.php'; ?>
+<?php require 'includes/page_top.php'; ?>
+<?php
 require 'functions/sortClaims.php';
 require 'functions/doesThesisFlag.php';
 require 'functions/noSupports.php';
@@ -7,6 +8,8 @@ require 'functions/restoreActivity.php';
 require 'functions/createModal.php';
 require 'functions/haveRival.php';
 
+
+$conn = db_connect();
 if (isset($_GET['topic'])) {
     $topic = mysqli_real_escape_string($conn, $_GET['topic']);
 } // end isset check?>

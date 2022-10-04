@@ -2,7 +2,8 @@
 
 function restoreActivity($claimid)
 {
-    require __DIR__ . '/../config/db_connect.php';
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
 
     // ////////////////////////////////////////////////////// grabs supports for initial claim NUMBER ONE ON DIAGRAM, RED
     $act2 = "SELECT DISTINCT claimIDFlagger
@@ -319,7 +320,8 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
 }
 function restoreActivityRIVAL($claimid)
 {
-    require __DIR__ . '/../config/db_connect.php';
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
 
     // below finds the flagger and continues the recursion by pushing it back to normal restore activity function
     // IN ADDITION below is to check active status of flagging claims OF INITIAL RIVAL

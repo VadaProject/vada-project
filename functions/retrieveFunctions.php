@@ -1,7 +1,8 @@
 <?php
 function retrieveTargetP($claimIDFlaggedINSERT)
 {
-    require __DIR__ . '/../config/db_connect.php';
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
     $act = 'SELECT * FROM claimsdb WHERE claimID = ?'; // SQL with parameters
     $s = $conn->prepare($act);
     $s->bind_param('i', $claimIDFlaggedINSERT);
@@ -13,7 +14,8 @@ function retrieveTargetP($claimIDFlaggedINSERT)
 }
 function retrieveSubject($claimIDFlaggedINSERT)
 {
-    require __DIR__ . '/../config/db_connect.php';
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
     $act = 'SELECT * FROM claimsdb WHERE claimID = ?'; // SQL with parameters
     $s = $conn->prepare($act);
     $s->bind_param('i', $claimIDFlaggedINSERT);
@@ -25,7 +27,8 @@ function retrieveSubject($claimIDFlaggedINSERT)
 }
 function retrieveCOS($claimIDFlaggedINSERT)
 {
-    require __DIR__ . '/../config/db_connect.php';
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
     $act = 'SELECT * FROM claimsdb WHERE claimID = ?'; // SQL with parameters
     $s = $conn->prepare($act);
     $s->bind_param('i', $claimIDFlaggedINSERT);
