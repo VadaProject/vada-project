@@ -251,10 +251,6 @@ WHERE flagType LIKE 'Thesis Rival'
                 </div><!-- /.modal-dialog -->
 
             </div><!-- /.modal -->
-
-                    <?php
-                } // end of function
-                ?>
 </div>
 <?php include 'includes/page_bottom.php'; ?>
 <?php mysqli_close($conn); ?>
