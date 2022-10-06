@@ -1,10 +1,11 @@
-<?php include 'config/db_connect.php'; ?>
 <?php include 'includes/page_top.php'; ?>
-<?php
+<?php require 'config/db_connect.php';
 require 'functions/sortClaims.php';
 require 'functions/doesThesisFlag.php';
 require 'functions/noSupports.php';
 require 'functions/restoreActivity.php';
+require 'functions/createModal.php';
+require 'functions/haveRival.php';
 
 if (isset($_GET['topic'])) {
     $topic = mysqli_real_escape_string($conn, $_GET['topic']);
@@ -153,76 +154,7 @@ WHERE flagType LIKE 'Thesis Rival'
                         } // end of while
                     } // end of if numhits
                 } // end of while
-
-// duplicate
-
-
-// yep just gonna write this here i guess
-                function haveRival($claimid)
-                {
-                    include 'config/db_connect.php';
-                    $answer = 'false';
-
-                    $act2 = "SELECT DISTINCT claimIDFlagger
-  from flagsdb
-  WHERE claimIDFlagged = ? AND flagType LIKE 'Thesis Rival'
-  ";
-                    $s2 = $conn->prepare($act2);
-                    $s2->bind_param('i', $claimid);
-                    $s2->execute();
-                    $activity2 = $s2->get_result();
-                    $nh2 = mysqli_num_rows($activity2);
-                    while ($supports = $activity2->fetch_assoc()) {
-                        $answer = 'true';
-                    } // end of while
-
-                    return $answer;
-                } // end of haverival
-
-
-
-                function createModal($claimid)
-                {
-                    include 'config/db_connect.php';
-
-                    // Check if user has requested to get detail
-                    if (isset($_POST['get_data'])) {
-                        // Get the ID of customer user has selected
-                        $id = $_POST['id'];
-
-                        include 'config/db_connect.php';
-
-                        // Getting specific customer's detail
-                        $sql = "SELECT * FROM claimsdb WHERE claimID='{$id}'";
-                        $result = mysqli_query($conn, $sql);
-                        $row = mysqli_fetch_object($result);
-
-                        // Important to echo the record in JSON format
-                        echo json_encode($row);
-
-                        // Important to stop further executing the script on AJAX by following line
-                        exit;
-                    }
-
-                    // Connecting with database and executing query
-                    include 'config/db_connect.php';
-                    $sql = "SELECT * FROM claimsdb WHERE claimID = '{$claimid}'";
-                    $result = mysqli_query($conn, $sql);
-                    ?>
-
-            <!-- Creating table heading -->
-            <div class="container">
-
-                <!-- Display dynamic records from database -->
-                                <?php while ($row = mysqli_fetch_object($result)) { ?>
-                <button class="btn btn-primary" onclick="loadData(this.getAttribute('data-id'));"
-                    data-id="<?php echo $row->claimID; ?>">
-                    Details
-                </button>
-                                <?php }} ?>
-
-            </div>
-
+                ?>
             <script>
             function loadData(id) {
                 console.log(id);
