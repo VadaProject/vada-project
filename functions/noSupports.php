@@ -1,5 +1,7 @@
 <?php
-function noSupports($claimid){
+
+function noSupports($claimid)
+{
     require __DIR__ . '/../config/db_connect.php';
 
     $result = 'no active supports';
@@ -43,9 +45,10 @@ WHERE claimID = ?
         $upd = $conn->prepare($act);
         $upd->bind_param('i', $claimid);
         $upd->execute();
-    }// end of if statement
+    } // end of if statement
 }
-function noSupportsRival ($claimidA) {
+function noSupportsRival($claimidA)
+{
     require __DIR__ . '/../config/db_connect.php';
 
     $result = 'no active supports';
@@ -53,31 +56,27 @@ function noSupportsRival ($claimidA) {
     from flagsdb
     WHERE claimIDFlagged = ? and flagType LIKE 'supporting'";
     $snew = $conn->prepare($new);
-                        $snew->bind_param('i', $supports['claimIDFlagger']);
-                        $snew->execute();
-                        $activitynew = $snew->get_result();
-                        $everyInactiveSupport = 'true';
+    $snew->bind_param('i', $supports['claimIDFlagger']);
+    $snew->execute();
+    $activitynew = $snew->get_result();
+    $everyInactiveSupport = 'true';
 
-                        while ($SCHECK = $activitynew->fetch_assoc()) {
-                            // echo '<script type="text/javascript">alert("active: ' . $SCHECK['active'] . '");</script>';
+    while ($SCHECK = $activitynew->fetch_assoc()) {
+        if (1 == $SCHECK['active']) {
+            $result = 'There is an active';
+            return 'true';
+            // can you just break here?
+        }
+    }
+    // }
 
-                            if (1 == $SCHECK['active']) {
-                                $result = 'There is an active';
+    // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
 
-                                return 'true';
-                                // can you just break here?
-                            }
-                        } // end of second while loop
-                    } // end of first while loop
+    // rivalB : needs to be active AND it doesn't have a too early / too late AND needs at least one support itself
 
-                    // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
+    if ('There is an active' != $result) {
+        // echo '<script type="text/javascript">alert("ITS HAPPENING: ' . $result . '");</script>';
 
-                    // rivalB : needs to be active AND it doesn't have a too early / too late AND needs at least one support itself
-
-                    if ('There is an active' != $result) {
-                        // echo '<script type="text/javascript">alert("ITS HAPPENING: ' . $result . '");</script>';
-
-                        return 'false';
-                    }// end of if statement
-} // end of function
-?>
+        return 'false';
+    }
+}
