@@ -1,5 +1,9 @@
 <?php
 
+/*
+This function checks to see if an individual claim has any ACTIVE supports or not.
+*/
+
 function noSupports($claimid)
 {
     require __DIR__ . '/../config/db_connect.php';
@@ -47,6 +51,11 @@ WHERE claimID = ?
         $upd->execute();
     } // end of if statement
 }
+
+/*
+This function checks to see if an individual claim has any active supports, but for rivals.
+*/
+
 function noSupportsRival($claimidA)
 {
     require __DIR__ . '/../config/db_connect.php';

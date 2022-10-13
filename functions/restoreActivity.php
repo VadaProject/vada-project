@@ -1,5 +1,10 @@
 <?php
 
+/*
+This function checks the status of each claim individually.
+It observes surrounding relationships to determine if the claim is contested or not.
+*/
+
 function restoreActivity($claimid)
 {
     require __DIR__ . '/../config/db_connect.php';
@@ -317,6 +322,13 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
         // above is for rivals
     } // end while loop
 }
+
+/*
+This function has the same functionality as restoreActivity, but for rivals.
+The key difference is it must account for the “mutualistic flagging” relationship that is unique to rivals (that is, they flag each other equally).
+This function determines when one of the rival claims may reach an uncontested state (as the typical state for a rivals pair is equal contestation).
+*/
+
 function restoreActivityRIVAL($claimid)
 {
     require __DIR__ . '/../config/db_connect.php';
