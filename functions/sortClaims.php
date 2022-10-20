@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/db_connect.php';
 // starts two chains of recursion. one with normal root claims.
 // the other with root rivals. the rivals, of course, are put into the rival recursion.
 
@@ -9,7 +10,7 @@ Each recursion is a series of tracking relationships between the claims (found i
 
 function sortclaims($claimid)
 {
-    require __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
 
     // THIS IS SIMPLY FOR DISPLAY OF SUBJECT/TARGETP BELOW
 
@@ -59,27 +60,27 @@ function sortclaims($claimid)
         // ECHO "END 2";
         // for the CORRESPONDING claimid - check for flaggers that aren't rival .. sort claim those.
     } else {
-        ?>
+         ?>
         <li> <label for="<?php echo $claimid; ?>"><?php while (
-            $d = $disp->fetch_assoc()
-            ) {
-                if ('supporting' == $resultFlagType) {
-                    echo "<img height = '45' width = '32' src='assets/img/support.png'> <br>";
-                    echo $d['supportMeans'] . '<br>';
-                    if ('Inference' == $d['supportMeans']) {
-                        echo 'Reason: ' .
-                        $d['subject'] .
-                        ' ' .
-                        $d['reason'] .
-                        ', as in the case of ' .
-                        $d['example'] .
-                        '<BR>';
-                    }
+    $d = $disp->fetch_assoc()
+) {
+    if ('supporting' == $resultFlagType) {
+        echo "<img height = '45' width = '32' src='assets/img/support.png'> <br>";
+        echo $d['supportMeans'] . '<br>';
+        if ('Inference' == $d['supportMeans']) {
+            echo 'Reason: ' .
+                $d['subject'] .
+                ' ' .
+                $d['reason'] .
+                ', as in the case of ' .
+                $d['example'] .
+                '<BR>';
+        }
 
-                    if (
-                        'Testimony' == $d['supportMeans'] ||
-                        'Perception' == $d['supportMeans']
-                        ) {
+        if (
+            'Testimony' == $d['supportMeans'] ||
+            'Perception' == $d['supportMeans']
+        ) {
             echo 'Citation: ' . $d['citation'] . '<BR>';
         }
     } elseif ('' == $resultFlagType) {
@@ -109,30 +110,30 @@ function sortclaims($claimid)
     createModal($claimid);
     // ------------------------- ABOVE is modal code
 }
-// end of while statement
-?> </label><input id="<?php echo $claimid; ?>" type="checkbox">
+        // end of while statement
+        ?> </label><input id="<?php echo $claimid; ?>" type="checkbox">
             <ul> <span class="more">&hellip;</span>
 
             <?php
-                        // below is to continue recursion
-                        $sql1 = "SELECT DISTINCT claimIDFlagger
+            // below is to continue recursion
+            $sql1 = "SELECT DISTINCT claimIDFlagger
   from claimsdb, flagsdb
         WHERE ? = claimIDFlagged AND flagType NOT LIKE 'Thesis Rival'"; // SQL with parameters
-                        $stmt1 = $conn->prepare($sql1);
-                        $stmt1->bind_param('i', $claimid);
-                        $stmt1->execute();
-                        $result1 = $stmt1->get_result(); // get the mysqli result
-                        $numhits1 = mysqli_num_rows($result1);
-                        // IF A CLAIM IS FLAGGED IT obtains flaggers that aren't rivals
-                        // if its a thesis rival it will show up in the query above
-                        // this is when the claim is the flagged. this is what gets pushed in the recursion.
+            $stmt1 = $conn->prepare($sql1);
+            $stmt1->bind_param('i', $claimid);
+            $stmt1->execute();
+            $result1 = $stmt1->get_result(); // get the mysqli result
+            $numhits1 = mysqli_num_rows($result1);
+            // IF A CLAIM IS FLAGGED IT obtains flaggers that aren't rivals
+            // if its a thesis rival it will show up in the query above
+            // this is when the claim is the flagged. this is what gets pushed in the recursion.
 
-                        while ($user = $result1->fetch_assoc()) {
-                            if (0 == $numhits1) {
-                            } else {
-                                sortclaims($user['claimIDFlagger']);
-                            }
-                        }
+            while ($user = $result1->fetch_assoc()) {
+                if (0 == $numhits1) {
+                } else {
+                    sortclaims($user['claimIDFlagger']);
+                }
+            }
 
         // end while loop
         // recursion finished here
@@ -148,7 +149,7 @@ It breaks an infinite loop that would otherwise occur if a rival was handled rec
 
 function sortclaimsRIVAL($claimid)
 {
-    require __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
 
     // BELOW IS SIMPLY FOR DISPLAY OF SUBJECT/TARGETP
     // these aren't passed through the function so they must be obtained every interation
@@ -221,8 +222,8 @@ where ? = claimIDFlagged AND flagType NOT LIKE 'Thesis Rival'
                     } else {
                         sortclaims($user['claimIDFlagger']);
                     }
-                }// it's pushed - now the function is finished!
-    // end while loop
+                }// end while loop
+    // it's pushed - now the function is finished!
     ?>
         </ul><?php
 } // end of rivalfunction

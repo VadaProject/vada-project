@@ -1,4 +1,4 @@
-<?php include 'config/db_connect.php'; ?>
+<?php require_once 'config/db_connect.php'; ?>
 <?php include 'includes/page_top.php'; ?>
 <main class="page-container text-center">
 <?php

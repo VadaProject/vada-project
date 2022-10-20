@@ -6,7 +6,8 @@ This function checks to see if there are any thesis flags against the claim.
 
 function doesThesisFlag($claimid)
     {
-    require __DIR__ . '/../config/db_connect.php';
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
     $answer = 'false';
     $act2 = "SELECT DISTINCT claimIDFlagger
     from flagsdb
@@ -42,7 +43,8 @@ This function checks to see if there are any thesis flags against the claim that
 
 function doesThesisFlagRival($claimid)
 {
-                    include 'config/db_connect.php';
+                    require_once 'config/db_connect.php';
+                    $conn = db_connect();
                     $answer = 'false';
 
                     $act2 = "SELECT DISTINCT claimIDFlagger

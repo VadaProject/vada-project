@@ -6,13 +6,13 @@ This function checks to see if an individual claim has any ACTIVE supports or no
 
 function noSupports($claimid)
 {
-    require __DIR__ . '/../config/db_connect.php';
-
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
     $result = 'no active supports';
 
     $act2 = "SELECT DISTINCT claimIDFlagger
-    from flagsdb
-    WHERE claimIDFlagged = ? and flagType LIKE 'supporting'";
+        from flagsdb
+        WHERE claimIDFlagged = ? and flagType LIKE 'supporting'";
     $s2 = $conn->prepare($act2);
     $s2->bind_param('i', $claimid);
     $s2->execute();
@@ -20,8 +20,8 @@ function noSupports($claimid)
     $nh2 = mysqli_num_rows($activity2);
     while ($supports = $activity2->fetch_assoc()) {
         $new = 'SELECT DISTINCT active
-    from claimsdb
-    WHERE claimID = ?';
+  from claimsdb
+  WHERE claimID = ?';
         $snew = $conn->prepare($new);
         $snew->bind_param('i', $supports['claimIDFlagger']);
         $snew->execute();
@@ -42,10 +42,10 @@ function noSupports($claimid)
         // echo '<script type="text/javascript">alert("ITS HAPPENING: ' . $result . '");</script>';
 
         $act = 'UPDATE claimsdb
-SET active = 0
-WHERE claimID = ?
+        SET active = 0
+        WHERE claimID = ?
 
-';
+    ';
         $upd = $conn->prepare($act);
         $upd->bind_param('i', $claimid);
         $upd->execute();
@@ -53,31 +53,44 @@ WHERE claimID = ?
 }
 
 /*
-This function checks to see if an individual claim has any active supports, but for rivals.
-*/
+ * This function checks to see if an individual claim has any active supports, but for rivals.
+ */
 
 function noSupportsRival($claimidA)
 {
-    require __DIR__ . '/../config/db_connect.php';
-
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
     $result = 'no active supports';
-    $act2 = "SELECT DISTINCT claimIDFlagger
-    from flagsdb
-    WHERE claimIDFlagged = ? and flagType LIKE 'supporting'";
-    $snew = $conn->prepare($new);
-    $snew->bind_param('i', $supports['claimIDFlagger']);
-    $snew->execute();
-    $activitynew = $snew->get_result();
-    $everyInactiveSupport = 'true';
 
-    while ($SCHECK = $activitynew->fetch_assoc()) {
-        if (1 == $SCHECK['active']) {
-            $result = 'There is an active';
-            return 'true';
-            // can you just break here?
-        }
-    }
-    // }
+    $act2 = "SELECT DISTINCT claimIDFlagger
+  from flagsdb
+  WHERE claimIDFlagged = ? and flagType LIKE 'supporting'";
+    $s2 = $conn->prepare($act2);
+    $s2->bind_param('i', $claimidA);
+    $s2->execute();
+    $activity2 = $s2->get_result();
+    $nh2 = mysqli_num_rows($activity2);
+    while ($supports = $activity2->fetch_assoc()) {
+        $new = 'SELECT DISTINCT active
+  from claimsdb
+  WHERE claimID = ?';
+        $snew = $conn->prepare($new);
+        $snew->bind_param('i', $supports['claimIDFlagger']);
+        $snew->execute();
+        $activitynew = $snew->get_result();
+        $everyInactiveSupport = 'true';
+
+        while ($SCHECK = $activitynew->fetch_assoc()) {
+            // echo '<script type="text/javascript">alert("active: ' . $SCHECK['active'] . '");</script>';
+
+            if (1 == $SCHECK['active']) {
+                $result = 'There is an active';
+
+                return 'true';
+                // can you just break here?
+            }
+        } // end of second while loop
+    } // end of first while loop
 
     // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
 
@@ -87,5 +100,5 @@ function noSupportsRival($claimidA)
         // echo '<script type="text/javascript">alert("ITS HAPPENING: ' . $result . '");</script>';
 
         return 'false';
-    }
-}
+    } // end of if statement
+} // end of function

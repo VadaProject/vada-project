@@ -1,5 +1,6 @@
 
-<?php include 'config/db_connect.php';
+<?php require_once 'config/db_connect.php';
+$conn = db_connect();
 
 /*
 This is a backend file that has no front-facing display. It is ran from either details.php or add.php, and handles ALL data insertion.

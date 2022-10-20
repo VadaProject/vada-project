@@ -2,7 +2,8 @@
 
 function haveRival($claimid)
 {
-    require __DIR__ . '/../config/db_connect.php';
+    require_once __DIR__ . '/../config/db_connect.php';
+    $conn = db_connect();
     $answer = 'false';
 
     $act2 = "SELECT DISTINCT claimIDFlagger
