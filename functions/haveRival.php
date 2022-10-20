@@ -21,3 +21,4 @@ function haveRival($claimid)
 
     return $answer;
 }
+

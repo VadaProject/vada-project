@@ -1,5 +1,9 @@
 <?php
 
+/*
+This function checks to see if an individual claim has any ACTIVE supports or not.
+*/
+
 function noSupports($claimid)
 {
     require_once __DIR__ . '/../config/db_connect.php';
@@ -46,7 +50,11 @@ function noSupports($claimid)
         $upd->bind_param('i', $claimid);
         $upd->execute();
     } // end of if statement
-} // end of function
+}
+
+/*
+ * This function checks to see if an individual claim has any active supports, but for rivals.
+ */
 
 function noSupportsRival($claimidA)
 {

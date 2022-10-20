@@ -3,6 +3,11 @@ require_once __DIR__ . '/../config/db_connect.php';
 // starts two chains of recursion. one with normal root claims.
 // the other with root rivals. the rivals, of course, are put into the rival recursion.
 
+/*
+This function displays each individual claim in a recursive manner.
+Each recursion is a series of tracking relationships between the claims (found in the Flabsdb).
+*/
+
 function sortclaims($claimid)
 {
     $conn = db_connect();
@@ -135,6 +140,12 @@ function sortclaims($claimid)
         ?></ul><?php
     } // end of else statement
 } // end of function
+
+/*
+This function has the same functionality as the sortClaims, but for rivals.
+The key difference is handling the “mutualistic flagging” relationship that is unique to rivals (that is, they flag each other equally).
+It breaks an infinite loop that would otherwise occur if a rival was handled recursively in sortClaims().
+*/
 
 function sortclaimsRIVAL($claimid)
 {

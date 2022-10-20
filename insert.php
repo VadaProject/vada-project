@@ -2,6 +2,10 @@
 <?php require_once 'config/db_connect.php';
 $conn = db_connect();
 
+/*
+This is a backend file that has no front-facing display. It is ran from either details.php or add.php, and handles ALL data insertion.
+*/
+
 $flagType = $union = $subject = $targetP = $topic = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $claimIDFlagged = $flaggingSupport = ' ';
 $supportMeans = mysqli_real_escape_string($conn, $_POST['union']);
 

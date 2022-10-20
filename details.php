@@ -2,6 +2,11 @@
 <?php include 'includes/page_top.php'; ?>
 <main class="page-container text-center">
 <?php
+
+/*
+This displays the argument in full detail and pushes any user interaction/submissions to add.php.
+*/
+
 require 'functions/flagging.php';
 require 'functions/retrieveFunctions.php';
 $claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $active = $dSubject = $dTargetP = $domain = $supportingDropCheck =

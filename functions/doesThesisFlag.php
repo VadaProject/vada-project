@@ -1,4 +1,9 @@
 <?php
+
+/*
+This function checks to see if there are any thesis flags against the claim.
+*/
+
 function doesThesisFlag($claimid)
     {
     require_once __DIR__ . '/../config/db_connect.php';
@@ -30,6 +35,12 @@ function doesThesisFlag($claimid)
 
                     return $answer;
                 }
+
+
+/*
+This function checks to see if there are any thesis flags against the claim that AREN’T rivals.
+*/
+
 function doesThesisFlagRival($claimid)
 {
                     require_once 'config/db_connect.php';
