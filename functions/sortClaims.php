@@ -1,80 +1,13 @@
 <?php
 
+require_once "Database.php";
+use Database\Database;
 require_once __DIR__ . '/../config/db_connect.php';
 
 /*
 This function displays each individual claim in a recursive manner.
 Each recursion is a series of tracking relationships between the claims (found in the Flabsdb).
 */
-
-/////////////////////////
-// PREPARED STATEMENTS //
-/////////////////////////
-
-/**
- * @param int $claimID
- * @param mysqli $conn the mysqli connection to use
- * @return array an associative array of strings representing the claim
- */
-function get_claim($claimID, $conn)
-{
-    $stmt = $conn->prepare('SELECT DISTINCT * from claimsdb where claimID = ?');
-    $stmt->bind_param('i', $claimID);
-    $stmt->execute();
-    return $stmt->get_result()->fetch_assoc();
-}
-
-/**
- * @param int $claimID
- * @param mysqli $conn the mysqli connection to use
- * @return
- */
-function get_rival_flags($claimID, $conn)
-{
-    $stmt = $conn->prepare(
-        'SELECT DISTINCT * from flagsdb WHERE claimIDFlagger = ?'
-    );
-    $stmt->bind_param('i', $claimID);
-    $stmt->execute();
-    return $stmt->get_result(); // get the mysqli result
-}
-
-// look for normal non-rival flags for this rivaling claim.
-/**
- * Returns the claims which flag $claimID and are not Thesis rivals.
- *
- * @param int $claimID
- * @param mysqli $conn the mysqli connection to use
- * @return mysqli_result|false
- */
-function get_non_flag_rivals($claimID, $conn)
-{
-    $stmt = $conn->prepare("SELECT DISTINCT claimIDFlagger
-        from claimsdb, flagsdb
-        where claimIDFlagged = ?
-        AND flagType NOT LIKE 'Thesis Rival'");
-    $stmt->bind_param('i', $claimID);
-    $stmt->execute();
-    return $stmt->get_result();
-}
-
-/**
- * Returns the claims which flag $claimID and are not Thesis rivals.
- *
- * @param int $claimID
- * @param mysqli $conn the mysqli connection to use
- * @return mysqli_result|false
- */
-function get_flagged_rivals($claimID, $conn)
-{
-    $stmt = $conn->prepare("SELECT DISTINCT claimIDFlagger
-        from claimsdb, flagsdb
-        where claimIDFlagged = ?
-        AND flagType LIKE 'Thesis Rival'");
-    $stmt->bind_param('i', $claimID);
-    $stmt->execute();
-    return $stmt->get_result();
-}
 
 //////////////////////////////////////////////
 // HTML
@@ -130,14 +63,11 @@ function make_label_el($claim_id, $claim, $flag_type)
 function sortclaims($claimID)
 {
     $conn = db_connect();
-    $claim = get_claim($claimID, $conn);
+    $claim = Database::getClaim($claimID, $conn);
     if (!$claim) {
         return;
     }
-    // IF THIS CLAIM IS A FLAGGER this obtains the FLAGGER'S flagtype's and flagged.
-    // this is to find rival claims..this is literally JUST used for rivals.
-    // rivals have to be flaggers and flagged.
-    $flags = get_rival_flags($claimID, $conn);
+    $flags = Database::getRivalFlags($claimID, $conn);
     $resultFlagType = $claimIDFlagger = $claimIDFlagged = '';
     foreach ($flags as $f) {
         $resultFlagType = $f['flagType'];
@@ -162,7 +92,7 @@ function sortclaims($claimID)
         // if its a thesis rival it will show up in the query above
         // this is when the claim is the flagged. this is what gets pushed in the recursion.
         // continue recursion
-        $result1 = get_non_flag_rivals($claimID, $conn); // get the mysqli result
+        $result1 = Database::getNonRivalFlags($claimID, $conn); // get the mysqli result
         foreach ($result1 as $user) {
             sortclaims($user['claimIDFlagger']);
         }?></ul><?php
@@ -178,9 +108,9 @@ function sortclaimsRIVAL($claimID)
 {
     $conn = db_connect();
     // get the info for the claim being flagged
-    $claim = get_claim($claimID, $conn);
+    $claim = Database::getClaim($claimID, $conn);
     // look for normal non-rival flags for this rivaling claim.
-    $result1 = get_flagged_rivals($claimID, $conn);
+    $result1 = Database::getFlaggedRivals($claimID, $conn);
     foreach ($result1 as $user) {
         $rivaling = $user['claimIDFlagger'];
     }
@@ -205,7 +135,7 @@ function sortclaimsRIVAL($claimID)
         <ul> <span class="more">&hellip;</span>
             <!--</font>-->
                 <?php
-                $result1 = get_non_flag_rivals($claimID, $conn);
+                $result1 = Database::getNonRivalFlags($claimID, $conn);
                 while ($user = $result1->fetch_assoc()) {
                     sortclaims($user['claimIDFlagger']);
                 }?>
