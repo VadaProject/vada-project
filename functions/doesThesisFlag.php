@@ -15,7 +15,7 @@ function doesThesisFlag($claimid)
     $result = Database::getFlagsNotSupporting($claimid);
     foreach ($result as $flaggerID) {
         $flagger = Database::getClaim($flaggerID);
-        if ($flagger['active'] == 1) {
+        if ($flagger->active == 1) {
             return true;
         }
     }
@@ -33,7 +33,7 @@ function doesThesisFlagRival($claimid)
     $flaggers = Database::getFlagsNotRivals($claimid);
     foreach ($flaggers as $flaggerID) {
         $flagger = Database::getClaim($flaggerID);
-        if ($flagger["active"] == 1) {
+        if ($flagger->active == 1) {
             return true;
         }
     }

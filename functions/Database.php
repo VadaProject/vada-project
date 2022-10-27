@@ -18,7 +18,7 @@ class Database
 
     /**
      * @param int $claimID
-     * @return \array an associative array of strings representing the claim
+     * @return \object|\null A claim object
      */
     public static function getClaim($claimID)
     {
@@ -27,7 +27,7 @@ class Database
         );
         $stmt->bind_param('i', $claimID);
         $stmt->execute();
-        return $stmt->get_result()->fetch_assoc();
+        return $stmt->get_result()->fetch_object();
     }
 
     /**

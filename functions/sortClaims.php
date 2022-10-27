@@ -2,7 +2,6 @@
 
 require_once "Database.php";
 use Database\Database;
-require_once __DIR__ . '/../config/db_connect.php';
 
 /*
 This function displays each individual claim in a recursive manner.
@@ -20,49 +19,48 @@ function make_label_el($claim_id, $claim, $flag_type)
     switch ($flag_type) {
         case 'supporting':
             echo "<img height = '45' width = '32' src='assets/img/support.png'> <br>";
-            echo $claim['supportMeans'] . '<br>';
-            if ($claim['supportMeans'] == 'Inference') {
+            echo $claim->supportMeans . '<br>';
+            if ($claim->supportMeans == 'Inference') {
                 echo 'Reason: ' .
-                    $claim['subject'] .
+                    $claim->subject .
                     ' ' .
-                    $claim['reason'] .
+                    $claim->reason .
                     ', as in the case of ' .
-                    $claim['example'] .
+                    $claim->example .
                     '<BR>';
             }
             if (
-                $claim['supportMeans'] == 'Testimony' ||
-                $claim['supportMeans'] == 'Perception'
+                $claim->supportMeans == 'Testimony' ||
+                $claim->supportMeans == 'Perception'
             ) {
-                echo 'Citation: ' . $claim['citation'] . '<BR>';
+                echo 'Citation: ' . $claim->citation . '<BR>';
             }
             break;
         case '':
             echo '<h1>Thesis</h1>';
-            echo '<br>' . $claim['subject'] . ' ' . $claim['targetP'] . '<br>';
+            echo '<br>' . $claim->subject . ' ' . $claim->targetP . '<br>';
             break;
         default:
             echo "<img src='assets/img/flag.png'> <br>";
             echo '<br> Flagged: ' . $flag_type . '<br>';
             echo '<h1>Thesis</h1>';
-            echo '<br>' . $claim['subject'] . ' ' . $claim['targetP'] . '<br>';
+            echo '<br>' . $claim->subject . ' ' . $claim->targetP . '<br>';
     }
     echo '#' . $claim_id . '<br>';
 
     // add is subject person or object to inference div
 
     // FONT CHANGING
-    if ($claim['active'] != 1) {
+    if ($claim->active != 1) {
         echo "<img src='assets/img/alert.png'> <br>";
     }
-    createModal($claim_id);?> </label> <?php
+    createModal($claim_id);?></label> <?php
 }
 
 // starts two chains of recursion. one with normal root claims.
 // the other with root rivals. the rivals, of course, are put into the rival recursion.
 function sortclaims($claimID)
 {
-    $conn = db_connect();
     $claim = Database::getClaim($claimID);
     if (!$claim) {
         return;
@@ -106,7 +104,6 @@ It breaks an infinite loop that would otherwise occur if a rival was handled rec
 
 function sortclaimsRIVAL($claimID)
 {
-    $conn = db_connect();
     // get the info for the claim being flagged
     $claim = Database::getClaim($claimID);
     // look for normal non-rival flags for this rivaling claim.
@@ -120,13 +117,13 @@ function sortclaimsRIVAL($claimID)
         <?php
         echo "<img width='100' height='20' src='assets/img/rivals.png'> <br><br>";
 
-        if ($claim['active'] != 1) {
+        if ($claim->active != 1) {
             echo "<img src='assets/img/alert.png'> <br>";
         }
 
         echo '<h4>Contests #' . $rivaling . '</h4>';
         echo '<h1>Thesis</h1>';
-        echo $claim['subject'] . ' ' . $claim['targetP'];
+        echo $claim->subject . ' ' . $claim->targetP;
         echo '<BR>' . $claimID;
         createModal($claimID);
         ?>
