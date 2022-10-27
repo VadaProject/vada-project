@@ -82,6 +82,39 @@ class Database
     }
 
     /**
+     * @param int $claimID
+     * @return \int[] The IDs of each claim which flags $claimID and is not a Support.
+     */
+    public static function getFlagsNotSupporting($claimID)
+    {
+        $query = "SELECT DISTINCT claimIDFlagger
+        from flagsdb WHERE claimIDFlagged = ?
+        and flagType NOT LIKE 'supporting'";
+        $stmt = self::$conn->prepare($query);
+        $stmt->bind_param('i', $claimID);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return self::getColumnAsArray($res, 'claimIDFlagger');
+    }
+
+    /**
+     * @param int $claimID
+     * @return \int[] The IDs of claims which flag $claimID and aren't type Too Early or Too Late
+     */
+    public static function getFlagsNotRivals($claimID)
+    {
+        $query = "SELECT DISTINCT claimIDFlagger
+        from flagsdb WHERE claimIDFlagged = ?
+        and (flagType LIKE 'Too Early' OR flagType LIKE 'Too Late')";
+        // TODO: are these really the only flagTypes we want?
+        $stmt = self::$conn->prepare($query);
+        $stmt->bind_param('i', $claimID);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return self::getColumnAsArray($res, 'claimIDFlagger');
+    }
+
+    /**
      * Helper function
      * @param \mysqli_result $result
      * @param \string $column

@@ -36,8 +36,8 @@ function restoreActivity($claimid)
             // are supports active? we only need one to reactivate the claim.
             if (
                 '1' == $SCHECK['active'] &&
-                'false' == doesThesisFlag($claimid) &&
-                'false' == haveRival($claimid)
+                !doesThesisFlag($claimid) &&
+                !haveRival($claimid)
             ) {
                 // i have a suspicion that this isn't working/triggering
                 // THIS IS TRIGGERED FOR 1383
@@ -78,7 +78,7 @@ function restoreActivity($claimid)
             $upd->execute();
         }
 
-        if ('false' == doesThesisFlag($claimid)) {
+        if (!doesThesisFlag($claimid)) {
             noSupports($claimid);
         }
 
@@ -458,7 +458,7 @@ where ? = claimIDFlagged AND flagType NOT LIKE 'Thesis Rival'
     $statusB = '';
     if (
         'true' == noSupportsRival($claimid) &&
-        'false' == doesThesisFlagRival($claimid)
+        !doesThesisFlagRival($claimid)
     ) {
         $statusA = 'unchallenged';
     } else {
@@ -467,7 +467,7 @@ where ? = claimIDFlagged AND flagType NOT LIKE 'Thesis Rival'
 
     if (
         'true' == noSupportsRival($rivaling) &&
-        'false' == doesThesisFlagRival($rivaling)
+        !doesThesisFlagRival($rivaling)
     ) {
         $statusB = 'unchallenged';
     } else {
