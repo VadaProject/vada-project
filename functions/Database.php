@@ -2,20 +2,29 @@
 
 namespace Database;
 
+require_once __DIR__ . '/../config/db_connect.php';
+
 class Database
 {
-/////////////////////////
-// PREPARED STATEMENTS //
-/////////////////////////
+    /**
+     * @var \mysqli $conn The mysqli connection
+     */
+    private static $conn;
+
+    public static function staticInit()
+    {
+        self::$conn = db_connect();
+    }
 
     /**
      * @param int $claimID
-     * @param mysqli $conn the mysqli connection to use
-     * @return array an associative array of strings representing the claim
+     * @return \array an associative array of strings representing the claim
      */
-    public static function getClaim($claimID, $conn)
+    public static function getClaim($claimID)
     {
-        $stmt = $conn->prepare('SELECT DISTINCT * from claimsdb where claimID = ?');
+        $stmt = self::$conn->prepare(
+            'SELECT DISTINCT * from claimsdb where claimID = ?'
+        );
         $stmt->bind_param('i', $claimID);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
@@ -23,12 +32,11 @@ class Database
 
     /**
      * @param int $claimID
-     * @param mysqli $conn the mysqli connection to use
      * @return
      */
-    public static function getRivalFlags($claimID, $conn)
+    public static function getRivalFlags($claimID)
     {
-        $stmt = $conn->prepare(
+        $stmt = self::$conn->prepare(
             'SELECT DISTINCT * from flagsdb WHERE claimIDFlagger = ?'
         );
         $stmt->bind_param('i', $claimID);
@@ -38,38 +46,55 @@ class Database
 
     // look for normal non-rival flags for this rivaling claim.
     /**
-     * Returns the claims which flag $claimID and are not Thesis rivals.
+     * Returns the ID of each non-rival claim which flags $claimID
      *
      * @param int $claimID
-     * @param mysqli $conn the mysqli connection to use
-     * @return mysqli_result|false
+     * @return \int[]
      */
-    public static function getNonRivalFlags($claimID, $conn)
+    public static function getNonRivalFlags($claimID)
     {
-        $stmt = $conn->prepare("SELECT DISTINCT claimIDFlagger
-            from claimsdb, flagsdb
-            where claimIDFlagged = ?
-            AND flagType NOT LIKE 'Thesis Rival'");
+        $query = "SELECT DISTINCT claimIDFlagger
+        from claimsdb, flagsdb where claimIDFlagged = ?
+        AND flagType NOT LIKE 'Thesis Rival'";
+        $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $claimID);
         $stmt->execute();
-        return $stmt->get_result();
+        $res = $stmt->get_result();
+        return self::getColumnAsArray($res, 'claimIDFlagger');
     }
 
     /**
-     * Returns the claims which flag $claimID and are not Thesis rivals.
+     * Returns the ID of each claim which flags $claimID is a Rival.
      *
      * @param int $claimID
-     * @param mysqli $conn the mysqli connection to use
-     * @return mysqli_result|false
+     * @return \int[]
      */
-    public static function getFlaggedRivals($claimID, $conn)
+    public static function getFlaggedRivals($claimID)
     {
-        $stmt = $conn->prepare("SELECT DISTINCT claimIDFlagger
-            from claimsdb, flagsdb
-            where claimIDFlagged = ?
-            AND flagType LIKE 'Thesis Rival'");
+        $query = "SELECT DISTINCT claimIDFlagger
+        from flagsdb where claimIDFlagged = ?
+        AND flagType LIKE 'Thesis Rival'";
+        $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $claimID);
         $stmt->execute();
-        return $stmt->get_result();
+        $res = $stmt->get_result();
+        return self::getColumnAsArray($res, 'claimIDFlagger');
+    }
+
+    /**
+     * Helper function
+     * @param \mysqli_result $result
+     * @param \string $column
+     * @return \array
+     */
+    private static function getColumnAsArray($result, $column)
+    {
+        $vals = [];
+        foreach ($result as $row) {
+            $vals[] = $row[$column];
+        }
+        return $vals;
     }
 }
+
+Database::staticInit();

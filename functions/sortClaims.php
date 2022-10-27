@@ -63,11 +63,11 @@ function make_label_el($claim_id, $claim, $flag_type)
 function sortclaims($claimID)
 {
     $conn = db_connect();
-    $claim = Database::getClaim($claimID, $conn);
+    $claim = Database::getClaim($claimID);
     if (!$claim) {
         return;
     }
-    $flags = Database::getRivalFlags($claimID, $conn);
+    $flags = Database::getRivalFlags($claimID);
     $resultFlagType = $claimIDFlagger = $claimIDFlagged = '';
     foreach ($flags as $f) {
         $resultFlagType = $f['flagType'];
@@ -92,9 +92,9 @@ function sortclaims($claimID)
         // if its a thesis rival it will show up in the query above
         // this is when the claim is the flagged. this is what gets pushed in the recursion.
         // continue recursion
-        $result1 = Database::getNonRivalFlags($claimID, $conn); // get the mysqli result
-        foreach ($result1 as $user) {
-            sortclaims($user['claimIDFlagger']);
+        $result1 = Database::getNonRivalFlags($claimID); // get the mysqli result
+        foreach ($result1 as $id) {
+            sortclaims($id);
         }?></ul><?php
 }
 
@@ -108,11 +108,11 @@ function sortclaimsRIVAL($claimID)
 {
     $conn = db_connect();
     // get the info for the claim being flagged
-    $claim = Database::getClaim($claimID, $conn);
+    $claim = Database::getClaim($claimID);
     // look for normal non-rival flags for this rivaling claim.
-    $result1 = Database::getFlaggedRivals($claimID, $conn);
-    foreach ($result1 as $user) {
-        $rivaling = $user['claimIDFlagger'];
+    $result1 = Database::getFlaggedRivals($claimID);
+    foreach ($result1 as $flagID) {
+        $rivaling = $flagID;
     }
     ?>
 
@@ -135,9 +135,9 @@ function sortclaimsRIVAL($claimID)
         <ul> <span class="more">&hellip;</span>
             <!--</font>-->
                 <?php
-                $result1 = Database::getNonRivalFlags($claimID, $conn);
-                while ($user = $result1->fetch_assoc()) {
-                    sortclaims($user['claimIDFlagger']);
+                $result1 = Database::getNonRivalFlags($claimID);
+                foreach ($result1 as $flagID) {
+                    sortclaims($flagID);
                 }?>
         </ul><?php
 } // end of rivalfunction
