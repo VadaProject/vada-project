@@ -1,4 +1,4 @@
-<?php require_once 'config/db_connect.php'; ?>
+<?php  ?>
 <?php include 'includes/page_top.php'; ?>
 <main class="page-container text-center">
 <?php
@@ -6,9 +6,12 @@
 /*
 This displays the argument in full detail and pushes any user interaction/submissions to add.php.
 */
+require_once 'config/db_connect.php';
+require_once 'functions/flagging.php';
+require_once 'functions/retrieveFunctions.php';
 
-require 'functions/flagging.php';
-require 'functions/retrieveFunctions.php';
+$conn = db_connect();
+
 $claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $active = $dSubject = $dTargetP = $domain = $supportingDropCheck =
     '';
 if (isset($_GET['id'])) {
@@ -430,15 +433,6 @@ $_POST['FOS'] = 'flagging';
         $("#submit").click(function() {
             window.alert("Submitted!");
             window.location.assign("ajaxindex.php?topic=<?php echo $topic; ?>");
-            /*
-  if (union.options[union.selectedIndex].value === 'Tarka') {
-window.alert("testing to redirect tarka!");
-$newid = $claimID++;
-window.location.assign("details.php?id=<?php echo $newid; ?>");
-  }
-  else
-  { window.location.assign("ajaxindex.php?topic=<?php echo $topic; ?>"); }
-  */
             $.post($("#myForm").attr("action"),
                 $("#myForm :input").serializeArray(),
                 function(info) {
