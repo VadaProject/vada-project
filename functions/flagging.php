@@ -1,10 +1,22 @@
 <?php
 
+require_once 'Database.php';
+use Database\Database;
 
+// todo: why is the parameter called that??
+
+// todo: refactor the HTML/CSS here. lots of internal values that should not be displayed at all.
+
+/**
+ * This function is used in details.php. It contains the form UI for flagging an inference.
+ */
 function flagging($claimIDFlaggedINSERT)
 {
-    ?> <div class='scroll'> <?php $claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $grammar = $active =
-     ''; ?>
+    $claimFlagged = Database::getClaim($claimIDFlaggedINSERT);
+    // $claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $grammar = $active =
+    '';
+    ?>
+    <div class='scroll'> <?php  ?>
         <html>
         <p style="color:#000000" ;>
             <?php
@@ -14,16 +26,16 @@ function flagging($claimIDFlaggedINSERT)
             <label>Topic (Read only)</label><br>
             <input type="text" name="topic" value="<?php echo htmlspecialchars(
                 $topic
-                                                   ); ?>" readonly><br>
+            ); ?>" readonly><br>
         <div id="hideThesis">
             Enter your new claim.<br>
             <label><u>Subject</u> <u>Target Property</u></label><br>
             <textarea class="subject" type="text" id="subject" name="subject" value="<?php echo htmlspecialchars(
                 $subject
-                                                                                     ); ?>">Enter Subject</textarea>
+            ); ?>">Enter Subject</textarea>
             <textarea class="targetP" type="text" id="targetP" name="targetP" value="<?php echo htmlspecialchars(
                 $targetP
-                                                                                     ); ?>">Enter Target Property</textarea>
+            ); ?>">Enter Target Property</textarea>
             <br>
             <u>
                 <p style="color:grey">Thesis Statement
@@ -54,15 +66,16 @@ function flagging($claimIDFlaggedINSERT)
                 <span id="explain-element"> Hint: Your reason statement should answer "Why?". You might think of the reason as what comes after 'because....'.</span>
             </div>
             <p style="color:black"><u>Reason</u><br>
-                <textarea class="reason" type="text" id="reason" name="reason" value="<?php echo htmlspecialchars(
-                    $reason
-                                                                                      ); ?>">Enter Reason Property</textarea>
+                <textarea class="reason" type="text" id="reason" name="reason"
+                value="<?php echo htmlspecialchars($reason); ?>">
+                    Enter Reason Property
+                </textarea>
             </p>
             <u> Reason Statement</u><br>
-            <?php if ('claim' == retrieveCOS($claimIDFlaggedINSERT)) {
-                retrieveSubject($claimIDFlaggedINSERT);
+            <?php if ($claimFlagged['COS'] == 'claim') {
+                echo $claimFlagged['subject'];
             } else {
-                ?> <span class="jsValue5"></span>, <?php
+                 ?> <span class="jsValue5"></span>, <?php
             } ?>
             <span class="jsValue6"></span>
             <br><br>
@@ -74,16 +87,16 @@ function flagging($claimIDFlaggedINSERT)
             Whatever/Whomever
             <!-- Plain Javascript Example -->
             <span class="jsValue"></span>,
-            <?php if ('claim' == retrieveCOS($claimIDFlaggedINSERT)) {
-                retrieveTargetP($claimIDFlaggedINSERT);
+            <?php if ($claimFlagged['COS'] == 'claim') {
+                echo $claimFlagged['targetP'];
             } else {
-                ?> <span class="jsValue2"></span>, <?php
+                 ?> <span class="jsValue2"></span>, <?php
             } ?>
             as in the case of:
             <br>
             <textarea id="example" name="example" value="<?php echo htmlspecialchars(
                 $example
-                                                         ); ?>">Enter Example</textarea>
+            ); ?>">Enter Example</textarea>
         </div>
         <div id="perceptionHint">
             <div id="some-div">
@@ -100,7 +113,7 @@ function flagging($claimIDFlaggedINSERT)
         </div>
         <textarea id="transcription" name="transcription" value="<?php echo htmlspecialchars(
             $transcription
-                                                                 ); ?>">Transcription</textarea><br>
+        ); ?>">Transcription</textarea><br>
         <div id="hiddenCitation">
             <u>Citation</u>
             <?php $author = $title = $publication = $date = ''; ?>
@@ -109,36 +122,36 @@ function flagging($claimIDFlaggedINSERT)
                 <span id="explain-element"> Please include as applicable: author, title, publication, and date of publication.</span>
                 <br><textarea id="author" name="author" value="<?php echo htmlspecialchars(
                     $author
-                                                               ); ?>">Author</textarea><br>
+                ); ?>">Author</textarea><br>
                 <textarea id="title" name="title" value="<?php echo htmlspecialchars(
                     $title
-                                                         ); ?>">Title</textarea><br>
+                ); ?>">Title</textarea><br>
                 <textarea id="publication" name="publication" value="<?php echo htmlspecialchars(
                     $publication
-                                                                     ); ?>">Publication</textarea><br>
+                ); ?>">Publication</textarea><br>
                 <textarea id="date" name="date" value="<?php echo htmlspecialchars(
                     $date
-                                                       ); ?>">Date of Publication</textarea><br>
+                ); ?>">Date of Publication</textarea><br>
                 <textarea id="citationURL" name="citationURL" value="<?php echo htmlspecialchars(
                     $citationURL
-                                                                     ); ?>">URL of Citation</textarea><br>
+                ); ?>">URL of Citation</textarea><br>
             </div>
         </div>
         <textarea id="citation" name="citation" hidden="hidden" value="<?php echo htmlspecialchars(
             $citation
-                                                                       ); ?>">Empty Citation</textarea><br>
+        ); ?>">Empty Citation</textarea><br>
         <div id="hiddenURL">
             <u>URL</u>
         </div>
         <textarea id="url" name="url" value="<?php echo htmlspecialchars(
             $url
-                                             ); ?>">Enter URL</textarea><br>
+        ); ?>">Enter URL</textarea><br>
         <div id="hiddenTS">
             <u>Timestamp of content</u>
         </div>
         <textarea id="vidtimestamp" name="vidtimestamp" value="<?php echo htmlspecialchars(
             $vidtimestamp
-                                                               ); ?>">Enter timestamp of specified material</textarea>
+        ); ?>">Enter timestamp of specified material</textarea>
         <script>
             // This is for reason
             var $jsReason = document.querySelector('.reason');
@@ -185,6 +198,3 @@ function flagging($claimIDFlaggedINSERT)
     </div>
     <?php
 }
-
-// end of flagging function
-?>

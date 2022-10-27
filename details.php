@@ -8,7 +8,6 @@ This displays the argument in full detail and pushes any user interaction/submis
 */
 require_once 'config/db_connect.php';
 require_once 'functions/flagging.php';
-require_once 'functions/retrieveFunctions.php';
 
 $conn = db_connect();
 
