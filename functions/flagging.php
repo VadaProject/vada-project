@@ -64,7 +64,7 @@ function flagging($claimIDFlagged)
                 </textarea>
             </p>
             <u> Reason Statement</u><br>
-            <?php if ($claimFlagged->COS == 'claim') {
+            <?php if ($claimFlagged && $claimFlagged->COS == 'claim') {
                 echo $claimFlagged->subject;
             } else {
                  ?> <span class="jsValue5"></span>, <?php
@@ -79,7 +79,7 @@ function flagging($claimIDFlagged)
             Whatever/Whomever
             <!-- Plain Javascript Example -->
             <span class="jsValue"></span>,
-            <?php if ($claimFlagged->COS == 'claim') {
+            <?php if ($claimFlagged && $claimFlagged->COS == 'claim') {
                 echo $claimFlagged->targetP;
             } else {
                  ?> <span class="jsValue2"></span>, <?php
