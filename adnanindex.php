@@ -1,19 +1,21 @@
 <?php
-require_once 'config/db_connect.php';
+require_once "functions/Database.php";
+use Database\Database;
+
+// TODO: rename this file. it handles AJAX responses.
+// turns out it's named after a guy called adnan.
+
 // Check if user has requested to get detail
 if (isset($_POST['get_data'])) {
     // Get the ID of customer user has selected
-    $id = $_POST['id'];
-    $conn = db_connect();
-    // Getting specific customer's detail
-    $sql = "SELECT * FROM claimsdb WHERE claimID='{$id}'";
-    $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_object($result);
+    $claim = Database::getClaim($_POST['id']);
     // Important to echo the record in JSON format
-    echo json_encode($row);
+    echo json_encode($claim);
+
     // Important to stop further executing the script on AJAX by following line
-    exit;
+    exit();
 }
+
 ?>
 <script src="assets/scripts/adnanindex.js"></script>
 
