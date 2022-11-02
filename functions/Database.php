@@ -101,7 +101,7 @@ class Database
      * @param int $claimID
      * @return \int[] The IDs of claims which flag $claimID and aren't type Too Early or Too Late
      */
-    public static function getFlagsNotRivals($claimID)
+    public static function getThesisFlagsNotRivals($claimID)
     {
         $query = "SELECT DISTINCT claimIDFlagger
         from flagsdb WHERE claimIDFlagged = ?
