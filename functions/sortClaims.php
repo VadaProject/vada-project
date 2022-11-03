@@ -1,6 +1,6 @@
 <?php
 
-require_once "Database.php";
+require_once 'Database.php';
 use Database\Database;
 
 /*
@@ -8,53 +8,90 @@ This function displays each individual claim in a recursive manner.
 Each recursion is a series of tracking relationships between the claims (found in the Flabsdb).
 */
 
+function get_image($name)
+{
+    return '<img class="icon--' .
+        $name .
+        '" src="assets/img/' .
+        $name .
+        '.png">';
+}
+
 //////////////////////////////////////////////
 // HTML
 //////////////////////////////////////////////
-function make_label_el($claim_id, $claim, $flag_type)
+function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
 {
     ?>
-    <label for="<?php echo $claim_id; ?>">
+    <input id="<?php echo $claim_id; ?>" type="checkbox">
+    <label class="claim"
+        <?php if ($rivalling) { ?>style="background:#FFFFE0"<?php } ?>
+        for="<?php echo $claim_id; ?>">
     <?php
     switch ($flag_type) {
         case 'supporting':
-            echo "<img height = '45' width = '32' src='assets/img/support.png'> <br>";
-            echo $claim->supportMeans . '<br>';
+            echo get_image('support');
+            echo '<div class="claim_supportmeans">' .
+                htmlspecialchars($claim->supportMeans) .
+                '</div>';
             if ($claim->supportMeans == 'Inference') {
-                echo 'Reason: ' .
-                    $claim->subject .
+                $reason =
+                    htmlspecialchars($claim->subject) .
                     ' ' .
-                    $claim->reason .
+                    htmlspecialchars($claim->reason) .
                     ', as in the case of ' .
-                    $claim->example .
-                    '<BR>';
+                    htmlspecialchars($claim->example);
+                echo '<div class="claim_body">Reason: ' . $reason . '</div>';
             }
             if (
                 $claim->supportMeans == 'Testimony' ||
                 $claim->supportMeans == 'Perception'
             ) {
-                echo 'Citation: ' . $claim->citation . '<BR>';
+                echo '<div class="claim_body">Citation: ' .
+                    htmlspecialchars($claim->citation) .
+                    '</div>';
             }
             break;
         case '':
+            if ($rivalling) {
+                echo get_image('rivals');
+                echo '<h4>Contests #' . $rivalling . '</h4>';
+            }
             echo '<h1>Thesis</h1>';
-            echo '<br>' . $claim->subject . ' ' . $claim->targetP . '<br>';
+            echo '<div class="claim_body">' .
+                $claim->subject .
+                ' ' .
+                $claim->targetP .
+                '</div>';
             break;
         default:
-            echo "<img src='assets/img/flag.png'> <br>";
-            echo '<br> Flagged: ' . $flag_type . '<br>';
+            echo get_image('flag');
+            echo 'Flagged: ' . $flag_type . '';
             echo '<h1>Thesis</h1>';
-            echo '<br>' . $claim->subject . ' ' . $claim->targetP . '<br>';
+            echo '<div class="claim_body">' .
+                $claim->subject .
+                ' ' .
+                $claim->targetP .
+                '</div>';
     }
-    echo '#' . $claim_id . '<br>';
+    echo '<div>#' . $claim_id . '</div>';
 
     // add is subject person or object to inference div
 
     // FONT CHANGING
     if ($claim->active != 1) {
-        echo "<img src='assets/img/alert.png'> <br>";
+        echo get_image('alert');
     }
-    createModal($claim_id);?></label> <?php
+    ?>
+    <div>
+        <button class="btn btn-primary"
+        onclick="loadData(this.getAttribute('data-id'));"
+        data-id="<?php echo $claim_id; ?>">
+        Details
+        </button>
+    </div>
+    </label>
+    <?php
 }
 
 // starts two chains of recursion. one with normal root claims.
@@ -73,7 +110,7 @@ function sortclaims($claimID)
         $claimIDFlagged = $f['claimIDFlagged'];
     }
     if ($resultFlagType == 'Thesis Rival') {
-        // echo ' <br> The flag ' . $claimIDFlagger . ' has a rival!: ' . '<br>';
+        // echo 'The flag ' . $claimIDFlagger . ' has a rival!: ' . '';
         // for THIS claimID - check for flaggers that aren't rival .. sort claim those
         sortclaimsRival($claimIDFlagger);
         // for the CORRESPONDING claimID - check for flaggers that aren't rival .. sort claim those.
@@ -81,7 +118,7 @@ function sortclaims($claimID)
         return;
     }
     ?>
-    <li><input id="<?php echo $claimID; ?>" type="checkbox">
+    <li>
         <?php make_label_el($claimID, $claim, $resultFlagType); ?>
         <ul><span class="more">• • •</span>
 
@@ -113,22 +150,8 @@ function sortclaimsRIVAL($claimID)
     }
     ?>
 
-        <li> <label style="background:#FFFFE0" for="<?php echo $claimID; ?>">
-        <?php
-        echo "<img width='100' height='20' src='assets/img/rivals.png'> <br><br>";
-
-        if ($claim->active != 1) {
-            echo "<img src='assets/img/alert.png'> <br>";
-        }
-
-        echo '<h4>Contests #' . $rivaling . '</h4>';
-        echo '<h1>Thesis</h1>';
-        echo $claim->subject . ' ' . $claim->targetP;
-        echo '<BR>' . $claimID;
-        createModal($claimID);
-        ?>
-
-        </label><input id="<?php echo $claimID; ?>" type="checkbox">
+        <li>
+        <?php make_label_el($claimID, $claim, '', $rivaling); ?>
         <ul> <span class="more">&hellip;</span>
             <!--</font>-->
                 <?php

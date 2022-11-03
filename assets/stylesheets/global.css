@@ -25,17 +25,6 @@ h4 {
 	height: 100vh;
 	text-align: center;
 	overflow: auto;
-	/*& [type="checkbox"], & .more {
-      display: none;
-    }
-
-    & input:checked ~ ul *{
-      display: none;
-    }
-
-    & input:checked ~ ul .more{
-      display: block;
-    }*/
 }
 
 .wrapper ul {
@@ -129,7 +118,7 @@ li:after {
 	padding: 0px;
 }
 
-body .message {
+.message {
 	position: absolute;
 	right: 0.5vw;
 	bottom: 1vw;
@@ -139,24 +128,23 @@ body .message {
 	color: white;
 }
 
-body .message a {
+.message a {
 	color: inherit;
 	text-decoration: none;
 	border-bottom: 1px solid #444;
 }
 
-body .message a:hover {
+.message a:hover {
 	border-width: 3px;
 }
 
-body .wrapper ul>li {
-	margin: 1em 0;
+.wrapper ul > li {
+	margin: 0.5em 0;
 	padding: 1em;
 	line-height: 1.5em;
-	transition: all 0.5s ease;
 }
 
-body .wrapper ul>li:before {
+.wrapper ul>li:before {
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -164,33 +152,34 @@ body .wrapper ul>li:before {
 	background: grey;
 }
 
-body .wrapper ul>li:first-of-type:before {
+.wrapper ul>li:first-of-type:before {
 	left: 50%;
 	width: 50%;
 }
 
-body .wrapper ul>li:last-of-type:before {
+.wrapper ul>li:last-of-type:before {
 	width: 50%;
 }
 
-body .wrapper ul>li:only-of-type:before {
+.wrapper ul>li:only-of-type:before {
 	width: 10%;
 	left: 45%;
 }
 
-body .wrapper ul>li.noline:before {
+.wrapper ul>li.noline:before {
 	background: transparent;
 }
 
-body .wrapper ul>li label {
-	padding: 0.5em 1em;
+.claim {
+	padding: 1rem 1rem;
 	border: 1px solid grey;
-	max-width: 600px;
+	width: 8rem;
 	white-space: normal;
 	display: inline-block;
 	cursor: pointer;
-	background: whitesmoke;
+	background: white;
 	border-radius: 1rem;
+	transition: width 0.5s ease;
 }
 
 /*add*/
@@ -479,8 +468,25 @@ div.scroll {
 	color: black;
 }
 
-.claim-card {}
+.claim {}
 
-.claim-card img {
+.claim img {
 	display: block;
+	width: 48px;
+	height: 48px;
+	object-fit: contain;
+}
+p {
+	margin-top: 0;
+	margin-bottom: 1rem;
+}
+
+.claim > * + * {
+	margin-top: 0.5rem;
+	margin-bottom: 0rem;
+}
+
+img.icon--rivals {
+	width: 100px;
+	height: auto;
 }

@@ -5,7 +5,6 @@ require 'functions/sortClaims.php';
 require 'functions/doesThesisFlag.php';
 require 'functions/noSupports.php';
 require 'functions/restoreActivity.php';
-require 'functions/createModal.php';
 require 'functions/haveRival.php';
 
 
