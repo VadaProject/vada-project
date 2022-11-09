@@ -114,6 +114,29 @@ class Database
         return self::getColumnAsArray($res, 'claimIDFlagger');
     }
 
+    public static function getAllRootClaimIDs($topic)
+    {
+        $query = 'SELECT DISTINCT claimID from claimsdb, flagsdb
+        WHERE topic = ? AND claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM flagsdb)';
+        $stmt = self::$conn->prepare($query);
+        $stmt->bind_param('s', $topic);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return self::getColumnAsArray($res, 'claimID');
+    }
+
+    public static function getRootRivals($topic)
+    {
+        $query = 'SELECT DISTINCT claimsdb.claimID from claimsdb
+        JOIN flagsdb ON flagsdb.claimIDFlagger = claimsdb.claimID
+        WHERE claimsdb.topic = ? AND flagsdb.isRootRival = 1';
+        $stmt = self::$conn->prepare($query);
+        $stmt->bind_param('s', $topic);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return self::getColumnAsArray($res, 'claimID');
+    }
+
     /**
      * Helper function
      * @param \mysqli_result $result
