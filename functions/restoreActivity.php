@@ -10,16 +10,16 @@ function restoreActivity($claimid)
     require_once __DIR__ . '/../config/db_connect.php';
     $conn = db_connect();
 
-    // ////////////////////////////////////////////////////// grabs supports for initial claim NUMBER ONE ON DIAGRAM, RED
+    // grabs supports for initial claim NUMBER ONE ON DIAGRAM, RED
     $act2 = "SELECT DISTINCT claimIDFlagger
-  from flagsdb
-  WHERE claimIDFlagged = ? and flagType LIKE 'supporting'";
+from flagsdb
+WHERE claimIDFlagged = ? and flagType LIKE 'supporting'";
     $s2 = $conn->prepare($act2);
     $s2->bind_param('i', $claimid);
     $s2->execute();
     $activity2 = $s2->get_result();
     $nh2 = mysqli_num_rows($activity2);
-    while ($supports = $activity2->fetch_assoc()) {
+    foreach ($activity2 as $supports) {
         // claimid is the original claim. supportsClaimIDFLAGGER is the support. check to see if all the supports are inactive. OR if ONE support is active!!!!!!!!!!!!!!!
 
         $new = 'SELECT DISTINCT active
@@ -30,7 +30,7 @@ function restoreActivity($claimid)
         $snew->execute();
         $activitynew = $snew->get_result();
         $everyInactiveSupport = 'true';
-        while ($SCHECK = $activitynew->fetch_assoc()) {
+        foreach ($activitynew as $SCHECK) {
             //  echo '<script type="text/javascript">alert("active: ' . $SCHECK['active'] . "support number" . $supports['claimIDFlagger'] . '");</script>';
 
             // are supports active? we only need one to reactivate the claim.
@@ -70,9 +70,9 @@ function restoreActivity($claimid)
 
         if ('false' == doesThesisFlag($supports['claimIDFlagger'])) {
             $act = 'UPDATE claimsdb
-    SET active = 1
-    WHERE claimID = ?
-'; // SQL with parameters
+            SET active = 1
+            WHERE claimID = ?
+        '; // SQL with parameters
             $upd = $conn->prepare($act);
             $upd->bind_param('i', $supports['claimIDFlagger']);
             $upd->execute();
@@ -105,7 +105,7 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
         $si->bind_param('i', $supports['claimIDFlagger']);
         $si->execute();
         $sim = $si->get_result();
-        while ($mi = $sim->fetch_assoc()) {
+        foreach ($sim as $mi) {
             restoreActivityRIVAL($mi['claimIDFlagger']);
 
             // below should get the companion rival
@@ -117,7 +117,7 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
             $si2->bind_param('i', $mi['claimIDFlagger']);
             $si2->execute();
             $sim2 = $si2->get_result();
-            while ($mi2 = $sim2->fetch_assoc()) {
+            foreach ($sim2 as $mi2) {
                 restoreActivityRIVAL($mi2['claimIDFlagger']);
             } // end of first while
         } // end of second while
@@ -137,7 +137,7 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
 
         // echo '<script type="text/javascript">alert("alert: ' . $supports['claimIDFlagger'] . '");</script>';
 
-        while ($activeflags = $activity3->fetch_assoc()) {
+        foreach ($activity3 as $activeflags) {
             if (0 == $nh) {
             } else {
                 restoreActivity($activeflags['claimIDFlagger']);
@@ -157,7 +157,7 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
 
             $everyInactive = 'false';
             // echo $everyInactive;
-            while ($r = $res->fetch_assoc()) {
+            foreach ($res as $r) {
                 if (1 == $r['active']) {
                     global $everyInactive;
                     $everyInactive = 'false';
@@ -260,7 +260,7 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
     // all tooearly or toolate //$activity
     // *AND* all support flags because while it doesn't occur for the first run through, when a support is put into the parameters, it'll check all reason/rule flags
 
-    while ($activestatus = $activity90->fetch_assoc()) {
+    foreach ($activity90 as $activestatus) {
         if (0 == $nh90) {
         } else {
             restoreActivity($activestatus['claimIDFlagger']);
@@ -277,7 +277,7 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
         $noce90->execute();
         $res90 = $noce90->get_result(); // get the mysqli result
 
-        while ($r90 = $res90->fetch_assoc()) {
+        foreach ($res90 as $r90) {
             // grabs active status of all flaggers of original claim: is it active?
             // $activestatus['claimiDflagger'] <--- flagtype like "suppporting"
 
@@ -316,7 +316,7 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
         $si->bind_param('i', $claimid);
         $si->execute();
         $sim = $si->get_result();
-        while ($mi = $sim->fetch_assoc()) {
+        foreach ($sim as $mi) {
             restoreActivityRIVAL($mi['claimIDFlagger']);
         }
 
@@ -359,7 +359,7 @@ where ? = claimIDFlagged AND flagType NOT LIKE 'Thesis Rival'
     $result188 = $stmt188->get_result();
     $numhits1 = mysqli_num_rows($result188);
     // above looks for normal non-rival flags for this rivaling claim.
-    while ($user = $result188->fetch_assoc()) {
+    foreach ($result188 as $user) {
         $nodeFlaggers = $user['claimIDFlagger'];
         if (0 == $numhits1) {
         } else {
@@ -381,7 +381,7 @@ where ? = claimIDFlagged AND flagType LIKE 'Thesis Rival'
     $result12 = $stmt12->get_result();
     $numhits1 = mysqli_num_rows($result12);
     // found rival pair!
-    while ($user = $result12->fetch_assoc()) {
+    foreach ($result12 as $user) {
         $rivaling = $user['claimIDFlagger']; // $rivaling is Rival B.
     } // end while loop
 
@@ -400,7 +400,7 @@ where ? = claimIDFlagged AND flagType NOT LIKE 'Thesis Rival'
     $result167 = $stmt167->get_result();
     $numhits167 = mysqli_num_rows($result167);
     // above looks for normal non-rival flags for this rivaling claim.
-    while ($userRIVALING = $result167->fetch_assoc()) {
+    foreach ($result167 as $userRIVALING) {
         if (0 == $numhits167) {
         } else {
             restoreActivity($userRIVALING['claimIDFlagger']);
@@ -456,10 +456,7 @@ where ? = claimIDFlagged AND flagType NOT LIKE 'Thesis Rival'
 
     $statusA = '';
     $statusB = '';
-    if (
-        'true' == noSupportsRival($claimid) &&
-        !doesThesisFlagRival($claimid)
-    ) {
+    if ('true' == noSupportsRival($claimid) && !doesThesisFlagRival($claimid)) {
         $statusA = 'unchallenged';
     } else {
         $statusA = 'challenged';
