@@ -101,4 +101,5 @@ function noSupportsRival($claimidA)
 
         return 'false';
     } // end of if statement
-} // end of function
+}
+// end of function

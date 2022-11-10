@@ -8,7 +8,7 @@ This function displays each individual claim in a recursive manner.
 Each recursion is a series of tracking relationships between the claims (found in the Flabsdb).
 */
 
-function get_image($name)
+function getImage($name)
 {
     return '<img class="icon--' .
         $name .
@@ -20,7 +20,7 @@ function get_image($name)
 //////////////////////////////////////////////
 // HTML
 //////////////////////////////////////////////
-function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
+function makeLabelEl($claim_id, $claim, $flag_type, $rivalling = '')
 {
     ?>
     <input id="<?php echo $claim_id; ?>" type="checkbox">
@@ -30,7 +30,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
     <?php
     switch ($flag_type) {
         case 'supporting':
-            echo get_image('support');
+            echo getImage('support');
             echo '<div class="claim_supportmeans">' .
                 htmlspecialchars($claim->supportMeans) .
                 '</div>';
@@ -54,7 +54,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
             break;
         case '':
             if ($rivalling) {
-                echo get_image('rivals');
+                echo getImage('rivals');
                 echo '<h4>Contests #' . $rivalling . '</h4>';
             }
             echo '<h1>Thesis</h1>';
@@ -65,7 +65,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
                 '</div>';
             break;
         default:
-            echo get_image('flag');
+            echo getImage('flag');
             echo 'Flagged: ' . $flag_type . '';
             echo '<h1>Thesis</h1>';
             echo '<div class="claim_body">' .
@@ -80,7 +80,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
 
     // FONT CHANGING
     if ($claim->active != 1) {
-        echo get_image('alert');
+        echo getImage('alert');
     }
     ?>
     <div>
@@ -96,7 +96,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
 
 // starts two chains of recursion. one with normal root claims.
 // the other with root rivals. the rivals, of course, are put into the rival recursion.
-function sortclaims($claimID)
+function sortClaims($claimID)
 {
     $claim = Database::getClaim($claimID);
     if (!$claim) {
@@ -112,14 +112,14 @@ function sortclaims($claimID)
     if ($resultFlagType == 'Thesis Rival') {
         // echo 'The flag ' . $claimIDFlagger . ' has a rival!: ' . '';
         // for THIS claimID - check for flaggers that aren't rival .. sort claim those
-        sortclaimsRival($claimIDFlagger);
+        sortClaimsRival($claimIDFlagger);
         // for the CORRESPONDING claimID - check for flaggers that aren't rival .. sort claim those.
-        sortclaimsRival($claimIDFlagged);
+        sortClaimsRival($claimIDFlagged);
         return;
     }
     ?>
     <li>
-        <?php make_label_el($claimID, $claim, $resultFlagType); ?>
+        <?php makeLabelEl($claimID, $claim, $resultFlagType); ?>
         <ul><span class="more">• • •</span>
 
         <?php
@@ -129,7 +129,7 @@ function sortclaims($claimID)
         // continue recursion
         $result1 = Database::getNonRivalFlags($claimID); // get the mysqli result
         foreach ($result1 as $id) {
-            sortclaims($id);
+            sortClaims($id);
         }?></ul><?php
 }
 
@@ -139,7 +139,7 @@ The key difference is handling the “mutualistic flagging” relationship that 
 It breaks an infinite loop that would otherwise occur if a rival was handled recursively in sortClaims().
 */
 
-function sortclaimsRIVAL($claimID)
+function sortClaimsRIVAL($claimID)
 {
     // get the info for the claim being flagged
     $claim = Database::getClaim($claimID);
@@ -151,14 +151,15 @@ function sortclaimsRIVAL($claimID)
     ?>
 
         <li>
-        <?php make_label_el($claimID, $claim, '', $rivaling); ?>
+        <?php makeLabelEl($claimID, $claim, '', $rivaling); ?>
         <ul> <span class="more">&hellip;</span>
             <!--</font>-->
                 <?php
                 $result1 = Database::getNonRivalFlags($claimID);
                 foreach ($result1 as $flagID) {
-                    sortclaims($flagID);
+                    sortClaims($flagID);
                 }?>
         </ul><?php
-} // end of rivalfunction
+}
+// end of rivalfunction
 ?>
