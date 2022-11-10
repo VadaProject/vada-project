@@ -137,6 +137,17 @@ class Database
         return self::getColumnAsArray($res, 'claimID');
     }
 
+    public static function getAllThesisRivals($topic)
+    {
+        $query = 'SELECT DISTINCT claimsdb.claimID from claimsdb
+        JOIN flagsdb ON flagsdb.claimIDFlagger = claimsdb.claimID
+        WHERE claimsdb.topic = ? AND flagsdb.flagType LIKE "Thesis Rival"';
+        $stmt = self::$conn->prepare($query);
+        $stmt->bind_param('s', $topic);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return self::getColumnAsArray($res, 'claimID');
+    }
     /**
      * Helper function
      * @param \mysqli_result $result
