@@ -8,7 +8,7 @@ This function displays each individual claim in a recursive manner.
 Each recursion is a series of tracking relationships between the claims (found in the Flabsdb).
 */
 
-function getImage($name)
+function get_image($name)
 {
     return '<img class="icon--' .
         $name .
@@ -20,28 +20,39 @@ function getImage($name)
 //////////////////////////////////////////////
 // HTML
 //////////////////////////////////////////////
-function makeLabelEl($claim_id, $claim, $flag_type, $rivalling = '')
+function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
 {
     ?>
-    <input id="<?php echo $claim_id; ?>" type="checkbox">
+    <input id="<?php echo $claim_id; ?>" type="checkbox" name="active_claim">
     <label class="claim"
         <?php if ($rivalling) { ?>style="background:#FFFFE0"<?php } ?>
         for="<?php echo $claim_id; ?>">
     <?php
     switch ($flag_type) {
         case 'supporting':
-            echo getImage('support');
-            echo '<div class="claim_supportmeans">' .
+            echo get_image('support');
+            echo '<div class="">' .
                 htmlspecialchars($claim->supportMeans) .
                 '</div>';
             if ($claim->supportMeans == 'Inference') {
                 $reason =
                     htmlspecialchars($claim->subject) .
                     ' ' .
+                    htmlspecialchars($claim->reason);
+                $rule =
+                    'Whatever/Whomever ' .
                     htmlspecialchars($claim->reason) .
-                    ', as in the case of ' .
-                    htmlspecialchars($claim->example);
-                echo '<div class="claim_body">Reason: ' . $reason . '</div>';
+                    ', ' .
+                    htmlspecialchars($claim->targetP) .
+                    ' as in the case of ' .
+                    htmlspecialchars($claim->example) .
+                    '';
+                echo '<div class="claim_body"><b>Reason:</b> ' .
+                    $reason .
+                    '</div>';
+                echo '<div class="claim_body"><b>Rule & Example:</b> ' .
+                    $rule .
+                    '</div>';
             }
             if (
                 $claim->supportMeans == 'Testimony' ||
@@ -54,7 +65,7 @@ function makeLabelEl($claim_id, $claim, $flag_type, $rivalling = '')
             break;
         case '':
             if ($rivalling) {
-                echo getImage('rivals');
+                echo get_image('rivals');
                 echo '<h4>Contests #' . $rivalling . '</h4>';
             }
             echo '<h1>Thesis</h1>';
@@ -65,14 +76,12 @@ function makeLabelEl($claim_id, $claim, $flag_type, $rivalling = '')
                 '</div>';
             break;
         default:
-            echo getImage('flag');
+            echo get_image('flag');
+            echo '<div class="claim_body">';
             echo 'Flagged: ' . $flag_type . '';
-            echo '<h1>Thesis</h1>';
-            echo '<div class="claim_body">' .
-                $claim->subject .
-                ' ' .
-                $claim->targetP .
-                '</div>';
+            echo '<h1 class="claim_body">Thesis</h1>';
+            echo '<p>' . $claim->subject . ' ' . $claim->targetP . '</p>';
+            echo '</div>';
     }
     echo '<div>#' . $claim_id . '</div>';
 
@@ -80,15 +89,14 @@ function makeLabelEl($claim_id, $claim, $flag_type, $rivalling = '')
 
     // FONT CHANGING
     if ($claim->active != 1) {
-        echo getImage('alert');
+        echo get_image('alert');
     }
     ?>
-    <div>
-        <button class="btn btn-primary"
-        onclick="loadData(this.getAttribute('data-id'));"
-        data-id="<?php echo $claim_id; ?>">
+    <div class="claim_body">
+        <a class="btn btn-primary"
+        href="details.php?id=<?php echo $claim_id; ?>">
         Details
-        </button>
+        </a>
     </div>
     </label>
     <?php
@@ -119,9 +127,8 @@ function sortClaims($claimID)
     }
     ?>
     <li>
-        <?php makeLabelEl($claimID, $claim, $resultFlagType); ?>
-        <ul><span class="more">• • •</span>
-
+        <?php make_label_el($claimID, $claim, $resultFlagType); ?>
+        <ul>
         <?php
         // IF A CLAIM IS FLAGGED IT obtains flaggers that aren't rivals
         // if its a thesis rival it will show up in the query above
@@ -129,8 +136,9 @@ function sortClaims($claimID)
         // continue recursion
         $result1 = Database::getNonRivalFlags($claimID); // get the mysqli result
         foreach ($result1 as $id) {
-            sortClaims($id);
-        }?></ul><?php
+            sortclaims($id);
+        }?>
+    </ul><?php
 }
 
 /*
@@ -151,8 +159,8 @@ function sortClaimsRIVAL($claimID)
     ?>
 
         <li>
-        <?php makeLabelEl($claimID, $claim, '', $rivaling); ?>
-        <ul> <span class="more">&hellip;</span>
+        <?php make_label_el($claimID, $claim, '', $rivaling); ?>
+        <ul>
             <!--</font>-->
                 <?php
                 $result1 = Database::getNonRivalFlags($claimID);

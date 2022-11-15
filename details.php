@@ -11,8 +11,6 @@ require_once 'functions/flagging.php';
 
 $conn = db_connect();
 
-$claimID = $temp = $result = $topic = $array = $claim_fk = $IclaimID = $thesisST = $reasonST = $ruleST = $NewOld = $oldClaim = $subject = $targetP = $supportMeans = $supportforID = $supportID = $example = $URL = $rd = $reason = $flagType = $flagTypeT = $flagTypeR = $flagTypeE = $flagURL = $flagSource = $flagID = $inferenceIDFlagger = $active = $dSubject = $dTargetP = $domain = $supportingDropCheck =
-    '';
 if (isset($_GET['id'])) {
     // escape sql chars
     $claimID = mysqli_real_escape_string($conn, $_GET['id']); // make sql
@@ -89,7 +87,7 @@ WHERE claimID = ?';
         <p><b>Support Means:</b> <?php echo $details['supportMeans']; ?></p>
         <span style="color:red;"> (Subject)</span> <span style="color:orange;">(Reason Property)</span><br>
         <b>Reason Statement:</b>
-        <span style="color:red;"> <?php echo $dSubject; ?></span>
+        <span style="color:red;"> <?php echo $details['subject']; ?></span>
         <span style="color:orange;"><?php echo $details['reason']; ?></span>
         <br><br>
         <b>Rule Statement:</b> Whomever/Whatever <span style="color:orange;"> <?php echo $details[
