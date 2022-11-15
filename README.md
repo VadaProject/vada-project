@@ -1,33 +1,38 @@
 # VadaProject / application
 
-_Warning: This document is a work in progress, and is currently only ready for internal usage._
+_Warning: This README.md document is a work in progress, and is currently only ready for internal usage._
 
 This repository holds the PHP files which make up the application's front-end.
 
-## Installation (local development)
+## Deploying for local development
 
-1. Download and install...
-   - [XAMPP](https://www.apachefriends.org/download.html)
-   - [Composer](https://getcomposer.org/download/) (globally)
-     - macOS: `brew install php composer`
-   - [PHP-CS-Fixer]()
-     - ```sh
-       composer require --global friendsofphp/php-cs-fixer
-       ```
-1. From the control panel, start the Apache and MySQL servers.
-1. From XAMPP's `htdocs/` folder, clone this repository, and name the folder `directory`.
+### Initialize Apache web server
+
+1. Download and install [XAMPP](https://www.apachefriends.org/download.html) and [Composer](https://getcomposer.org/download/).
+1. Clone this repository into XAMPP's `htdocs/` folder and name the folder `directory`.
    - ```sh
      cd [xampp_root]/htdocs
-     git clone <repo_url>.git directory
+     git clone https://github.com/VadaProject/application.git directory
      ```
-1. Log into the phpMyAdmin dashboard (usually at <https://localhost/phpmyadmin/>)
-1. Create a new database called `vadaProject`.
-   - From the SQL tab, load and execute the commands in `vadaProject.sql`.
-   - This should populate the database with two tables.
-1. Create a new user account.
-   - Set username, password to match the ones in `config/db_connect.php`.
-   - Change hostname from '`%`' to `localhost`.
-   - 🚨 For security reasons, this should be refactored to load database credentials from a .env file instead.
+1. From XAMPP's control panel, start the Apache and MySQL servers.
+
+### Initialize database
+
+1. Log into the phpMyAdmin dashboard at <https://localhost/phpmyadmin/>
+1. From the SQL tab, load and execute the script [vadaProject.sql](vadaProject.sql).
+   - This should create a `vadaProject` database and its tables.
+1. Optional step: load and execute the script [create_dummy_claims.sql](create_dummy_claims.sql).
+1. Create a new account with the username `vadaUser`, and a secure password.
+   - Change the user's hostname from '`%`' to `localhost`.
+
+### Configure database authentication
+1. Create the file [config/.env.php](config/.env.php) with the following text:
+      ```php
+      $DB_SERVER = 'localhost';
+      $DB_USERNAME = 'vadaUser';
+      $DB_PASSWORD = '== MY PASSWORD ==';
+      $DB_DATABASE = 'vadaProject';
+      ```
 1. A local instance of the Vada Project should now be functional at <https://localhost/directory>.
 
 ## Deploying
@@ -36,7 +41,7 @@ T.B.D
 
 ## Tooling and development
 
-To ensure consistency, please use [Visual Studio Code](https://code.visualstudio.com), and run the following linting utilities.
+To ensure consistency, please use [Visual Studio Code](https://code.visualstudio.com) alongside the following linting utilities.
 
 1. Install [Composer](https://getcomposer.org/doc/00-intro.md) and [PHP]()
    - macOS: available on [Homebrew](https://formulae.brew.sh/formula/composer) (`brew install php composer`)
