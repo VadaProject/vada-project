@@ -456,7 +456,14 @@ div.scroll {
 	color: black;
 }
 
-.claim {}
+.claim {
+	text-align: left;
+}
+
+.claim > * {
+	margin-inline: auto;
+	width: fit-content;
+}
 
 .claim img {
 	display: block;

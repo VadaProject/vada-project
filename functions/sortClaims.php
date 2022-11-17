@@ -45,18 +45,19 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
                     ' as in the case of ' .
                     htmlspecialchars($claim->example) .
                     '';
-                echo '<div class="claim_body"><b>Reason:</b> ' .
+                echo '<div class="claim_body">';
+                echo '<p><b>Reason:</b> ' .
                     $reason .
-                    '</div>';
-                echo '<div class="claim_body"><b>Rule & Example:</b> ' .
+                    '</p>';
+                echo '<p class="claim_body"><b>Rule & Example:</b> ' .
                     $rule .
-                    '</div>';
+                    '</p></div>';
             }
             if (
                 $claim->supportMeans == 'Testimony' ||
                 $claim->supportMeans == 'Perception'
             ) {
-                echo '<div class="claim_body">Citation: ' .
+                echo '<div class="claim_body"><b>Citation:</b> ' .
                     htmlspecialchars($claim->citation) .
                     '</div>';
             }
@@ -77,7 +78,9 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
             echo get_image('flag');
             echo '<div class="claim_body">';
             echo 'Flagged: ' . $flag_type . '';
+            echo '</div>';
             echo '<h1 class="claim_body thesis">Thesis</h1>';
+            echo '<div class="claim_body">';
             echo '<p>' . $claim->subject . ' ' . $claim->targetP . '</p>';
             echo '</div>';
     }
