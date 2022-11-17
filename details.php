@@ -1,6 +1,6 @@
 <?php  ?>
 <?php include 'includes/page_top.php'; ?>
-<main class="page-container text-center">
+<main class="page-container">
 <?php
 
 /*
@@ -50,7 +50,7 @@ WHERE claimIDFlagger = ?';
             ?>
             <table>
                 <tr>
-                    <th>
+                    <td>
                         <style>
                             table,
                             th,
@@ -59,7 +59,7 @@ WHERE claimIDFlagger = ?';
                             }
                         </style>
                     <?php
-                    echo 'THESIS FROM CLAIM #' . $claimIDFlagged . ': <BR>';
+                    echo '<p><b>THESIS FROM CLAIM #' . $claimIDFlagged . ': </b></p>';
                     $oldclaim2 = 'SELECT subject, targetP
 FROM claimsdb
 WHERE claimID = ?';
@@ -73,29 +73,28 @@ WHERE claimID = ?';
                         $subject = $data['subject'];
                         $dTargetP = $data['targetP'];
                         ?>
-                            <span style="color:red;"> (Subject)</span>
-                            <span style="color:blue;"> (Target Property)</span><br>
-                            <b>Thesis Statement:</b> <span style="color:red;"> <?php echo $data[
+                            <p><b>Thesis Statement:</b> <span style="color:red;"><?php echo $data[
                                 'subject'
-                            ]; ?></span> <span style="color:blue;"><?php echo $dTargetP; ?></span>
+                            ]; ?><sup>(subject)</sup></span>
+                            <span style="color:blue;"><?php echo $dTargetP; ?><sup style="color:blue;">(target property)</sup></span></p>
+                    </td>
                 </tr>
             </table>
                                                         <?php
                     }
                     ?>
-        <BR><br>
         <p><b>Support Means:</b> <?php echo $details['supportMeans']; ?></p>
-        <span style="color:red;"> (Subject)</span> <span style="color:orange;">(Reason Property)</span><br>
-        <b>Reason Statement:</b>
-        <span style="color:red;"> <?php echo $details['subject']; ?></span>
-        <span style="color:orange;"><?php echo $details['reason']; ?></span>
-        <br><br>
-        <b>Rule & Example Statement:</b> Whomever/Whatever <span style="color:orange;"> <?php echo $details[
+        <p><b>Reason Statement:</b>
+        <span style="color:red;"> <?php echo $details['subject']; ?><sup>(subject)</sup></span>
+        <span style="color:darkorange;"><?php echo $details['reason']; ?><sup>(reason property)</sup></span>
+                </p>
+        <p>
+        <b>Rule & Example Statement:</b> Whomever/Whatever <span style="color:darkorange;"> <?php echo $details[
             'reason'
-        ]; ?></span> <span style="color:blue;"><?php echo $dTargetP; ?></span>, as in the case of <span style="color:purple;"> <?php echo $details[
-    'example'
-]; ?></span>
-        <br><br>
+        ]; ?></span> <span style="color:blue;"><?php echo $dTargetP; ?></span>, as in the case of <span style="color:purple;"><?php echo $details[
+        'example'
+    ]; ?><sup>(example)</sup></span>
+        </p>
         <!-- Trigger/Open The Modal -->
         <button class="openmodal myBtn">Flag Inference</button>
         <!-- The Modal -->
