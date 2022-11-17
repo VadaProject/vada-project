@@ -90,7 +90,7 @@ WHERE claimID = ?';
         <span style="color:red;"> <?php echo $details['subject']; ?></span>
         <span style="color:orange;"><?php echo $details['reason']; ?></span>
         <br><br>
-        <b>Rule Statement:</b> Whomever/Whatever <span style="color:orange;"> <?php echo $details[
+        <b>Rule & Example Statement:</b> Whomever/Whatever <span style="color:orange;"> <?php echo $details[
             'reason'
         ]; ?></span> <span style="color:blue;"><?php echo $dTargetP; ?></span>, as in the case of <span style="color:purple;"> <?php echo $details[
     'example'
