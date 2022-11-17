@@ -19,19 +19,11 @@ if (isset($_GET['topic'])) {
 <div class="wrapper">
     <ul>
         <li class="noline">
-            <BR><BR>
-
             <span>
-                <div class="notification">
-                    <img alt="Contested claim icon"
-                        src="assets/img/alert.png">
-                    <p>A contested claim or support will have this symbol.<br>Rival
-                        claims will be yellow.</p>
-                </div>
                 <p><a href="add.php?topic=<?php echo $topic; ?>">Add New Claim To
                         This Topic</a></p>
             </span>
-            <h3>TOPIC: <?php echo $topic; ?> <BR> </h3>
+            <h3>TOPIC: <?php echo $topic; ?></h3>
 
 
             </center>

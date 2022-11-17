@@ -10,11 +10,9 @@ Each recursion is a series of tracking relationships between the claims (found i
 
 function get_image($name)
 {
-    return '<img class="icon--' .
+    return '<div class="icon icon--' .
         $name .
-        '" src="assets/img/' .
-        $name .
-        '.png">';
+        '">' . $name . '</div>';
 }
 
 //////////////////////////////////////////////
@@ -68,7 +66,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
                 echo get_image('rivals');
                 echo '<h4>Contests #' . $rivalling . '</h4>';
             }
-            echo '<h1>Thesis</h1>';
+            echo '<h1 class="thesis">Thesis</h1>';
             echo '<div class="claim_body">' .
                 $claim->subject .
                 ' ' .
@@ -79,7 +77,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
             echo get_image('flag');
             echo '<div class="claim_body">';
             echo 'Flagged: ' . $flag_type . '';
-            echo '<h1 class="claim_body">Thesis</h1>';
+            echo '<h1 class="claim_body thesis">Thesis</h1>';
             echo '<p>' . $claim->subject . ' ' . $claim->targetP . '</p>';
             echo '</div>';
     }
@@ -89,7 +87,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
 
     // FONT CHANGING
     if ($claim->active != 1) {
-        echo get_image('alert');
+        echo get_image('contested');
     }
     ?>
     <div class="claim_body">

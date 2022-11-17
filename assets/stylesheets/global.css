@@ -1,4 +1,5 @@
 @import url(../fonts/SourceSansPro.css);
+@import url(../fonts/LeagueSpartan.css);
 
 body {
 	margin: 0;
@@ -102,12 +103,8 @@ li {
 
 }
 
-div:before,
-div:after,
 ul:before,
-ul:after,
-li:before,
-li:after {
+li:before {
 	content: '';
 	position: absolute;
 }
@@ -145,9 +142,10 @@ li:after {
 }
 
 .wrapper ul > li {
-	margin: 0.5em 0;
-	padding: 1em;
+	margin-top: 0.5em;
+	padding-top: 0.5em;
 	line-height: 1.5em;
+	padding-inline: 0.5rem;
 }
 
 .wrapper ul>li:before {
@@ -195,13 +193,14 @@ li:after {
 
 :not(:checked) ~ .claim .claim_body {
 	height: 0; width: 0; opacity: 0; margin: 0;
+	position: absolute;
 }
 /* :checked ~ .claim .claim_{
 	height: unset; width: unset; opacity: unset;
 } */
 
 :checked ~ .claim {
-	width: 30rem;
+	max-width: 20rem;
 }
 
 div.a {
@@ -227,7 +226,6 @@ div.x {
 .button {
 	background-color: #d3d3d3;
 	border: none;
-	font-color: white;
 	padding: 7px 10px;
 	text-align: center;
 	text-decoration: none;
@@ -472,8 +470,45 @@ p {
 }
 
 .claim > * + * {
-	margin-top: 0.5rem;
+	margin-top: 0.25rem;
 	margin-bottom: 0rem;
+}
+
+.icon, .thesis {
+	text-transform: uppercase;
+	font-family: "League Spartan", sans-serif;
+	color: black;
+	font-size: 1.2em;
+}
+.thesis {
+	color: unset;
+	font-size: 1.8em;
+}
+
+.icon::after {
+	display: inline-block;
+	vertical-align: -0.08em;
+	padding-left: 0.25em;
+}
+.icon--flag::after {
+	content: url(../svg/flag.svg);
+}
+.icon--rivals {
+	color: #c0e;
+}
+.icon--rivals::after {
+	content: url(../svg/minimize-2.svg);
+	rotate: 45deg;
+}
+.icon--support::after {
+	content: url(../svg/thumbs-up.svg);
+}
+
+.icon--contested {
+	color: #e00;
+}
+.icon--contested::after {
+	content: url(../svg/alert.svg);
 }
 
 img.icon--rivals {
@@ -486,3 +521,4 @@ img.icon--rivals {
 	-moz-appearance: button;
 	appearance: button;
 }
+
