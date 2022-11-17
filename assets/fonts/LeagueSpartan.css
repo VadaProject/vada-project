@@ -1,0 +1,8 @@
+/* SemiBold */
+@font-face {
+  font-family: 'League Spartan';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+	src: url(LeagueSpartan-Bold.ttf) format('truetype');
+}

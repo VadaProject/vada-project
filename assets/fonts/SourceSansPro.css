@@ -1,0 +1,48 @@
+/* Italic */
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+	src: url(SourceSansPro-Italic.ttf) format('truetype');
+}
+/* Regular */
+@font-face {
+	font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(SourceSansPro-Regular.ttf) format('truetype');
+}
+/* Bold */
+/* @font-face {
+	font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(SourceSansPro-Bold.ttf) format('truetype');
+} */
+/* Bold Italic */
+/* @font-face {
+	font-family: 'Source Sans Pro';
+	font-style: italic;
+	font-weight: 700;
+	font-display: swap;
+	src: url(SourceSansPro-BoldItalic.ttf) format('truetype');
+} */
+/* SemiBold */
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(SourceSansPro-SemiBold.ttf) format('truetype');
+}
+/* SemiBold Italic */
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(SourceSansPro-SemiBoldItalic.ttf) format('truetype');
+}

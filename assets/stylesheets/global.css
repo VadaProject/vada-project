@@ -1,14 +1,19 @@
-/* FUNCTIONAL - Needed for the tree diagram */
-@import url("https://fonts.googleapis.com/css?family=Questrial");
+@import url(../fonts/SourceSansPro.css);
 
 body {
 	margin: 0;
-	color: grey;
-	font-family: 'Questrial', sans-serif;
+	color: #555;
+	font-family: 'Source Sans Pro', sans-serif;
 	background: #e8e7df;
 	position: relative;
 	line-height: 1.6;
 	font-size: 1rem;
+}
+
+@media (prefers-contrast: more) {
+	body {
+		color: #222;
+	}
 }
 
 h1,
