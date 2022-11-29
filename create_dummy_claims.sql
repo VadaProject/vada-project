@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 -- Database: `vadaproject`
 --
 CREATE DATABASE IF NOT EXISTS `vadaproject` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `vadaproject`;
+USE `VadaProject_DB`;
 
 -- --------------------------------------------------------
 
@@ -29,7 +29,7 @@ USE `vadaproject`;
 --
 
 CREATE TABLE `claimsdb` (
-  `claimID` int(11) NOT NULL,
+  `claimID` int(11) AUTO_INCREMENT PRIMARY KEY,
   `subject` varchar(255) NOT NULL,
   `targetP` varchar(255) NOT NULL,
   `supportMeans` varchar(255) NOT NULL,
@@ -437,7 +437,7 @@ CREATE TABLE `flagsdb` (
   `claimIDFlagged` int(11) NOT NULL,
   `flagType` varchar(255) NOT NULL,
   `claimIDFlagger` int(11) NOT NULL,
-  `flagID` int(11) NOT NULL,
+  `flagID` int(11) AUTO_INCREMENT PRIMARY KEY,
   `isRootRival` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

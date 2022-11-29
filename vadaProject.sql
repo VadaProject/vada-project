@@ -11,17 +11,11 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Database: `vadaProject`
 --
-CREATE DATABASE IF NOT EXISTS `vadaproject` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `vadaproject`;
+CREATE DATABASE IF NOT EXISTS `VadaProject_DB` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `VadaProject_DB`;
 
 -- --------------------------------------------------------
 
@@ -30,7 +24,7 @@ USE `vadaproject`;
 --
 
 CREATE TABLE `claimsdb` (
-  `claimID` int(11) NOT NULL,
+  `claimID` int(11) AUTO_INCREMENT PRIMARY KEY,
   `subject` varchar(255) NOT NULL,
   `targetP` varchar(255) NOT NULL,
   `supportMeans` varchar(255) NOT NULL,
@@ -60,43 +54,8 @@ CREATE TABLE `flagsdb` (
   `claimIDFlagged` int(11) NOT NULL,
   `flagType` varchar(255) NOT NULL,
   `claimIDFlagger` int(11) NOT NULL,
-  `flagID` int(11) NOT NULL,
+  `flagID` int(11) AUTO_INCREMENT PRIMARY KEY,
   `isRootRival` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `claimsdb`
---
-ALTER TABLE `claimsdb`
-  ADD PRIMARY KEY (`claimID`);
-
---
--- Indexes for table `flagsdb`
---
-ALTER TABLE `flagsdb`
-  ADD PRIMARY KEY (`flagID`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `claimsdb`
---
-ALTER TABLE `claimsdb`
-  MODIFY `claimID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1389;
-
---
--- AUTO_INCREMENT for table `flagsdb`
---
-ALTER TABLE `flagsdb`
-  MODIFY `flagID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8632;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
