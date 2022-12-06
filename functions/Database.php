@@ -30,6 +30,31 @@ class Database
         return $stmt->get_result()->fetch_object();
     }
 
+    public static function isClaimActive($claimID)
+    {
+        $stmt = self::$conn->prepare(
+            'SELECT active from claimsdb where claimID = ?'
+        );
+        $stmt->bind_param('i', $claimID);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_object()->active;
+    }
+
+    /**
+     * @param int $claimID
+     * @param bool $active
+     */
+    public static function setClaimActive($claimID, $active)
+    {
+        $active_int = $active ? 1 : 0; // turn bool param into int
+        // TODO: the database stores this as an int but it should be a bool
+        $stmt = self::$conn->prepare(
+            'UPDATE claimsdb SET active = ? WHERE claimID = ?'
+        );
+        $stmt->bind_param('ii', $active_int, $claimID);
+        $stmt->execute();
+    }
+
     /**
      * @param int $claimID
      * @return
@@ -90,6 +115,22 @@ class Database
         $query = "SELECT DISTINCT claimIDFlagger
         from flagsdb WHERE claimIDFlagged = ?
         and flagType NOT LIKE 'supporting'";
+        $stmt = self::$conn->prepare($query);
+        $stmt->bind_param('i', $claimID);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return self::getColumnAsArray($res, 'claimIDFlagger');
+    }
+
+    /**
+     * @param int $claimID
+     * @return \int[] The IDs of each claim which flags $claimID and is not a Support.
+     */
+    public static function getFlagsSupporting($claimID)
+    {
+        $query = "SELECT DISTINCT claimIDFlagger
+        from flagsdb WHERE claimIDFlagged = ?
+        and flagType LIKE 'supporting'";
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $claimID);
         $stmt->execute();
