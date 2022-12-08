@@ -5,7 +5,6 @@ require_once 'functions/sortClaims.php';
 require_once 'functions/doesThesisFlag.php';
 require_once 'functions/noSupports.php';
 require_once 'functions/restoreActivity.php';
-require_once 'functions/haveRival.php';
 require_once 'functions/Database.php';
 use Database\Database;
 $conn = db_connect();

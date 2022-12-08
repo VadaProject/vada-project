@@ -3,15 +3,21 @@
 require_once 'Database.php';
 use Database\Database;
 
-/*
-This function checks the status of each claim individually.
-It observes surrounding relationships to determine if the claim is contested or not.
+/**
+ * @param int $claim_id The claim to check.
+ * @return bool Returns true if a claim has an ACTIVE thesis rival
 */
-
-function restoreActivity($claimid)
+function haveRival($claim_id)
 {
-    require_once __DIR__ . '/../config/db_connect.php';
-    $conn = db_connect();
+    // TODO: if we do it a lot, this operation could probably be reduced to a SQL query
+    $flaggers = Database::getFlaggedRivals($claim_id);
+    foreach ($flaggers as $flag_id) {
+        if (Database::isClaimActive($flag_id)) {
+            return true;
+        }
+    }
+    return false;
+}
 
     // grabs supports for initial claim NUMBER ONE ON DIAGRAM, RED
     $act2 = "SELECT DISTINCT claimIDFlagger
