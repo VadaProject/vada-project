@@ -1,5 +1,8 @@
 <?php
 
+require_once 'Database.php';
+use Database\Database;
+
 /*
 This function checks to see if an individual claim has any ACTIVE supports or not.
 */
@@ -39,17 +42,8 @@ function noSupports($claimid)
     } // end of first while loop
 
     if ('There is an active' != $result) {
-        // echo '<script type="text/javascript">alert("ITS HAPPENING: ' . $result . '");</script>';
-
-        $act = 'UPDATE claimsdb
-        SET active = 0
-        WHERE claimID = ?
-
-    ';
-        $upd = $conn->prepare($act);
-        $upd->bind_param('i', $claimid);
-        $upd->execute();
-    } // end of if statement
+        Database::setClaimActive($claimid, false);
+    }
 }
 
 /*

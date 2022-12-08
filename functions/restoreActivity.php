@@ -1,5 +1,8 @@
 <?php
 
+require_once 'Database.php';
+use Database\Database;
+
 /*
 This function checks the status of each claim individually.
 It observes surrounding relationships to determine if the claim is contested or not.
@@ -45,37 +48,17 @@ WHERE claimIDFlagged = ? and flagType LIKE 'supporting'";
                 global $everyInactiveSupport;
                 $everyInactiveSupport = 'false';
 
-                $act = 'UPDATE claimsdb
-      SET active = 1
-      WHERE claimID = ?
-'; // SQL with parameters
-                $upd = $conn->prepare($act);
-                $upd->bind_param('i', $claimid);
-                $upd->execute();
+                Database::setClaimActive($claimid, true);
             } // end of if
         } // end of while loop
 
         // are all supports inactive? claim is inactive.
-        /*  if($everyInactiveSupport == 'true')
-                          {
-                            $act = "UPDATE claimsdb
-                            SET active = 0
-                            WHERE claimID = ?
-                        "; // SQL with parameters
-                        $upd = $conn->prepare($act);
-                        $upd->bind_param("i", $claimid);
-                        $upd->execute();
-                         } // end of second if statement
-                        */
+        // if ($everyInactiveSupport == 'true') {
+        //     Database::setClaimActive($claimid, false);
+        // }
 
         if ('false' == doesThesisFlag($supports['claimIDFlagger'])) {
-            $act = 'UPDATE claimsdb
-            SET active = 1
-            WHERE claimID = ?
-        '; // SQL with parameters
-            $upd = $conn->prepare($act);
-            $upd->bind_param('i', $supports['claimIDFlagger']);
-            $upd->execute();
+            Database::setClaimActive($supports['claimIDFlagger'], true);
         }
 
         if (!doesThesisFlag($claimid)) {
@@ -162,29 +145,15 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
                     global $everyInactive;
                     $everyInactive = 'false';
                     //    echo $everyInactive;
-                    $act = 'UPDATE claimsdb
-                                              SET active = 0
-                                              WHERE claimID = ?
-                                    '; // SQL with parameters
-                    $upd = $conn->prepare($act);
-                    $upd->bind_param('i', $supports['claimIDFlagger']);
-                    $upd->execute();
+                    Database::setClaimActive($supports['claimIDFlagger'], false);
                 } // end of if
             } // end of while loop
 
-            /* if($everyInactive == 'true')
-                             {
-
-                                    //echo "ANSWER" . $everyInactive;
-                                    // BELOW CHANGES THE ACTIVE STATE OF OTHER CLAIMS
-                               $act = "UPDATE claimsdb
-                               SET active = 1
-                               WHERE claimID = ?
-                                    "; // SQL with parameters
-                                    $upd = $conn->prepare($act);
-                                    $upd->bind_param("i", $supports['claimIDFlagger']);
-                                    $upd->execute();
-                            } // end of second if statement */
+            // if ($everyInactive == 'true') {
+            //     //echo "ANSWER" . $everyInactive;
+            //     // BELOW CHANGES THE ACTIVE STATE OF OTHER CLAIMS
+            //     Database::setClaimActive($supports['claimIDFlagger'], true);
+            // }
         } // end of while loop
 
         // //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,49 +161,36 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
 
     // this needs to be checking thesis flags for root claims
 
-    /*
-                      while($TETL = $activity ->fetch_assoc())
-                      {
 
-                    // grabs all active statuses for all the supports of the claim
-                    $act37 = "SELECT DISTINCT active
-                            from claimsdb
-                            WHERE claimID = ?";
-                    $s37 = $conn->prepare($act37);
-                    $s37->bind_param("i", $TETL['claimIDFlagger']);
-                    $s37->execute();
-                    $activity37 = $s37->get_result();
-                    $nh = mysqli_num_rows($activity37);
+    //     while ($TETL = $activity ->fetch_assoc()) {
 
-                         while($ChAc = $activity37->fetch_assoc())
-                      {
+    //         // grabs all active statuses for all the supports of the claim
+    //         $act37 = "SELECT DISTINCT active
+    //                 from claimsdb
+    //                 WHERE claimID = ?";
+    //         $s37 = $conn->prepare($act37);
+    //         $s37->bind_param("i", $TETL['claimIDFlagger']);
+    //         $s37->execute();
+    //         $activity37 = $s37->get_result();
+    //         $nh = mysqli_num_rows($activity37);
 
-                    $allSupportsInactive = '';
+    //         while($ChAc = $activity37->fetch_assoc()) {
+    //             $allSupportsInactive = '';
+    //             if ($ChAc['active'] = '1') {
+    //                 $allSupportsInactive = 'false';
+    //             } else {
+    //                 $allSupportsInactive = 'true';
+    //             }// end of else
 
-                    if($ChAc['active'] = '1')
-                    {
-                    $allSupportsInactive = 'false';
-                    }
-                    else{
-                      $allSupportsInactive = 'true';
+    //                 if($allSupportsInactive == 'true')
+    //                 {
 
-                    }// end of else
+    //echo "ANSWER" . $everyInactive;
+    // BELOW CHANGES THE ACTIVE STATE OF OTHER CLAIMS
+    // Database::setClaimActive($claimid, false);
+    // } // end of second if statement
 
-                     if($allSupportsInactive == 'true')
-                      {
 
-                    //echo "ANSWER" . $everyInactive;
-                    // BELOW CHANGES THE ACTIVE STATE OF OTHER CLAIMS
-                    $act = "UPDATE claimsdb
-                    SET active = 0
-                    WHERE claimID = ?
-                    "; // SQL with parameters
-                    $upd = $conn->prepare($act);
-                    $upd->bind_param("i", $claimid);
-                    $upd->execute();
-                     } // end of second if statement
-
-                    */
 
     // } // end of while for active
 
@@ -282,23 +238,9 @@ WHERE claimIDFlagged = ? and flagType LIKE 'Thesis Rival'";
             // $activestatus['claimiDflagger'] <--- flagtype like "suppporting"
 
             if (1 == $r90['active']) {
-                $act = 'UPDATE claimsdb
-          SET active = 0
-          WHERE claimID = ?
-'; // SQL with parameters
-                $upd = $conn->prepare($act);
-                $upd->bind_param('i', $claimid);
-                $upd->execute();
-            }
-            // end of if
-            else {
-                $act = 'UPDATE claimsdb
-          SET active = 1
-          WHERE claimID = ?
-'; // SQL with parameters
-                $upd = $conn->prepare($act);
-                $upd->bind_param('i', $claimid);
-                $upd->execute();
+                Database::setClaimActive($claimid, false);
+            } else {
+                Database::setClaimActive($claimid, true);
             }
 
             // if($everyInactive == 'true')
@@ -479,58 +421,19 @@ where ? = claimIDFlagged AND flagType NOT LIKE 'Thesis Rival'
         ('unchallenged' == $statusA && 'unchallenged' == $statusB) ||
         ('challenged' == $statusA && 'challenged' == $statusB)
     ) {
-        $act = 'UPDATE claimsdb
-SET active = 0
-WHERE claimID = ?
-'; // SQL with parameters
-        $upd = $conn->prepare($act);
-        $upd->bind_param('i', $claimid);
-        $upd->execute();
-
-        $act = 'UPDATE claimsdb
-SET active = 0
-WHERE claimID = ?
-'; // SQL with parameters
-        $upd = $conn->prepare($act);
-        $upd->bind_param('i', $rivaling);
-        $upd->execute();
+        Database::setClaimActive($claimid, false);
+        Database::setClaimActive($rivaling, false);
     }
-
     // if its true, there are no flags.
     // if false, there are flags.
     if ('unchallenged' == $statusA && 'challenged' == $statusB) {
-        $act = 'UPDATE claimsdb
-SET active = 1
-WHERE claimID = ?
-'; // SQL with parameters
-        $upd = $conn->prepare($act);
-        $upd->bind_param('i', $claimid);
-        $upd->execute();
-
-        $act = 'UPDATE claimsdb
-SET active = 0
-WHERE claimID = ?
-'; // SQL with parameters
-        $upd = $conn->prepare($act);
-        $upd->bind_param('i', $rivaling);
-        $upd->execute();
+        Database::setClaimActive($claimid, true);
+        Database::setClaimActive($rivaling, false);
     }
 
     if ('unchallenged' == $statusB && 'challenged' == $statusA) {
-        $act = 'UPDATE claimsdb
-SET active = 0
-WHERE claimID = ?
-'; // SQL with parameters
-        $upd = $conn->prepare($act);
-        $upd->bind_param('i', $claimid);
-        $upd->execute();
-
-        $act = 'UPDATE claimsdb
-SET active = 1
-WHERE claimID = ?
-'; // SQL with parameters
-        $upd = $conn->prepare($act);
-        $upd->bind_param('i', $rivaling);
-        $upd->execute();
+        Database::setClaimActive($claimid, false);
+        Database::setClaimActive($rivaling, true);
     }
 }
+

@@ -2,6 +2,9 @@
 <?php require_once 'config/db_connect.php';
 $conn = db_connect();
 
+require_once 'functions/Database.php';
+use Database\Database;
+
 /*
 This is a backend file that has no front-facing display. It is ran from either details.php or add.php, and handles ALL data insertion.
 */
@@ -266,13 +269,7 @@ VALUES('{$subject}', '{$targetP}', '{$supportMeans}', '{$supportID}','{$example}
 
 // this below just updates our newly-flagged claim to be inactive.
     if ('supporting' !== $flagType) { // if we're adding a support it isn't inactivating anything
-        $update = 'UPDATE claimsdb
-SET active = 0
-WHERE claimID = ? '; // SQL with parameters
-        $stmt2 = $conn->prepare($update);
-        $stmt2->bind_param('i', $claimIDFlagged);
-        $stmt2->execute();
-        $result2 = $stmt2->get_result(); // get the mysqli result
+        Database::setClaimActive($claimIDFlagged, false);
     }
     $claimIDFlagged = $claimIDFlagger;
 
