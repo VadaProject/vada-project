@@ -155,6 +155,19 @@ class Database
         return self::getColumnAsArray($res, 'claimIDFlagger');
     }
 
+    public static function getFlagsNotThesisRivalNotSupporting($claimID)
+    {
+        // TODO: what a stupid name
+        $query = "SELECT DISTINCT claimIDFlagger
+        from flagsdb
+        WHERE claimIDFlagged = ? and flagType NOT LIKE 'Thesis Rival' and flagType NOT LIKE 'supporting'";
+        $stmt = self::$conn->prepare($query);
+        $stmt->bind_param('i', $claimID);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return self::getColumnAsArray($res, 'claimIDFlagger');
+    }
+    ///
     public static function getAllRootClaimIDs($topic)
     {
         $query = 'SELECT DISTINCT claimID from claimsdb, flagsdb
