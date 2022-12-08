@@ -428,7 +428,7 @@ $_POST['FOS'] = 'flagging';
     $(document).ready(function() {
         $("#submit").click(function() {
             window.alert("Submitted!");
-            window.location.assign("ajaxindex.php?topic=<?php echo $topic; ?>");
+            window.location.assign("topic.php?topic=<?php echo $topic; ?>");
             $.post($("#myForm").attr("action"),
                 $("#myForm :input").serializeArray(),
                 function(info) {
