@@ -3,97 +3,39 @@
 require_once 'Database.php';
 use Database\Database;
 
-/*
-This function checks to see if an individual claim has any ACTIVE supports or not.
-*/
-
-function noSupports($claimid)
+/**
+ * Checks if an individual claim has any active supports. If a claim has no
+ *     active supports, this function sets it to inactive.
+ *
+ * @param int $claim_id
+ * @return bool True if the claim has at least one active support
+ */
+function noSupports($claim_id)
 {
-    require_once __DIR__ . '/../config/db_connect.php';
-    $conn = db_connect();
-    $result = 'no active supports';
-
-    $act2 = "SELECT DISTINCT claimIDFlagger
-        from flagsdb
-        WHERE claimIDFlagged = ? and flagType LIKE 'supporting'";
-    $s2 = $conn->prepare($act2);
-    $s2->bind_param('i', $claimid);
-    $s2->execute();
-    $activity2 = $s2->get_result();
-    $nh2 = mysqli_num_rows($activity2);
-    while ($supports = $activity2->fetch_assoc()) {
-        $new = 'SELECT DISTINCT active
-  from claimsdb
-  WHERE claimID = ?';
-        $snew = $conn->prepare($new);
-        $snew->bind_param('i', $supports['claimIDFlagger']);
-        $snew->execute();
-        $activitynew = $snew->get_result();
-        $everyInactiveSupport = 'true';
-
-        while ($SCHECK = $activitynew->fetch_assoc()) {
-            // echo '<script type="text/javascript">alert("active: ' . $SCHECK['active'] . '");</script>';
-
-            if (1 == $SCHECK['active']) {
-                $result = 'There is an active';
-                // can you just break here?
-            }
-        } // end of second while loop
-    } // end of first while loop
-
-    if ('There is an active' != $result) {
-        Database::setClaimActive($claimid, false);
+    $has_active_supports = false;
+    foreach (Database::getFlagsSupporting($claim_id) as $flag_id) {
+        if (Database::isClaimActive($flag_id)) {
+            $has_active_supports = true;
+            return true;
+        }
+    }
+    if (!$has_active_supports) {
+        Database::setClaimActive($claim_id, false);
+        return false;
     }
 }
-
-/*
- * This function checks to see if an individual claim has any active supports, but for rivals.
+/**
+ * Checks if an individual claim has any active supports
+ *
+ * @param int $claim_id the ID of the claim to check
+ * @return bool True if the claim has at least one active support
  */
-
-function noSupportsRival($claimidA)
+function noSupportsRival($claim_id)
 {
-    require_once __DIR__ . '/../config/db_connect.php';
-    $conn = db_connect();
-    $result = 'no active supports';
-
-    $act2 = "SELECT DISTINCT claimIDFlagger
-  from flagsdb
-  WHERE claimIDFlagged = ? and flagType LIKE 'supporting'";
-    $s2 = $conn->prepare($act2);
-    $s2->bind_param('i', $claimidA);
-    $s2->execute();
-    $activity2 = $s2->get_result();
-    $nh2 = mysqli_num_rows($activity2);
-    while ($supports = $activity2->fetch_assoc()) {
-        $new = 'SELECT DISTINCT active
-  from claimsdb
-  WHERE claimID = ?';
-        $snew = $conn->prepare($new);
-        $snew->bind_param('i', $supports['claimIDFlagger']);
-        $snew->execute();
-        $activitynew = $snew->get_result();
-        $everyInactiveSupport = 'true';
-
-        while ($SCHECK = $activitynew->fetch_assoc()) {
-            // echo '<script type="text/javascript">alert("active: ' . $SCHECK['active'] . '");</script>';
-
-            if (1 == $SCHECK['active']) {
-                $result = 'There is an active';
-
-                return 'true';
-                // can you just break here?
-            }
-        } // end of second while loop
-    } // end of first while loop
-
-    // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
-
-    // rivalB : needs to be active AND it doesn't have a too early / too late AND needs at least one support itself
-
-    if ('There is an active' != $result) {
-        // echo '<script type="text/javascript">alert("ITS HAPPENING: ' . $result . '");</script>';
-
-        return 'false';
-    } // end of if statement
+    foreach (Database::getFlagsSupporting($claim_id) as $flag_id) {
+        if (Database::isClaimActive($flag_id)) {
+            return true;
+        }
+    }
+    return false;
 }
-// end of function

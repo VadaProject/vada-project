@@ -398,16 +398,14 @@ where ? = claimIDFlagged AND flagType NOT LIKE 'Thesis Rival'
 
     $statusA = '';
     $statusB = '';
-    if ('true' == noSupportsRival($claimid) && !doesThesisFlagRival($claimid)) {
+
+    if (noSupportsRival($claimid) && !doesThesisFlagRival($claimid)) {
         $statusA = 'unchallenged';
     } else {
         $statusA = 'challenged';
     }
 
-    if (
-        'true' == noSupportsRival($rivaling) &&
-        !doesThesisFlagRival($rivaling)
-    ) {
+    if (noSupportsRival($rivaling) && !doesThesisFlagRival($rivaling)) {
         $statusB = 'unchallenged';
     } else {
         $statusB = 'challenged';
