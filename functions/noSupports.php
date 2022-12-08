@@ -13,7 +13,7 @@ use Database\Database;
 function noSupports($claim_id)
 {
     $has_active_supports = false;
-    foreach (Database::getFlagsSupporting($claim_id) as $flag_id) {
+    foreach (Database::getSupportingClaims($claim_id) as $flag_id) {
         if (Database::isClaimActive($flag_id)) {
             $has_active_supports = true;
             return true;
@@ -32,7 +32,7 @@ function noSupports($claim_id)
  */
 function noSupportsRival($claim_id)
 {
-    foreach (Database::getFlagsSupporting($claim_id) as $flag_id) {
+    foreach (Database::getSupportingClaims($claim_id) as $flag_id) {
         if (Database::isClaimActive($flag_id)) {
             return true;
         }

@@ -10,7 +10,7 @@ use Database\Database;
 function hasActiveRival($claim_id)
 {
     // TODO: if we do it a lot, this operation could probably be reduced to a SQL query
-    $flaggers = Database::getFlaggedRivals($claim_id);
+    $flaggers = Database::getThesisRivals($claim_id);
     foreach ($flaggers as $flag_id) {
         if (Database::isClaimActive($flag_id)) {
             return true;
@@ -29,7 +29,7 @@ function hasActiveRival($claim_id)
 function restoreActivity($claim_id)
 {
     // grabs supports for initial claim NUMBER ONE ON DIAGRAM, RED
-    $supports = Database::getFlagsSupporting($claim_id);
+    $supports = Database::getSupportingClaims($claim_id);
     foreach ($supports as $support_id) {
         // $claim_id is the original claim. $support_id is the support.
         // check to see if all the supports are inactive.
@@ -54,10 +54,10 @@ function restoreActivity($claim_id)
         // below grabs all flaggers for the support and JUST the support. not the claims.  - act3, s3, activity3
 
         // this is for rivals
-        foreach (Database::getFlaggedRivals($support_id) as $rival_id) {
+        foreach (Database::getThesisRivals($support_id) as $rival_id) {
             restoreActivityRIVAL($rival_id);
             // below should get the companion rival
-            $companion_rival = Database::getFlaggedRivals($rival_id);
+            $companion_rival = Database::getThesisRivals($rival_id);
             restoreActivityRIVAL($companion_rival);
         }
         $non_rivalling_flags = Database::getNonRivalFlags($support_id);
@@ -84,7 +84,7 @@ function restoreActivity($claim_id)
         } else {
             Database::setClaimActive($claim_id, true);
         }
-        foreach (Database::getFlaggedRivals($claim_id) as $thesis_rival_id) {
+        foreach (Database::getThesisRivals($claim_id) as $thesis_rival_id) {
             restoreActivityRIVAL($thesis_rival_id);
         }
     }
@@ -111,7 +111,7 @@ function restoreActivityRIVAL($claim_id)
     // check active status of flagging claims OF RIVAL COMPANION
     // finds the companion
     $rivaling = '';
-    foreach (Database::getFlaggedRivals($claim_id) as $r) {
+    foreach (Database::getThesisRivals($claim_id) as $r) {
         // found rival pair!
         $rivaling = $r;
         // $rivaling is Rival B.
