@@ -30,6 +30,15 @@ function restoreActivity($claim_id)
 {
     // grabs supports for initial claim NUMBER ONE ON DIAGRAM, RED
     $supports = Database::getSupportingClaims($claim_id);
+    if (count($supports) == 0) {
+        if (
+            !doesThesisFlag($claim_id) &&
+            !hasActiveRival($claim_id)
+        ) {
+            Database::setClaimActive($claim_id, true);
+        }
+    }
+    // else
     foreach ($supports as $support_id) {
         // $claim_id is the original claim. $support_id is the support.
         // check to see if all the supports are inactive.
