@@ -30,11 +30,38 @@ class Database
         return $stmt->get_result()->fetch_object();
     }
 
+    public static function isClaimActive($claimID)
+    {
+        $stmt = self::$conn->prepare(
+            'SELECT active from claimsdb where claimID = ?'
+        );
+        $stmt->bind_param('i', $claimID);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_object()->active;
+    }
+
     /**
      * @param int $claimID
-     * @return
+     * @param bool $active
      */
-    public static function getRivalFlags($claimID)
+    public static function setClaimActive($claimID, $active)
+    {
+        $active_int = $active ? 1 : 0; // turn bool param into int
+        // TODO: the database stores this as an int but it should be a bool
+        $stmt = self::$conn->prepare(
+            'UPDATE claimsdb SET active = ? WHERE claimID = ?'
+        );
+        $stmt->bind_param('ii', $active_int, $claimID);
+        $stmt->execute();
+    }
+
+    /**
+     * Gets the set of claims which are flagged by the current claim.
+     *
+     * @param int $claimID Current claim ID
+     * @return \int[] List of claim IDs
+     */
+    public static function getFlaggedClaims($claimID)
     {
         $stmt = self::$conn->prepare(
             'SELECT DISTINCT * from flagsdb WHERE claimIDFlagger = ?'
@@ -64,12 +91,12 @@ class Database
     }
 
     /**
-     * Returns the ID of each claim which flags $claimID is a Rival.
+     * Gets the set of Thesis Rivals which flag the current claim.
      *
-     * @param int $claimID
-     * @return \int[]
+     * @param int $claimID Current claim ID
+     * @return \int[] List of claim IDs
      */
-    public static function getFlaggedRivals($claimID)
+    public static function getThesisRivals($claimID)
     {
         $query = "SELECT DISTINCT claimIDFlagger
         from flagsdb where claimIDFlagged = ?
@@ -82,8 +109,10 @@ class Database
     }
 
     /**
-     * @param int $claimID
-     * @return \int[] The IDs of each claim which flags $claimID and is not a Support.
+     * Gets all claims that flag the current claim and aren't Supporting.
+     *
+     * @param int $claimID Current claim ID
+     * @return \int[] List of claim IDs
      */
     public static function getFlagsNotSupporting($claimID)
     {
@@ -98,10 +127,30 @@ class Database
     }
 
     /**
-     * @param int $claimID
-     * @return \int[] The IDs of claims which flag $claimID and aren't type Too Early or Too Late
+     * Gets all Support claims that flag the current claim.
+     *
+     * @param int $claimID Current claim ID
+     * @return \int[] List of claim IDs
      */
-    public static function getThesisFlagsNotRivals($claimID)
+    public static function getSupportingClaims($claimID)
+    {
+        $query = "SELECT DISTINCT claimIDFlagger
+        from flagsdb WHERE claimIDFlagged = ?
+        and flagType LIKE 'supporting'";
+        $stmt = self::$conn->prepare($query);
+        $stmt->bind_param('i', $claimID);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return self::getColumnAsArray($res, 'claimIDFlagger');
+    }
+
+    /**
+     * Gets all Too Early and Too Late flags flagging the current claim.
+     *
+     * @param int $claimID Current claim ID
+     * @return \int[] List of claim IDs
+     */
+    public static function getFlagsTooEarlyTooLate($claimID)
     {
         $query = "SELECT DISTINCT claimIDFlagger
         from flagsdb WHERE claimIDFlagged = ?
@@ -114,6 +163,28 @@ class Database
         return self::getColumnAsArray($res, 'claimIDFlagger');
     }
 
+    /**
+     * Gets all flags that aren't Supports or Thesis Rivals.
+     */
+    public static function getFlagsNotThesisRivalNotSupporting($claimID)
+    {
+        // TODO: what a stupid name
+        $query = "SELECT DISTINCT claimIDFlagger
+        from flagsdb
+        WHERE claimIDFlagged = ? and flagType NOT LIKE 'Thesis Rival' and flagType NOT LIKE 'supporting'";
+        $stmt = self::$conn->prepare($query);
+        $stmt->bind_param('i', $claimID);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        return self::getColumnAsArray($res, 'claimIDFlagger');
+    }
+
+    /**
+     * Gets the set of root claims for the current topic.
+     *
+     * @param string $topic Topic string
+     * @return \int[] List of claim IDs
+     */
     public static function getAllRootClaimIDs($topic)
     {
         $query = 'SELECT DISTINCT claimID from claimsdb, flagsdb
@@ -125,6 +196,12 @@ class Database
         return self::getColumnAsArray($res, 'claimID');
     }
 
+    /**
+     * Gets the set of claims for a given topic which have isRootRival set.
+     *
+     * @param string $topic
+     * @return \int[] List of claim IDs
+     */
     public static function getRootRivals($topic)
     {
         $query = 'SELECT DISTINCT claimsdb.claimID from claimsdb
@@ -137,6 +214,12 @@ class Database
         return self::getColumnAsArray($res, 'claimID');
     }
 
+    /**
+     * Gets the set of claims for a given topic which are thesis rivals
+     *
+     * @param string $topic
+     * @return \int[] List of claim IDs
+     */
     public static function getAllThesisRivals($topic)
     {
         $query = 'SELECT DISTINCT claimsdb.claimID from claimsdb
@@ -149,10 +232,11 @@ class Database
         return self::getColumnAsArray($res, 'claimID');
     }
     /**
-     * Helper function
-     * @param \mysqli_result $result
-     * @param \string $column
-     * @return \array
+     * Helper function: iterate a SQL result and collect it as a single array
+     *
+     * @param \mysqli_result $result A mysqli result object to iterate
+     * @param \string $column The name of the column to get.
+     * @return \array The list of values
      */
     private static function getColumnAsArray($result, $column)
     {

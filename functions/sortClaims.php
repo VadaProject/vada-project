@@ -111,7 +111,7 @@ function sortClaims($claimID)
     if (!$claim) {
         return;
     }
-    $flags = Database::getRivalFlags($claimID);
+    $flags = Database::getFlaggedClaims($claimID);
     $resultFlagType = $claimIDFlagger = $claimIDFlagged = '';
     foreach ($flags as $f) {
         $resultFlagType = $f['flagType'];
@@ -153,7 +153,7 @@ function sortClaimsRIVAL($claimID)
     // get the info for the claim being flagged
     $claim = Database::getClaim($claimID);
     // look for normal non-rival flags for this rivaling claim.
-    $result1 = Database::getFlaggedRivals($claimID);
+    $result1 = Database::getThesisRivals($claimID);
     foreach ($result1 as $flagID) {
         $rivaling = $flagID;
     }
