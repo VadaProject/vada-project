@@ -8,7 +8,7 @@ use Database\Database;
 /*
 This is a backend file that has no front-facing display. It is ran from either details.php or add.php, and handles ALL data insertion.
 */
-
+// TODO: these columns should be nullable
 $flagType = $union = $subject = $targetP = $topic = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $claimIDFlagged = $flaggingSupport = ' ';
 $supportMeans = mysqli_real_escape_string($conn, $_POST['union']);
 
@@ -27,7 +27,7 @@ $topic = preg_replace('/[^\w\s]/', '', $topic);
 
 if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////// NUMBER ONE
 } else {
-    $c = uniqid(rand(), true);
+    $c = uniqid(rand(), true); // TODO: we don't need this value
 
     $supportID = $c;
 
@@ -43,6 +43,7 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////// NUMBER ONE
 // NOW WE'RE CHECKING TO SEE IF THE DETAILS PAGE IS ADDING A FLAG OR A SUPPORT
 
 // SIMPLE.
+// TODO: these should be prepared statements
 $reason = mysqli_real_escape_string($conn, $_POST['reason']);
 $example = mysqli_real_escape_string($conn, $_POST['example']);
 $url = mysqli_real_escape_string($conn, $_POST['url']);
@@ -115,6 +116,7 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // ////////////// TWO
 if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////THREE
 } else {
     $order_support12 = 'SELECT * from claimsdb ORDER BY claimID DESC LIMIT 1';
+    // TODO: these should be prepared statements
     $nice112 = mysqli_query($conn, $order_support12);
 
     if ($row112 = $nice112->fetch_assoc()) {
@@ -124,6 +126,7 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////THREE
 
     $sql_support2 = "INSERT INTO claimsdb(subject, targetP, supportMeans, supportID, example, URL, reason, thesisST, reasonST, ruleST, topic, active, vidtimestamp, citation, transcription, COS) VALUES('{$subject}', '{$targetP}', '{$supportMeans}', '{$supportID}','{$example}','{$url}','{$reason}', '{$thesisST}','{$reasonST}','{$ruleST}', '{$topic}', '{$active}', '{$vidtimestamp}','{$citation}','{$transcription}', 'support')";
 
+    // TODO: these should be prepared statements
     if (mysqli_query($conn, $sql_support2)) {
         // success
     } else {
@@ -142,6 +145,7 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////THREE
     // this function below inserts into database
     $sql5_support1 = "INSERT INTO flagsdb(claimIDFlagged, flagType, claimIDFlagger, isRootRival) VALUES('{$claimIDFlagged}', 'supporting','{$claimIDFlagger}','0')";
 
+    // TODO: these should be prepared statements
     if (mysqli_query($conn, $sql5_support1)) {
         // success
         //  header('Location: insert.php');
