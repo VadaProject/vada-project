@@ -9,7 +9,6 @@ use Database\Database;
 This is a backend file that has no front-facing display. It is ran from either details.php or add.php, and handles ALL data insertion.
 */
 // TODO: these columns should be nullable
-$flagType = $union = $subject = $targetP = $topic = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $claimIDFlagged = $flaggingSupport = ' ';
 $supportMeans = mysqli_real_escape_string($conn, $_POST['union']);
 
 $subject = mysqli_real_escape_string($conn, $_POST['subject']);
@@ -64,13 +63,7 @@ $vidtimestamp = mysqli_real_escape_string($conn, $_POST['vidtimestamp']);
 $grammar = mysqli_real_escape_string($conn, $_POST['grammar']);
 ?><script> window.alert($grammar); </script> <?php
 
-if ('person' == $grammar) {
-    $ruleST = 'Whomever ' . $reason . ' ' . $targetP . ', as in the case of ' . $example;
-} else {
-    $ruleST = 'Whatever ' . $reason . ' ' . $targetP . ', as in the case of ' . $example;
-}
-
-$thesisST = $subject . ' ' . $targetP;
+$thesisST = $subject . ' ' . $targetP; // todo: remove
 
 $reasonST = $subject . ' ' . $reason;
 
