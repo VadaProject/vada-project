@@ -56,6 +56,23 @@ class Database
     }
 
     /**
+     * @param int $claim_id
+     * @return \int|null The claim which is flagged by claimID
+     */
+    public static function getFlaggedClaim($claim_id)
+    {
+        $stmt = self::$conn->prepare(
+            'SELECT DISTINCT * from flagsdb WHERE claimIDFlagger = ?'
+        );
+        $stmt->bind_param('i', $claim_id);
+        $stmt->execute();
+        foreach ($stmt->get_result() as $row) {
+            return $row["claimIDFlagged"];
+        }
+        return;
+    }
+
+    /**
      * Gets the set of claims which are flagged by the current claim.
      *
      * @param int $claimID Current claim ID
