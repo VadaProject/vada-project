@@ -1,281 +1,112 @@
 <?php include 'includes/page_top.php'; ?>
-<main class="page-container text-center">
-    <script>
-    $(document).ready(function() {
-        $("#submit").click(function() {
-            window.alert("Submitted!");
-            window.location.assign(
-                "index.php");
-            $.post($("#myForm").attr("action"),
-                $("#myForm :input").serializeArray(),
-                function(info) {
-                    $("#result").html(info);
-                });
-            clearInput();
-        });
-        $("#myForm").submit(function() {
-            return false;
-        });
-
-        function clearInput() {
-            $("#myForm :input").each(function() {
-                $(this).val('');
-            });
-        }
-    });
-    </script>
+<link href="assets/stylesheets/add.css" rel="stylesheet" />
+<main class="page-container">
     <form method="POST" id="myForm" action="insert.php">
-        <?php if (isset($_GET['topic'])) { ?>
-        <label>Topic</label><br>
-        <input type="text" name="topic" value="<?php echo $_GET[
-            'topic'
-        ]; ?>" readonly><br>
-        <?php } else { ?>
-        <label>Topic</label><br>
-        <input type="text" name="topic" value="<?php echo htmlspecialchars(
-            $topic
-        ); ?>"><br>
-        <?php } ?>
-        <p style="color:#000000" ;>
-            <label><u>Subject</u>
-                <u>Target Property </u></label><br>
-            <textarea class="subject" type="text" id="subject" name="subject"
-                value="<?php echo htmlspecialchars(
-                    $subject
-                ); ?>">Enter Subject</textarea>
-            <textarea class="targetP" type="text" id="targetP" name="targetP"
-                value="<?php echo htmlspecialchars(
-                    $targetP
-                ); ?>">Enter Target Property</textarea>
-            <br>
-            <u>
-                <p style="color:grey">Thesis Statement
-            </u><br>
-            <span class="jsValue3">subject</span> <span class="jsValue4">target</span>
-        </p>
-        </p>
-        <p style="color:black"> Is the subject an object or a person?
-            <select name="grammar" id="grammar" value="grammar">
-                <option value="">Choose One</option>
-                <option value="object">Object</option>
-                <option value="person">Person</option>
-            </select> <br>
-            What is your Support Means?
-            <select name="union" id="union" value="union">
-                <option value="">Choose One</option>
-                <option value="Inference">Inference</option>
-                <option value="Testimony">Testimony</option>
-                <option value="Perception">Perception</option>
-                <option value="Tarka">Tarka</option>
-            </select>
-        </p>
-        </p>
-        <div id="hiddenRule">
-            <div id="some-div">
-                <img src="assets/img/question_mark.png">
-                <span id="explain-element"> Hint: Your reason statement should
-                    answer "Why?". You might think of the
-                    reason as what comes after 'because....'. </span>
+        <!-- Topic input -->
+        <!-- If the URL has ?topic set, this input is readonly -->
+        <div>
+            <label for="topic">Topic</label>
+            <input type="text" id="topicInput" name="topic"
+            placeholder="Enter topic name..." required
+            pattern="^[\w\s]+$"
+            value="<?php echo $_GET['topic'] ?? ''; ?>"
+            <?php if (isset($_GET['topic'])) { ?>readonly<?php } ?>
+            >
+        </div>
+        <!-- Subject and target property input -->
+        <div>
+            <div>
+                <div class="d-inline-block">
+                    <label for="subject"><u>Subject</u></label>
+                    <input type="text" id="subjectInput" name="subject"
+                        placeholder="Enter subject..." required></textarea>
+                </div>
+                <div class="d-inline-block">
+                    <label for="targetP"><u>Target Property</u></label>
+                    <input type="text" id="targetInput" name="targetP"
+                        placeholder="Enter target property..." required>
+                </div>
             </div>
-            <p style="color:black"><u>Reason</u><br>
-                <textarea class="reason" type="text" id="reason" name="reason"
-                    value="<?php echo htmlspecialchars(
-                        $reason
-                    ); ?>">Enter Reason Property</textarea>
-            </p>
-            <u> Reason Statement </u><br>
-            <span class="jsValue5">subject</span> <span class="jsValue6">reason</span>
-            <br><br>
-            <u> Rule and Example Statement </u><br>
-            Whatever/Whomever
-            <!-- Plain Javascript Example -->
-            <span class="jsValue">reason</span>,
-            <span class="jsValue2">target</span>,
-            as in the case of:
+            <p></p>
+            <label for="thesisOutput">Thesis Statement (preview)</label>
+            <output id="thesisOutput">
+                <span class="subject-display" id="subjectOutput" ></span>
+                <span class="target-display" id="targetOutput"></span>
+            </output>
         </div>
+        <label for="supportMeansSelect">What is your Support Means?</label>
+        <select name="union" id="supportMeansSelect" required>
+            <option value="">Choose One</option>
+            <option value="Inference">Inference</option>
+            <option value="Testimony">Testimony</option>
+            <option value="Perception">Perception</option>
+            <option value="Tarka">Tarka</option>
+        </select>
         <br>
-        <textarea id="example" name="example" value="<?php echo htmlspecialchars(
-            $example
-        ); ?>">Enter Example</textarea>
-        <textarea id="transcription" name="transcription"
-            value="<?php echo htmlspecialchars(
-                $transcription
-            ); ?>">Transcription </textarea><br>
-        <textarea id="citation" name="citation" value="<?php echo htmlspecialchars(
-            $citation
-        ); ?>">
-            Please include: Author, title, publication, and date of publication.</textarea><br>
-        <textarea id="url" name="url" value="<?php echo htmlspecialchars(
-            $url
-        ); ?>">Enter URL</textarea><br>
-        <textarea id="vidtimestamp" name="vidtimestamp"
-            value="<?php echo htmlspecialchars(
-                $vidtimestamp
-            ); ?>">Enter timestamp of specified material</textarea>
-        <script>
-        // This is for reason
-        var $jsReason = document.querySelector('.reason');
-        var $jsValue = document.querySelector('.jsValue');
-        $jsReason.addEventListener('input', function(event) {
-            $jsValue.innerHTML = $jsReason.value;
-        }, false);
-        //-------------------------
-        //This is for Targetp
-        var $jsTargetP = document.querySelector('.targetP');
-        var $jsValue2 = document.querySelector('.jsValue2');
-        $jsTargetP.addEventListener('input', function(event) {
-            $jsValue2.innerHTML = $jsTargetP.value;
-        }, false);
-        //-------------------------
-        //This is for subject
-        var $jsSubject = document.querySelector('.subject');
-        var $jsValue3 = document.querySelector('.jsValue3');
-        $jsSubject.addEventListener('input', function(event) {
-            $jsValue3.innerHTML = $jsSubject.value;
-        }, false);
-        //-------------------------
-        //This is for the second target property (4)
-        var $jsTargetP2 = document.querySelector('.targetP');
-        var $jsValue4 = document.querySelector('.jsValue4');
-        $jsTargetP2.addEventListener('input', function(event) {
-            $jsValue4.innerHTML = $jsTargetP2.value;
-        }, false);
-        //-------------------------
-        //This is for the second subject property (5)
-        var $jsSubject2 = document.querySelector('.subject');
-        var $jsValue5 = document.querySelector('.jsValue5');
-        $jsSubject2.addEventListener('input', function(event) {
-            $jsValue5.innerHTML = $jsSubject2.value;
-        }, false);
-        //-------------------------
-        //This is for the reason (6)
-        var $jsReason2 = document.querySelector('.reason');
-        var $jsValue6 = document.querySelector('.jsValue6');
-        $jsReason2.addEventListener('input', function(event) {
-            $jsValue6.innerHTML = $jsReason2.value;
-        }, false);
-        </script>
-        </div>
-        <script type="text/javascript">
-        var union = document.getElementById('union');
-        union.onchange = checkOtherUnion;
-        union.onchange();
+        <p></p>
+        <!-- elements with the .[testimony/inference/etc]-only class are shown conditionally -->
+        <p class="inference-only">
+            ⓘ <a href="userguide.php#Inference">Inference (<i>anumāna</i>)</a> asserts that the claim’s subject is known to possess a <b>reason property</b> (<dfn>hetu</dfn>) that is invariably present with the claim’s <b>target property</b>. This invariance must be demonstrated with an <b>example</b>.</p>
 
-        function checkOtherUnion() {
-            var union = this;
-            var reason = document.getElementById('reason');
-            var example = document.getElementById('example');
-            var url = document.getElementById('url');
-            var rd = document.getElementById('rd');
-            var hiddenRule = document.getElementById('hiddenRule');
-            reason.style.display = 'none';
-            example.style.display = 'none';
-            citation.style.display = 'none';
-            url.style.display = 'none';
-            vidtimestamp.style.display = 'none';
-            transcription.style.display = 'none';
-            hiddenRule.style.display = 'none';
-            if (union.options[union.selectedIndex].value === '') {
-                citation.style.display = 'none';
-            }
-            if (union.options[union.selectedIndex].value === 'Inference') {
-                reason.style.display = '';
-                example.style.display = '';
-                hiddenRule.style.display = '';
-                citation.style.display = 'none';
-            }
-            if (union.options[union.selectedIndex].value === 'Perception') {
-                url.style.display = '';
-                vidtimestamp.style.display = '';
-                citation.style.display = '';
-            }
-            if (union.options[union.selectedIndex].value === 'Testimony') {
-                transcription.style.display = '';
-                citation.style.display = '';
-            }
-            if (union.options[union.selectedIndex].value === 'Tarka') {
-                window.alert(
-                    "A requirement of Tarka is to use the comments feature in the Tarka claim following submission."
-                );
-                citation.style.display = 'none';
-            }
-        }
-        </script>
-        <script type="text/javascript">
-        var union = document.getElementById('union');
-        union.onchange = checkOtherUnion;
-        union.onchange();
-        </script>
-        <br>
-        <button onclick="setTimeout(myFunction, 8000)" id="submit">Submit</button>
-        <script>
-        // BELOW IS WHERE SUBMIT BUTTON DISABLED HAPPENS
-        jQuery("#submit").prop('disabled', true);
-        var card = document.getElementById("union");
-        //support means = union
-        //var toValidate = jQuery('#subject');
-        //var toValidateP = jQuery('#targetP');
-        var toValidate = jQuery('#subject, #targetP');
-        //var toValidate2 = jQuery('#union');
-        validTextArea = false;
-        toValidate.keyup(function() {
-            if (jQuery(this).val().length > 0) {
-                jQuery(this).data('valid', true);
-            } else {
-                jQuery(this).data('valid', false);
-            }
-            toValidate.each(function() {
-                if (jQuery(this).data('valid') == true) {
-                    validTextArea = true;
-                } else {
-                    validTextArea = false;
-                }
-                if (validTextArea == true && validDropDown ==
-                    true) {
-                    jQuery("#submit").prop('disabled', false);
-                } else {
-                    jQuery("#submit").prop('disabled', true);
-                }
-            });
-        });
-        //var clientCode = document.querySelector("#clientCode");
-        //clientCode.addEventListener("change", clientChangeHandler. false);
-        var toValidate2 = jQuery('#union, #grammar');
-        validDropDown = false;
-        toValidate2.change(function() {
-            if (jQuery(this)[0].selectedIndex == 1 || jQuery(this)[0]
-                .selectedIndex == 2 || jQuery(this)[0]
-                .selectedIndex == 3 || jQuery(this)[0].selectedIndex ==
-                4 || jQuery(this)[0].selectedIndex == 5
-            ) {
-                jQuery(this).data('valid', true);
-            } else {
-                jQuery(this).data('valid', false);
-            }
-            toValidate2.each(function() {
-                if (jQuery(this).data('valid') == true) {
-                    validDropDown = true;
-                } else {
-                    validDropDown = false;
-                    //           window.alert(jQuery(this)[0].selectedIndex);
-                }
-                if (validTextArea == true && validDropDown ==
-                    true) {
-                    jQuery("#submit").prop('disabled', false);
-                } else {
-                    jQuery("#submit").prop('disabled', true);
-                }
-            });
-            if (validTextArea == true && validDropDown == true) {
-                jQuery("#submit").prop('disabled', false);
-            } else {
-                jQuery("#submit").prop('disabled', true);
-            }
-        });
-        // above IS WHERE SUBMIT BUTTON DISABLED HAPPENS
-        //need to bypass insert page
-        </script>
+        <p class="perception-only">
+            ⓘ <a href="userguide.php#Perception">Perception (<i>pratyakṣa</i>)</a> supports a claim through <b>sensory evidence</b>: that is, evidence which (1) directly represents the subject, (2) does not depend on language, (3) is inerrant, and (4) definitive. You must cite an audio/video source that supports the claim.</p>
+        <div id="reason" class="inference-only">
+            <label for="reasonInput">Reason Property</label>
+            <input type="text" class="reason" id="reasonInput" name="reason"
+            placeholder="Enter reason property..." required>
+            <p>ⓘ Your reason statement should answer "Why?". You might think of the reason as what comes after "because ...".</p>
+
+        <p>
+            <label for="reasonStatementOutput">Reason Statement (preview)</label>
+            <output id="reasonStatementOutput">
+                <span id="subjectOutput2" class="subject-display"></span>
+                <span id="reasonOutput" class="reason-display"></span>.
+            </output>
+        </p>
+        <div id="example" class="inference-only d-inline-block">
+            <label for="exampleInput">Example</label>
+            <input type="text" id="exampleInput" name="example"
+            required placeholder="Example">
+        </div>
+        <p>
+            <label>Rule and Example Statement</label>
+            <span>Whatever/Whomever</span>
+            <span class="reason-display" id="reasonOutput2">reason</span>,
+            <span class="target-display" id="targetOutput2">target</span>,
+            as in the case of <span class="example-display"></span>.
+        </p>
+        </div>
+        <p class="testimony-only">
+            ⓘ <a href="userguide.php#Testimony">Testimony (<i>śabda</i>)</a> supports a claim by citing a <b>trustworthy authority</b> (<i>āpta</i>): a source that knows something directly, desires to communicate it faithfully as it is known, and fulfills this aim. You must cite a textual or verbal source that supports the claim.</p>
+        <div id="transcription" class="testimony-only">
+            <label for="transcriptionInput">Transcription</label>
+            <textarea id="transcriptionInput" name="transcription" required
+            placeholder="Transcription"
+            ></textarea>
+        </div>
+        <div id="citation" class="perception-only testimony-only d-inline-block">
+            <label for="citationInput">Citation</label>
+            <input type="text" id="citationInput" name="citation" required
+            placeholder="Author, title, publication, and date of publication.">
+        </div>
+        <div id="url" class="testimony-only perception-only d-inline-block">
+            <label for="urlInput">URL</label>
+            <input type="url" id="urlInput" name="url"
+            placeholder="https://example.com">
+        </div>
+        <div id="vidtimestamp" class="perception-only d-inline-block">
+            <label for="vidtimestampInput">Video Timestamp</label>
+            <input type="text" id="vidtimestampInput" name="vidtimestamp"
+            required placeholder="Moment occurs at 05:10">
+        </div>
+        <!-- Tarka -->
+        <p class="tarka-only">
+            ⓘ <i>Tarka</i> (<b>philosophical argument</b>) allows for supplementary free-form discussion. To use a Tarka claim, submit this form, and use the Disqus comments feature on the resulting claim.</p>
+        <div>
+            <button type="submit" id="submit">Submit</button>
+        </div>
     </form>
 </main>
+<script src="assets/scripts/add.js"></script>
 
 <?php include 'includes/page_bottom.php'; ?>

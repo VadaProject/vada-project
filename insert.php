@@ -114,7 +114,6 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////THREE
 
     if ($row112 = $nice112->fetch_assoc()) {
         $claimIDFlagged = $row112['claimID'];
-        echo $claimIDFlagged;
     }
 
     $sql_support2 = "INSERT INTO claimsdb(subject, targetP, supportMeans, supportID, example, URL, reason, thesisST, reasonST, ruleST, topic, active, vidtimestamp, citation, transcription, COS) VALUES('{$subject}', '{$targetP}', '{$supportMeans}', '{$supportID}','{$example}','{$url}','{$reason}', '{$thesisST}','{$reasonST}','{$ruleST}', '{$topic}', '{$active}', '{$vidtimestamp}','{$citation}','{$transcription}', 'support')";
@@ -131,7 +130,6 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////THREE
 
     if ($row11 = $nice11->fetch_assoc()) {
         $claimIDFlagger = $row11['claimID'];
-        echo $claimIDFlagger;
     }
 
     // ---------------------------------------------------------- THIS IS LINKING THE TWO TOGETHER
@@ -195,7 +193,6 @@ if ('flagging' == $FOS || 'true' == $flaggingSupport) {
         $stmt5->execute();
         $rootresult1 = $stmt5->get_result(); // get the mysqli result
         $numhitsroot = mysqli_num_rows($rootresult1);
-        echo $numhitsroot;
 
         // END CHECKING TO SEE IF IT IS A ROOT CLAIM
 
@@ -203,7 +200,6 @@ if ('flagging' == $FOS || 'true' == $flaggingSupport) {
             echo $j['claimID'];
             if (1 == $numhitsroot) {
                 $isRootRival = '1';
-                echo $isRootRival;
             }
         } // END OF WHILE STATEMENT
         // we found a root. its been designated, swapped values, and the additional flag for reciprocity is added. however... the original root isn't rootrival =1 (fix happens below) but flagtype value is still the same.
@@ -335,4 +331,9 @@ if ('supporting' == $FOS) {
 }// end of addpage check
 
 mysqli_close($conn);
+
 ?>
+Redirecting...
+<script>
+window.location.href = "topic.php?topic=" + "<?php $topic ?>";
+</script>
