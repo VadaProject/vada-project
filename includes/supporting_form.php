@@ -51,7 +51,6 @@
     <input type="text" class="reason" id="reasonInput" name="reason"
     placeholder="Enter reason property..." required>
     <p>ⓘ Your reason statement should answer "Why?". You might think of the reason as what comes after "because ...".</p>
-
 <p>
     <label for="reasonStatementOutput">Reason Statement (preview)</label>
     <output id="reasonStatementOutput">
@@ -78,6 +77,7 @@
     <label for="transcriptionInput">Transcription</label>
     <textarea id="transcriptionInput" name="transcription" required
     placeholder="Transcription"
+    style="width: 100%; height: 5rem;"
     ></textarea>
 </div>
 <div id="citation" class="perception-only testimony-only d-inline-block">
