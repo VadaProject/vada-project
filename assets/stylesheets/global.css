@@ -1,14 +1,31 @@
 @import url(../fonts/SourceSansPro.css);
 @import url(../fonts/LeagueSpartan.css);
 
+:root {
+	--color-body: #333;
+	--color-body-2: #888;
+	--color-body-3: #ccc;
+	--text-color-heading: #000;
+	--bg-color: #eed;
+	--bg-color-2: #fffff8;
+	--bg-color-3: #fff;
+	--color-primary: #383866;
+	--color-primary-2: #55a;
+	--color-primary-3: #99c;
+	--border-radius: 0.5rem;
+	--border-radius-2: 0.25rem;
+}
+
 body {
 	margin: 0;
-	color: #555;
+	color: var(--color-body);
 	font-family: 'Source Sans Pro', sans-serif;
-	background: #e8e7df;
+	background: var(--bg-color);
 	position: relative;
 	line-height: 1.6;
 	font-size: 1rem;
+	padding-top: 8rem;
+	padding-bottom: 8rem;
 }
 
 @media (prefers-contrast: more) {
@@ -18,21 +35,23 @@ body {
 }
 
 .wrapper {
-	position: relative;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
+	box-sizing: border-box;
+	/* width: 100vw; */
+	/* max-width: 100%; */
 	text-align: center;
-	overflow: auto;
+	/* overflow: auto; */
 }
 
+
 .wrapper ul {
-	position: relative;
-	display: block;
-	margin: 0 auto;
-	white-space: nowrap;
+	display: flex;
+	justify-content: safe center;
 	list-style: none;
+}
+
+.wrapper>ul {
+	display: inline-flex;
+	margin-inline: auto;
 }
 
 .wrapper ul li {
@@ -42,7 +61,7 @@ body {
 
 /* MAKE-UP - Pure esthetics*/
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
 	width: 5px;
 	height: 5px;
 }
@@ -63,7 +82,7 @@ body {
 	background: transparent;
 	width: calc(2px / 2);
 	border: 2px solid rgba(26, 26, 26, 0);
-}
+} */
 
 /* @media (min-width: 480px) {
 	:root {
@@ -87,19 +106,13 @@ body {
 
 ul,
 li {
-	position: relative;
+	/* position: relative; */
 	display: inline-block;
-	vertical-align: top;
+	/* vertical-align: top; */
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0px;
 
-}
-
-ul:before,
-li:before {
-	content: '';
-	position: absolute;
 }
 
 #floatingRectangle {
@@ -134,66 +147,77 @@ li:before {
 	border-width: 3px;
 }
 
-.wrapper ul > li {
+.wrapper ul>li {
 	margin-top: 0.5em;
 	padding-top: 0.5em;
 	line-height: 1.5em;
 	padding-inline: 0.5rem;
 }
 
-.wrapper ul>li:before {
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 1px;
-	background: grey;
+/* Draw a little indicator on top */
+
+.wrapper ul>li::before {
+	content: '';
+	/* width: 100%; */
+	display: block;
+	margin-bottom: 0.5rem;
+	box-sizing: border-box;
+	margin-inline: -0.5em;
+	border-top: 1px solid gray;
 }
 
-.wrapper ul>li:first-of-type:before {
-	left: 50%;
-	width: 50%;
+.wrapper ul>li:first-of-type::before {
+	/* left: 50%;
+	width: 50%; */
+	margin-left: 50%;
 }
 
-.wrapper ul>li:last-of-type:before {
-	width: 50%;
+.wrapper ul>li:last-of-type::before {
+	margin-right: 50%;
 }
 
-.wrapper ul>li:only-of-type:before {
-	width: 10%;
-	left: 45%;
+.wrapper ul>li:only-of-type::before {
+	margin-inline: auto;
+	width: 2rem;
 }
 
-.wrapper ul>li.noline:before {
-	background: transparent;
+/* root element */
+.wrapper>ul>li::before {
+	border-top: none;
 }
 
 .claim {
-	padding: 1rem 1rem;
+	background: var(--bg-color-2);
 	border: 1px solid grey;
-	/* width: 8rem; */
+	padding: 1rem 1rem;
+	width: 8rem;
 	white-space: normal;
 	display: inline-block;
 	cursor: pointer;
-	background: white;
-	border-radius: 1rem;
-	transition: width 0.5s ease;
+	border-radius: var(--border-radius);
+	transition: width 0.25s ease;
 }
 
 /*add*/
-.wrapper [type="radio"], .wrapper [type="checkbox"] {
+.wrapper [type="radio"],
+.wrapper [type="checkbox"] {
 	display: none;
 }
 
-:not(:checked) ~ .claim .claim_body {
-	height: 0; width: 0; opacity: 0; margin: 0;
+:not(:checked)~.claim .claim_body {
+	height: 0;
+	width: 0;
+	opacity: 0;
+	margin: 0;
 	position: absolute;
 }
+
 /* :checked ~ .claim .claim_{
 	height: unset; width: unset; opacity: unset;
 } */
 
-:checked ~ .claim {
-	max-width: 20rem;
+:checked~.claim {
+	width: 18rem;
 }
 
 div.a {
@@ -216,15 +240,58 @@ div.x {
 	padding-right: 180px;
 }
 
-.button {
-	background-color: #d3d3d3;
-	border: none;
-	padding: 7px 10px;
+/* Button */
+
+button,
+input[type="button"],
+.btn {
+	background-color: var(--bg-color-2);
+	border-radius: var(--border-radius);
+	border: 1px solid;
+	border-color: var(--color-body-2);
+	color: var(--text-color-heading);
+	display: inline-block;
+	font-family: 'Questrial', sans-serif;
+	font-size: 0.9rem;
+	padding: 0.25rem 1ch;
 	text-align: center;
 	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	font-family: 'Questrial', sans-serif;
+}
+
+button:hover,
+input[type="button"]:hover,
+.btn:hover {
+	background-color: var(--bg-color-3);
+}
+
+button:active,
+input[type="button"]:active,
+.btn:active {
+	background-color: var(--bg-color);
+	border-color: var(--color-body-3);
+}
+
+.btn-primary {
+	color: white;
+	background-color: var(--color-primary-2);
+	border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+	opacity: 0.9;
+	background-color: var(--color-primary-2);
+	border-color: var(--color-primary);
+}
+
+.btn-primary:active {
+	background-color: var(--color-primary);
+	border-color: var(--color-primary-2);
+}
+
+/* Input elements */
+input, textarea, select {
+	padding: 0.5rem;
+	font-size: 0.9rem;
 }
 
 /* The Modal (background) */
@@ -255,7 +322,7 @@ div.x {
 /* Modal Content */
 .modal-content-a {
 	text-align: center;
-	background-color: #fefefe;
+	background-color: var(--bg-color-3);
 	margin: auto;
 	padding: 20px;
 	border: 1px solid #888;
@@ -294,37 +361,6 @@ div.x {
 	padding: 20px 10px;
 }
 
-/* Style the header links */
-.header a {
-	float: center;
-	color: black;
-	text-align: center;
-	padding: 12px;
-	text-decoration: none;
-	font-size: 18px;
-	line-height: 25px;
-
-	border-radius: 4px;
-}
-
-/* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
-.header a.logo {
-	font-size: 25px;
-	font-weight: bold;
-}
-
-/* Change the background color on mouse-over */
-.header a:hover {
-	background-color: #ddd;
-	color: black;
-}
-
-/* Style the active/current link*/
-.header a.active {
-	background-color: darkgrey;
-	color: white;
-}
-
 /* Float the link section to the right */
 .header-right {
 	float: right;
@@ -335,41 +371,47 @@ div.x {
 }
 
 footer {
-	box-sizing: border-box;
-	text-align: center;
-	padding: 10px;
-	background-color: #3F3E67;
-	color: white;
+	background-color: var(--color-primary);
 	bottom: 0;
+	box-sizing: border-box;
+	color: white;
+	font-size: small;
+	padding: 0.5rem;
+	position: fixed;
+	z-index: 1;
+	text-align: center;
 	width: 100%;
 }
 
 .topnav {
-	overflow: hidden;
-	background-color: #3F3E67;
+	background-color: var(--color-primary);
 	width: 100%;
-	text-align: center;
-	padding-bottom: 10;
-	padding-top: 10;
+	position: fixed;
 	top: 0;
+	left: 0;
+	z-index: 1;
+	padding-top: 1rem;
+	text-align: center;
+}
+
+.topnav h1 {
+	margin: 0;
 }
 
 .topnav a {
-
-	float: center;
-	color: #f2f2f2;
-	padding: 12px 32px;
+	display: inline-block;
+	color: #fff;
+	padding: 0.25rem 2rem;
 	text-decoration: none;
-	font-size: 24px;
 }
 
 .topnav a:hover {
-	background-color: #ddd;
+	background-color: #FFF8;
 	color: black;
 }
 
 .topnav a.active {
-	background-color: #585772;
+	background-color: #FFF2;
 	color: white;
 }
 
@@ -424,9 +466,9 @@ footer {
 
 div.scroll {
 	overflow: scroll;
-	width: 900px;
-	height: 400px;
 	position: relative;
+	/* width: 900px;
+	height: 400px; */
 }
 
 #explain-element {
@@ -454,7 +496,7 @@ div.scroll {
 	text-align: left;
 }
 
-.claim > * {
+.claim>* {
 	margin-inline: auto;
 	width: fit-content;
 }
@@ -465,22 +507,25 @@ div.scroll {
 	height: 32px;
 	object-fit: contain;
 }
+
 p {
 	margin-top: 0;
 	margin-bottom: 0.5em;
 }
 
-.claim > * + * {
+.claim>*+* {
 	margin-top: 0.25rem;
 	margin-bottom: 0rem;
 }
 
-.icon, .thesis {
+.icon,
+.thesis {
 	text-transform: uppercase;
 	font-family: "League Spartan", sans-serif;
-	color: black;
+	color: var(--text-color-heading);
 	font-size: 1.2em;
 }
+
 .thesis {
 	color: unset;
 	font-size: 1.8em;
@@ -491,16 +536,20 @@ p {
 	vertical-align: -0.08em;
 	padding-left: 0.25em;
 }
+
 .icon--flag::after {
 	content: url(../svg/flag.svg);
 }
+
 .icon--rivals {
 	color: #c0e;
 }
+
 .icon--rivals::after {
 	content: url(../svg/minimize-2.svg);
 	rotate: 45deg;
 }
+
 .icon--support::after {
 	content: url(../svg/thumbs-up.svg);
 }
@@ -508,6 +557,7 @@ p {
 .icon--contested {
 	color: #e00;
 }
+
 .icon--contested::after {
 	content: url(../svg/alert.svg);
 }
@@ -515,12 +565,6 @@ p {
 img.icon--rivals {
 	width: 100px;
 	height: auto;
-}
-
-.btn {
-	-webkit-appearance: button;
-	-moz-appearance: button;
-	appearance: button;
 }
 
 /* Form */
@@ -552,32 +596,39 @@ form label {
 .subject-display {
 	color: red;
 }
+
 .target-display {
 	color: blue;
 }
+
 .reason-display {
 	color: orange;
 }
+
 .example-display {
 	color: purple;
 }
+
 .subject-display::after {
 	content: '(subject)';
 	vertical-align: super;
-  font-size: smaller;
+	font-size: smaller;
 }
+
 .target-display::after {
 	content: '(target property)';
 	vertical-align: super;
-  font-size: smaller;
+	font-size: smaller;
 }
+
 .reason-display::after {
 	content: '(reason)';
 	vertical-align: super;
-  font-size: smaller;
+	font-size: smaller;
 }
+
 .example-display::after {
 	content: '(example)';
 	vertical-align: super;
-  font-size: smaller;
+	font-size: smaller;
 }
