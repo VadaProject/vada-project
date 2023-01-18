@@ -56,7 +56,7 @@ if ($claim->COS == 'claim') { ?>
                 <span class="subject-display"> <?php echo $flaggedClaim->subject; ?></span>
                 <span class="target-display"><?php echo $flaggedClaim->targetP; ?></span>.
                 </td>
-                <td><?php echo "<a href='?id=$claimIDFlagged'>Flag Thesis</a>"?></td>
+                <td><?php echo "<a class='btn' href='?id=$claimIDFlagged'>Flag Thesis</a>"?></td>
                 </tr>
                 <tr>
                 <th>Reason Statement</th>

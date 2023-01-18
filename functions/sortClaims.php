@@ -126,20 +126,19 @@ function sortClaims($claimID)
         sortClaimsRival($claimIDFlagged);
         return;
     }
-    ?>
-    <li>
-        <?php make_label_el($claimID, $claim, $resultFlagType); ?>
-        <ul>
-        <?php
-        // IF A CLAIM IS FLAGGED IT obtains flaggers that aren't rivals
-        // if its a thesis rival it will show up in the query above
-        // this is when the claim is the flagged. this is what gets pushed in the recursion.
-        // continue recursion
-        $result1 = Database::getNonRivalFlags($claimID); // get the mysqli result
-        foreach ($result1 as $id) {
-            sortclaims($id);
-        }?>
-    </ul><?php
+    echo "<li>";
+    make_label_el($claimID, $claim, $resultFlagType);
+    echo '<ul>';
+    // IF A CLAIM IS FLAGGED IT obtains flaggers that aren't rivals
+    // if its a thesis rival it will show up in the query above
+    // this is when the claim is the flagged. this is what gets pushed in the recursion.
+    // continue recursion
+    $result1 = Database::getNonRivalFlags($claimID); // get the mysqli result
+
+    foreach ($result1 as $id) {
+        sortclaims($id);
+    }
+    echo '</ul>';
 }
 
 /*
@@ -157,18 +156,14 @@ function sortClaimsRIVAL($claimID)
     foreach ($result1 as $flagID) {
         $rivaling = $flagID;
     }
-    ?>
-
-        <li>
-        <?php make_label_el($claimID, $claim, '', $rivaling); ?>
-        <ul>
-            <!--</font>-->
-                <?php
-                $result1 = Database::getNonRivalFlags($claimID);
-                foreach ($result1 as $flagID) {
-                    sortClaims($flagID);
-                }?>
-        </ul><?php
+    echo '<li>';
+    make_label_el($claimID, $claim, '', $rivaling);
+    echo '<ul>';
+    $result1 = Database::getNonRivalFlags($claimID);
+    foreach ($result1 as $flagID) {
+        sortClaims($flagID);
+    }
+    echo '</ul>';
 }
 // end of rivalfunction
 ?>
