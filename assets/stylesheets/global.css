@@ -148,8 +148,7 @@ li {
 }
 
 .wrapper ul>li {
-	margin-top: 0.5em;
-	padding-top: 0.5em;
+	padding-top: 1em;
 	line-height: 1.5em;
 	padding-inline: 0.5rem;
 }
@@ -158,67 +157,62 @@ li {
 
 .wrapper ul>li::before {
 	content: '';
-	/* width: 100%; */
 	display: block;
-	margin-bottom: 0.5rem;
 	box-sizing: border-box;
 	margin-inline: -0.5em;
-	border-top: 1px solid gray;
+	border: 0px solid gray;
+	border-top-width: 1px;
+}
+
+.wrapper li .stem {
+	content: '';
+	display: block;
+	margin-left: 50%;
+	padding-top: 1rem;
+	border-left: 1px solid gray;
 }
 
 .wrapper ul>li:first-of-type::before {
-	/* left: 50%;
-	width: 50%; */
 	margin-left: 50%;
+	/* border-left-width: 1px; */
 }
 
 .wrapper ul>li:last-of-type::before {
 	margin-right: 50%;
+	/* border-right-width: 1px; */
 }
 
 .wrapper ul>li:only-of-type::before {
-	margin-inline: auto;
-	width: 2rem;
+	/* border-left-width: 1px; */
+	border-right-width: 0px;
+	width: 0rem;
+}
+
+/* A vertical stem in the middle of each */
+
+.wrapper ul::before {
+	content: '';
+	border-left: 1px solid gray;
+	/* width: 100%; */
+	display: block;
+	position: absolute;
+	padding-top: 1rem;
+	box-sizing: border-box;
+	margin-inline: -0.5em;
 }
 
 /* root element */
 .wrapper>ul>li::before {
-	border-top: none;
+	display: none;
 }
-
-.claim {
-	background: var(--bg-color-2);
-	border: 1px solid grey;
-	padding: 1rem 1rem;
-	width: 8rem;
-	white-space: normal;
-	display: inline-block;
-	cursor: pointer;
-	border-radius: var(--border-radius);
-	transition: width 0.25s ease;
+.wrapper>ul>li > .stem {
+	display: none;
 }
-
-/*add*/
-.wrapper [type="radio"],
-.wrapper [type="checkbox"] {
+/* root element */
+.wrapper>ul::before {
 	display: none;
 }
 
-:not(:checked)~.claim .claim_body {
-	height: 0;
-	width: 0;
-	opacity: 0;
-	margin: 0;
-	position: absolute;
-}
-
-/* :checked ~ .claim .claim_{
-	height: unset; width: unset; opacity: unset;
-} */
-
-:checked~.claim {
-	width: 18rem;
-}
 
 div.a {
 	width: 100%;
@@ -229,6 +223,10 @@ div.a {
 	max-width: 60rem;
 	margin: 0 auto;
 	padding: 1rem;
+}
+
+.text-left {
+	text-align: left;
 }
 
 .text-center {
@@ -289,14 +287,18 @@ input[type="button"]:active,
 }
 
 /* Input elements */
-input, textarea, select {
+input,
+textarea,
+select {
 	padding: 0.5rem;
 	font-size: 0.9rem;
 	border-radius: 0.25rem;
 	background-color: var(--bg-color-3);
 }
 
-input[readonly], textarea[readonly], select[readonly] {
+input[readonly],
+textarea[readonly],
+select[readonly] {
 	background-color: var(--bg-color);
 }
 
@@ -498,8 +500,25 @@ div.scroll {
 	color: black;
 }
 
+/* Claim element */
+
 .claim {
-	text-align: left;
+	position: relative;
+	background-color: var(--bg-color-2);
+	border: 1px solid var(--color-body-2);
+	padding: 1rem 1rem;
+	width: 8rem;
+	white-space: normal;
+	display: block;
+	margin-inline: auto;
+	cursor: pointer;
+	transition: width 0.25s ease;
+	overflow: hidden;
+}
+
+.claim:hover {
+	background-color: var(--bg-color-3);
+	border-color: var(--color-body-2);
 }
 
 .claim>* {
@@ -512,6 +531,34 @@ div.scroll {
 	width: 32px;
 	height: 32px;
 	object-fit: contain;
+}
+
+/* These checkboxes are used to toggle claim visibility */
+.wrapper [type="radio"],
+.wrapper [type="checkbox"] {
+	display: none;
+}
+
+.claim_body {
+	width: 18rem;
+}
+
+.claim .claim_body {
+	transition: opacity 0.25s ease, margin 0.25s ease;
+}
+
+input:not(:checked)~.claim .claim_body,
+input:not(:checked)~.claim .btn {
+	display: block;
+	opacity: 0;
+	margin: 0;
+	padding: 0;
+	height: 0;
+	line-height: 0;
+	overflow: hidden;
+}
+:checked~.claim {
+	width: 18rem;
 }
 
 p {
