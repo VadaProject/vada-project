@@ -42,7 +42,11 @@
 <p></p>
 <!-- elements with the .[testimony/inference/etc]-only class are shown conditionally -->
 <p class="inference-only">
-    ⓘ <a href="userguide.php#Inference">Inference (<i>anumāna</i>)</a> asserts that the claim’s subject is known to possess a <b>reason property</b> (<dfn>hetu</dfn>) that is invariably present with the claim’s <b>target property</b>. This invariance must be demonstrated with an <b>example</b>.</p>
+    ⓘ <a href="userguide.php#Inference">Inference (<i>anumāna</i>)</a> asserts
+    that the claim’s subject is known to possess a <b>reason property</b>
+    (<dfn>hetu</dfn>) that is invariably present with the claim’s <b>target
+        property</b>. This invariance must be demonstrated with an
+    <b>example</b> that has the reason property and the target property.</p>
 
 <p class="perception-only">
     ⓘ <a href="userguide.php#Perception">Perception (<i>pratyakṣa</i>)</a> supports a claim through <b>sensory evidence</b>: that is, evidence which (1) directly represents the subject, (2) does not depend on language, (3) is inerrant, and (4) definitive. You must cite an audio/video source that supports the claim.
