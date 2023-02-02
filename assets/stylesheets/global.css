@@ -292,6 +292,12 @@ input[type="button"]:active,
 input, textarea, select {
 	padding: 0.5rem;
 	font-size: 0.9rem;
+	border-radius: 0.25rem;
+	background-color: var(--bg-color-3);
+}
+
+input[readonly], textarea[readonly], select[readonly] {
+	background-color: var(--bg-color);
 }
 
 /* The Modal (background) */
