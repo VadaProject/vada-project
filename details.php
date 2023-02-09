@@ -4,12 +4,9 @@
     /*
     This displays the argument in full detail and pushes any user interaction/submissions to add.php.
     */
-    require_once 'config/db_connect.php';
     require_once 'functions/flagging.php';
     require_once 'functions/Database.php';
     use Database\Database;
-
-    $conn = db_connect();
 
     $claim_id = $_GET['id']; // get claim id from URL search tags
     $claim = Database::getClaim($claim_id);
