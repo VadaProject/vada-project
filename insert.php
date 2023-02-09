@@ -16,6 +16,8 @@ $targetP = mysqli_real_escape_string($conn, $_POST['targetP']);
 $claimIDFlagged = mysqli_real_escape_string($conn, $_POST['claimIDFlaggedINSERT']);
 ?><script> window.alert($claimIDFlagged); </script><?php
 
+$isRootRival = 0;
+
 // pulled from our details page. it is the claimID of the claim being flagged.
 
 $FOS = mysqli_real_escape_string($conn, $_POST['FOS']);
