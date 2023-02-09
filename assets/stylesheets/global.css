@@ -381,20 +381,20 @@ select[readonly] {
 footer {
 	background-color: var(--color-primary);
 	bottom: 0;
+	position: absolute;
 	box-sizing: border-box;
 	color: white;
 	font-size: small;
 	padding: 0.5rem;
-	position: fixed;
 	z-index: 1;
 	text-align: center;
 	width: 100%;
 }
 
 .topnav {
+	position: absolute;
 	background-color: var(--color-primary);
 	width: 100%;
-	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 1;
@@ -430,7 +430,7 @@ footer {
 	/* Hidden by default */
 	position: fixed;
 	/* Stay in place */
-	z-index: 1;
+	z-index: 10;
 	/* Sit on top */
 	padding-top: 100px;
 	/* Location of the box */
