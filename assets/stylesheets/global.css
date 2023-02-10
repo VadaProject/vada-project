@@ -148,7 +148,6 @@ li {
 }
 
 .wrapper ul>li {
-	padding-top: 1em;
 	line-height: 1.5em;
 	padding-inline: 0.5rem;
 }
@@ -178,7 +177,7 @@ li {
 }
 
 .wrapper ul>li:last-of-type::before {
-	margin-right: 50%;
+	margin-right: calc(50% - 0.5px);
 	/* border-right-width: 1px; */
 }
 
@@ -190,22 +189,11 @@ li {
 
 /* A vertical stem in the middle of each */
 
-.wrapper ul::before {
-	content: '';
-	border-left: 1px solid gray;
-	/* width: 100%; */
-	display: block;
-	position: absolute;
-	padding-top: 1rem;
-	box-sizing: border-box;
-	margin-inline: -0.5em;
-}
-
 /* root element */
 .wrapper>ul>li::before {
 	display: none;
 }
-.wrapper>ul>li > .stem {
+.wrapper>ul>li > .stem:first-of-type {
 	display: none;
 }
 /* root element */

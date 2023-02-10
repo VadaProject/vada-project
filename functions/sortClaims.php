@@ -134,6 +134,7 @@ function sortClaims($claimID)
     $result1 = Database::getNonRivalFlags($claimID); // get the mysqli result
 
     if (\count($result1) > 0) {
+        echo '<span class="stem"></span>';
         echo '<ul>';
         foreach ($result1 as $flagID) {
             sortClaims($flagID);
@@ -161,6 +162,7 @@ function sortClaimsRIVAL($claimID)
     make_label_el($claimID, $claim, '', $rivaling);
     $result1 = Database::getNonRivalFlags($claimID);
     if (\count($result1) > 0) {
+        echo '<span class="stem"></span>';
         echo '<ul>';
         foreach ($result1 as $flagID) {
             sortClaims($flagID);
