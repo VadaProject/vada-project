@@ -11,6 +11,7 @@ use Database\Database;
         body {
             background-color: white;
             padding: 0;
+            padding-bottom: 1rem;
         }
     </style>
     <link href="assets/stylesheets/add.css" rel="stylesheet" />
@@ -45,3 +46,5 @@ use Database\Database;
     </div>
     <script src="assets/scripts/add.js"></script>
 </form>
+</body>
+</html>

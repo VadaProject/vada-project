@@ -317,6 +317,7 @@ include 'includes/page_top.php'; ?>
         display: block;
         border: none;
         width: 100%;
+        min-height: 80vh;
         max-height: 80vh !important;
     }
 </style>

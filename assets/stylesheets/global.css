@@ -302,6 +302,11 @@ select[readonly] {
 	background-color: var(--bg-color);
 }
 
+textarea {
+	width: 100%;
+	box-sizing: border-box;
+}
+
 /* The Modal (background) */
 .modal {
 
@@ -310,8 +315,6 @@ select[readonly] {
 	position: fixed;
 	/* Stay in place */
 	z-index: 1;
-	/* Sit on top */
-	padding-top: 100px;
 	/* Location of the box */
 	left: 0;
 	top: 0;
@@ -335,6 +338,7 @@ select[readonly] {
 	padding: 20px;
 	border: 1px solid #888;
 	width: 80%;
+
 }
 
 /* Modal Content */
@@ -431,8 +435,6 @@ footer {
 	position: fixed;
 	/* Stay in place */
 	z-index: 10;
-	/* Sit on top */
-	padding-top: 100px;
 	/* Location of the box */
 	left: 0;
 	top: 0;
@@ -455,7 +457,11 @@ footer {
 	padding: 1rem;
 	border: 1px solid #888;
 	width: 80%;
-	position: relative;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	height: 80vh;
 }
 
 /* The Close Button */

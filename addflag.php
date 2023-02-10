@@ -161,6 +161,7 @@ function flagTypeInput(string $supportMeans)
         body {
             background-color: white;
             padding: 0;
+            padding-bottom: 1rem;
         }
     </style>
     <link href="assets/stylesheets/add.css" rel="stylesheet" />
