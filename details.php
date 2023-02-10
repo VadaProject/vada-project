@@ -176,11 +176,13 @@ function displayNotSupport(object $claim)
 <?php
 }
 ?>
-<?php include 'includes/page_top.php'; ?>
+<?php
+$claim_id = $_GET['id']; // get claim id from URL search tags
+$claim = Database::getClaim($claim_id);
+$PAGE_TITLE = "Claim #$claim_id";
+include 'includes/page_top.php'; ?>
 <main class="page-container">
     <?php
-    $claim_id = $_GET['id']; // get claim id from URL search tags
-    $claim = Database::getClaim($claim_id);
 
     if (is_null($claim)) {
         echo "<h2>Error: a claim with the ID #$claim_id does not exist.</h2>";

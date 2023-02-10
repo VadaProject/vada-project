@@ -1,4 +1,6 @@
-<?php include 'includes/page_top.php'; ?>
+<?php
+$PAGE_TITLE = "Add claim";
+include 'includes/page_top.php'; ?>
 <?php require_once 'functions/supportingForm.php'; ?>
 <link href="assets/stylesheets/add.css" rel="stylesheet" />
 <main class="page-container">

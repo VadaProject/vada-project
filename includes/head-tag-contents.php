@@ -9,8 +9,7 @@ switch ($_SERVER['SCRIPT_NAME']) {
         $CURRENT_PAGE = 'User Guide';
         $PAGE_TITLE = 'User Guide';
         break;
-
-    default:
+    case '/directory/index.php':
         $CURRENT_PAGE = 'Index';
         $PAGE_TITLE = 'Home';
 }

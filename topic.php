@@ -1,5 +1,4 @@
-<?php require_once 'config/db_connect.php'; ?>
-<?php require 'includes/page_top.php'; ?>
+<!-- <?php require_once 'config/db_connect.php'; ?> -->
 <?php
 require_once 'functions/sortClaims.php';
 require_once 'functions/doesThesisFlag.php';
@@ -9,12 +8,15 @@ require_once 'functions/Database.php';
 use Database\Database;
 
 $conn = db_connect();
-if (isset($_GET['topic'])) {
-    $topic = mysqli_real_escape_string($conn, $_GET['topic']);
+$topic = $_GET['topic'];
+if (!isset($topic)) {
+    echo "<h1>Error: topic is not defined. <a href='index.php'>Home</a></h1>";
+    return;
 }
-
+$PAGE_TITLE = htmlspecialchars("Topic: \"$topic\"");
 // end isset check
 ?>
+<?php require 'includes/page_top.php'; ?>
 <style>
     footer,
     .topnav {
@@ -54,5 +56,4 @@ if (isset($_GET['topic'])) {
     </ul>
 </div>
 <?php include 'includes/page_bottom.php'; ?>
-<?php mysqli_close($conn); ?>
 <script src="assets/scripts/ajaxindex.js"></script>
