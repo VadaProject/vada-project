@@ -1,15 +1,14 @@
 <?php
-switch ($_SERVER['SCRIPT_NAME']) {
-    case '/directory/about.php':
+switch (basename($_SERVER['SCRIPT_NAME'])) {
+    case 'about.php':
         $CURRENT_PAGE = 'About';
         $PAGE_TITLE = 'About';
         break;
-
-    case '/directory/userguide.php':
+    case 'userguide.php':
         $CURRENT_PAGE = 'User Guide';
         $PAGE_TITLE = 'User Guide';
         break;
-    case '/directory/index.php':
+    case 'index.php':
         $CURRENT_PAGE = 'Index';
         $PAGE_TITLE = 'Home';
 }
