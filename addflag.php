@@ -164,7 +164,6 @@ function flagTypeInput(string $supportMeans)
             padding-bottom: 1rem;
         }
     </style>
-    <link href="assets/stylesheets/add.css" rel="stylesheet" />
 </head>
 
 <body lang="en-US">

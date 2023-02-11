@@ -14,8 +14,7 @@ use Database\Database;
             padding-bottom: 1rem;
         }
     </style>
-    <link href="assets/stylesheets/add.css" rel="stylesheet" />
-</head>
+</head
 <body lang="en-US">
 <?php
     $claim_id = $_GET["id"];
