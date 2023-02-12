@@ -58,8 +58,6 @@ $publication = mysqli_real_escape_string($conn, $_POST['publication']);
 $date = mysqli_real_escape_string($conn, $_POST['date']);
 $citationURL = mysqli_real_escape_string($conn, $_POST['citationURL']);
 
-$citation = $author . ', ' . $title . ', ' . $publication . ', ' . $date . ', ' . $citationURL;
-
 $vidtimestamp = mysqli_real_escape_string($conn, $_POST['vidtimestamp']);
 
 $grammar = mysqli_real_escape_string($conn, $_POST['grammar']);
