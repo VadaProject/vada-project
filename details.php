@@ -109,29 +109,43 @@ function displayTarka(object $claim)
 <?php
 }
 
-function displayTestimony(object $claim)
-{ ?>
+function makeLinkAnchor(string $href = '') {
+    if (!isset($href) || count_chars($href) == 0) {
+        return;
+    }
+    if ($href == "Enter URL" || $href == "NA") {
+        // legacy placeholder values
+        return;
+    }
+    echo "<p>";
+    echo "<label>URL:</label> ";
+    echo "<a target='_blank' href='$href'?>$href</a>";
+    echo "</p>";
+}
 
+function displayTestimony(object $claim)
+{
+    $url = $claim->URL ?? $claim->citationURL ?? "";
+    ?>
     <p><label>Transcription:</label>
-        <!-- TODO: style this -->
-        <textarea readonly
-            style="display: block; max-width: 100%; min-width: 100%; height: auto"><?php echo $claim->transcription; ?></textarea>
+    <!-- TODO: style this -->
+    <textarea readonly
+    style="display: block; max-width: 100%; min-width: 100%; height: auto"><?php echo $claim->transcription; ?></textarea>
     <p><label>Citation:</label>
-        <?php echo $claim->citation; ?>
+    <?php echo $claim->citation; ?>
     </p>
-    <?php flagModalButton($claim->supportMeans); ?>
+    <?php makeLinkAnchor($url); ?>
+</p>
 <?php }
 
 function displayPerception(object $claim)
 {
-    $claimID = $claim->claimID;
+    $url = $claim->URL ?? $claim->citationURL ?? "";
     ?>
     <p><label>Citation:</label>
         <?php echo $claim->citation; ?>
     </p>
-    <p><label>URL:</label>
-        <?php echo "<a target='_blank' href='$claim->URL'?>$claim->URL</a>" ?>
-    </p>
+    <?php makeLinkAnchor($url); ?>
     <p><label>Timestamp:</label>
         <?php echo $claim->vidtimestamp; ?>
     </p>
