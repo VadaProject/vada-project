@@ -7,16 +7,10 @@ use Database\Database;
  * @param int $claim_id The claim to check.
  * @return bool Returns true if a claim has an ACTIVE thesis rival
  */
-function hasActiveRival($claim_id)
+function hasRival($claim_id)
 {
-    // TODO: if we do it a lot, this operation could probably be reduced to a SQL query
-    $flaggers = Database::getThesisRivals($claim_id);
-    foreach ($flaggers as $flag_id) {
-        if (Database::isClaimActive($flag_id)) {
-            return true;
-        }
-    }
-    return false;
+    $thesis_rivals = Database::getThesisRivals($claim_id);
+    return count($thesis_rivals) > 0;
 }
 
 /**
@@ -33,7 +27,7 @@ function restoreActivity($claim_id)
     if (count($supports) == 0) {
         if (
             !doesThesisFlag($claim_id) &&
-            !hasActiveRival($claim_id)
+            !hasRival($claim_id)
         ) {
             Database::setClaimActive($claim_id, true);
         }
@@ -49,7 +43,7 @@ function restoreActivity($claim_id)
         if (
             Database::isClaimActive($support_id) &&
             !doesThesisFlag($claim_id) &&
-            !hasActiveRival($claim_id)
+            !hasRival($claim_id)
         ) {
             Database::setClaimActive($claim_id, true);
         }
