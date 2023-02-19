@@ -150,18 +150,19 @@ class SupportingForm
                 placeholder="Transcription"
                 style="width: 100%; height: 5rem;"></textarea>
         </div>
+        <div id="citation" class="perception-only testimony-only">
+            <label for="citationInput">Citation</label>
+            <textarea type="text" id="citationInput" name="citation" required
+                placeholder="Author, title, publication, and date of publication."></textarea>
+        </div>
         <div class="d-flex">
-            <div id="citation" class="perception-only testimony-only flex-1">
-                <label for="citationInput">Citation</label>
-                <textarea type="text" id="citationInput" name="citation" required
-                    placeholder="Author, title, publication, and date of publication."></textarea>
-            </div>
             <div id="url" class="testimony-only perception-only flex-1">
                 <label for="urlInput">URL</label>
-                <textarea type="url" id="urlInput" name="url"
-                    placeholder="https://example.com"></textarea>
+                <input type="url" id="urlInput" name="url"
+                style="width: 100%; box-sizing: border-box;"
+                    placeholder="https://example.com">
             </div>
-            <div id="vidtimestamp" class="perception-only flex-1">
+            <div id="vidtimestamp" class="perception-only">
                 <label for="vidtimestampInput">Video Timestamp</label>
                 <input type="text" id="vidtimestampInput" name="vidtimestamp" required
                     placeholder="Moment occurs at 05:10">
