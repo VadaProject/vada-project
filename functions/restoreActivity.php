@@ -71,8 +71,8 @@ function restoreActivity($claim_id)
                 restoreActivityRIVAL($companion_rivals);
             }
         }
-        $non_rivalling_flags = Database::getNonRivalFlags($support_id);
-        foreach ($non_rivalling_flags as $active_flag_id) {
+        $non_rivaling_flags = Database::getNonRivalFlags($support_id);
+        foreach ($non_rivaling_flags as $active_flag_id) {
             restoreActivity($active_flag_id);
 
             // If the flag is active, then the support is inactive.
@@ -116,15 +116,15 @@ function restoreActivityRIVAL($claim_id)
     // restoreActivity
     // set of all too-early and too-late
     // looks for normal non-rival flags for this rivaling claim.
-    foreach (Database::getNonRivalFlags($claim_id) as $nodeFlaggers) {
-        restoreActivity($nodeFlaggers);
+    foreach (Database::getNonRivalFlags($claim_id) as $non_rival_flag_id) {
+        restoreActivity($non_rival_flag_id);
     }
     // check active status of flagging claims OF RIVAL COMPANION
     // finds the companion
     $rivaling = '';
-    foreach (Database::getThesisRivals($claim_id) as $r) {
+    foreach (Database::getThesisRivals($claim_id) as $thesis_rival_id) {
         // found rival pair!
-        $rivaling = $r;
+        $rivaling = $thesis_rival_id;
         // $rivaling is Rival B.
     }
 
@@ -142,31 +142,16 @@ function restoreActivityRIVAL($claim_id)
 
     // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
     // rivalB : needs to be active AND it doesn't have a too early / too late AND needs at least one support itself
-    if (noSupportsRival($claim_id) && !doesThesisFlagRival($claim_id)) {
-        $statusA = 'unchallenged';
-    } else {
-        $statusA = 'challenged';
-    }
+    $isChallengedA = !noSupportsRival($claim_id) || doesThesisFlagRival($claim_id);
+    $isChallengedB = !noSupportsRival($rivaling) || doesThesisFlagRival($rivaling);
 
-    if (noSupportsRival($rivaling) && !doesThesisFlagRival($rivaling)) {
-        $statusB = 'unchallenged';
-    } else {
-        $statusB = 'challenged';
-    }
-    if (
-        ('unchallenged' == $statusA && 'unchallenged' == $statusB) ||
-        ('challenged' == $statusA && 'challenged' == $statusB)
-    ) {
+    if ($isChallengedA === $isChallengedB) {
         Database::setClaimActive($claim_id, false);
         Database::setClaimActive($rivaling, false);
-    }
-    // if its true, there are no flags.
-    // if false, there are flags.
-    if ('unchallenged' == $statusA && 'challenged' == $statusB) {
+    } elseif ($isChallengedA) {
         Database::setClaimActive($claim_id, true);
         Database::setClaimActive($rivaling, false);
-    }
-    if ('unchallenged' == $statusB && 'challenged' == $statusA) {
+    } else {
         Database::setClaimActive($claim_id, false);
         Database::setClaimActive($rivaling, true);
     }
