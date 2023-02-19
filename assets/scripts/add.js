@@ -4,22 +4,30 @@
 
 /**
  * Handles the form submit event
- * @param {SubmitEvent} event
+ *
+ * @param event {JQuery.SubmitEvent}
  */
 function handleSubmit(event) {
   // use HTML5 form validation but otherwise override submit action
-  const topic = $("#topicInput").val();
+  /** @type HTMLInputElement | null */
+  const topicInput = document.querySelector("#topicInput");
+  const topic = topicInput?.value ?? "";
+  const destinationURL = 'topic.php?topic=' + topic.trim();
+  const actionURL = $(this).attr('action');
   if (this.checkValidity()) {
-    const url = $(this).attr('action');
+    if (!actionURL) {
+      console.error(`Form ${this} has no [action] parameter set`);
+      return;
+    }
     const data = $(this).find(":input").serializeArray();
     $.post(
-      url,
+      actionURL,
       data,
       function success(info) {
         $('#result').html(info);
         alert("Submitted!");
         console.debug(info);
-        window.parent.location.href = 'topic.php?topic=' + topic.trim();
+        window.parent.location.href = destinationURL;
       },
     );
     $("#submit").prop('disabled', true);
@@ -30,10 +38,10 @@ function handleSubmit(event) {
   event?.preventDefault();
 }
 
-$('#myForm').submit(handleSubmit);
+$('#myForm').on("submit", handleSubmit);
 
 // supportMeansSelect
-const supportMeansSelect = document.getElementById('supportMeansSelect')
+const supportMeansSelect = document.getElementById('supportMeansSelect');
 function handleSupportMeansChange() {
   let selected = this.options[this.selectedIndex].value
   this.dataset.selected = selected
@@ -83,33 +91,41 @@ handleSupportMeansChange.apply(supportMeansSelect)
 // Generalized copying inputs to outputs
 $("[data-target]").each((i, el) => {
   const targetSelector = $(el).attr("data-target");
+  if (targetSelector === undefined) {
+    console.error(`Element `, el, ` has data-target defined but no value.`);
+    return;
+  }
   const $target = $(targetSelector);
+  const value = $target.val()?.toString() ?? "";
   if ($target.length == 0) {
     console.error(`Query $('${targetSelector}') returned no results.`)
     return;
   }
   $target.on('input', () => {
-    $(el).text($target.val());
+    const value = $target.val()?.toString() ?? "";
+    $(el).text(value);
   })
-  $(el).text($target.val());
+  $(el).text(value);
 })
 
 /* Flagging Tooltips */
 
+if ($("#flagTypeSelect").length > 0) {
+  function showFlagToolTip(value) {
+    $("#flagTooltips [data-value]").each((i, el) => {
+      if ($(el).attr("data-value") === value) {
+        $(el).show();
+      } else {
+        $(el).hide();
+      }
+    })
+  }
+  function handleFlagTypeSelectChange() {
+    let selected = this.options[this.selectedIndex].value
+    showFlagToolTip(selected);
+  };
 
-function showFlagToolTip(value) {
-  $("#flagTooltips [data-value]").each((i, el) => {
-    if ($(el).attr("data-value") === value) {
-      $(el).show();
-    } else {
-      $(el).hide();
-    }
-  })
+  $("#flagTypeSelect").on("change", handleFlagTypeSelectChange)
+  handleFlagTypeSelectChange.apply($("#flagTypeSelect")[0]);
+
 }
-function handleFlagTypeSelectChange() {
-  let selected = this.options[this.selectedIndex].value
-  showFlagToolTip(selected);
-};
-
-$("#flagTypeSelect").on("change", handleFlagTypeSelectChange)
-handleFlagTypeSelectChange.apply($("#flagTypeSelect")[0]);
