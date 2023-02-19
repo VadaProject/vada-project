@@ -175,8 +175,14 @@ class SupportingForm
             Disqus comments feature on the resulting claim.</p>
         </div>
     <?php }
+    /**
+     * Echos a <select name="flagType">
+     * Also generates tooltips.
+     */
     public function flagTypeInput(string $supportMeans)
     {
+        // TODO: these switches are really long.
+        // Consider a data-driven approach.
         if ($supportMeans === 'Tarka') {
             return;
         }
@@ -236,48 +242,57 @@ class SupportingForm
             </select>
             <!-- TODO: add tooltips here -->
             <div id="flagTooltips">
-                <p data-value="Unestablished Subject">ⓘ <i>Unestablished Subject</i>:
+                <?php
+                switch ($supportMeans) {
+                    case 'Inference':
+                        ?>
+                        <p data-value="Unestablished Subject">ⓘ <i>Unestablished Subject</i>:
                     The subject is either ambiguous, in doubt, or non-existent.</p>
-                <p data-value="Itself Unestablished">ⓘ <i>Itself Unestablished</i>: The
-                    reason property is not present, or is not known to be present, in
-                    the subject.</p>
-                <p data-value="Hostile">ⓘ <i>Hostile</i>: The reason property
-                    establishes that the target property is not present in the subject.
-                </p>
-                <p data-value="Too Narrow">ⓘ <i>Too Narrow</i>: ither (a) the example is
-                    ambiguous, in doubt, or non-existent; or (b) the reason property is
-                    not present, or is not known to be present, with the target property
-                    in the example; or (c) the example is the same as, or is contained
-                    within, the subject.</p>
-                <p data-value="Too Broad (Counterexample)">ⓘ <i>Too Broad
-                        (Counterexample)</i>: The reason property is present without the
-                    target property in a specifiable counterexample.</p>
-                <p data-value="Too Broad (Unestablished Universal)">ⓘ <i>Too Broad
-                        (Unestablished Universal)</i>: There is no causal or conceptual
-                    reason to assume a universal association between the reason property
-                    and the target property; therefore, unspecifiable counterexamples
-                    may exist.</p>
-                <p data-value="Contrived Universal">ⓘ <i>Contrived Universal</i>: The
-                    universal association between the reason property and the target
-                    property exists only because of the presence of an additional
-                    property (upādhi).</p>
-                <p data-value="No Sense Object Contact">ⓘ <i>No Sense-Object
-                        Contact</i>:
-                    The linked content does not present sights and/or sounds directly of
-                    the subject of the claim. </p>
-                <p data-value="Depends On Words">ⓘ <i>Depends on Words</i>:
-
-                    Either the linked content relies on words to support the claim, or
-                    the claim depends on words or concepts that exceed the linked
-                    content. </p>
-                <p data-value="Errant">ⓘ <i>Errant</i>:
-
-                    The linked content presents perceptual evidence that is illusory or
-                    false. </p>
-                <p data-value="Ambiguous">ⓘ <i>Ambiguous</i>:
-
-                    The linked content does not clearly and unambiguously support the
-                    claim. </p>
+                        <p data-value="Itself Unestablished">ⓘ <i>Itself Unestablished</i>: The
+                            reason property is not present, or is not known to be present, in
+                            the subject.</p>
+                        <p data-value="Hostile">ⓘ <i>Hostile</i>: The reason property
+                            establishes that the target property is not present in the subject.
+                        </p>
+                        <p data-value="Too Narrow">ⓘ <i>Too Narrow</i>: ither (a) the example is
+                            ambiguous, in doubt, or non-existent; or (b) the reason property is
+                            not present, or is not known to be present, with the target property
+                            in the example; or (c) the example is the same as, or is contained
+                            within, the subject.</p>
+                        <p data-value="Too Broad (Counterexample)">ⓘ <i>Too Broad
+                                (Counterexample)</i>: The reason property is present without the
+                            target property in a specifiable counterexample.</p>
+                        <p data-value="Too Broad (Unestablished Universal)">ⓘ <i>Too Broad
+                                (Unestablished Universal)</i>: There is no causal or conceptual
+                            reason to assume a universal association between the reason property
+                            and the target property; therefore, unspecifiable counterexamples
+                            may exist.</p>
+                        <p data-value="Contrived Universal">ⓘ <i>Contrived Universal</i>: The
+                            universal association between the reason property and the target
+                            property exists only because of the presence of an additional
+                            property (upādhi).</p>
+                        <?php
+                        break;
+                    case 'Perception':
+                        ?>
+                    <p data-value="No Sense Object Contact">ⓘ <i>No Sense-Object
+                            Contact</i>:
+                        The linked content does not present sights and/or sounds directly of
+                        the subject of the claim. </p>
+                    <p data-value="Depends On Words">ⓘ <i>Depends on Words</i>:
+                        Either the linked content relies on words to support the claim, or
+                        the claim depends on words or concepts that exceed the linked
+                        content. </p>
+                    <p data-value="Errant">ⓘ <i>Errant</i>:
+                        The linked content presents perceptual evidence that is illusory or
+                        false. </p>
+                    <p data-value="Ambiguous">ⓘ <i>Ambiguous</i>:
+                        The linked content does not clearly and unambiguously support the
+                        claim. </p>
+                        <?php
+                        break;
+                    case 'Testimony':
+                        ?>
                 <p data-value="No Direct Familiarity">ⓘ <i>No direct familiarity</i>:
                     The source either lacks direct familiarity, or is not known to have
                     direct familiarity, with the state of affairs that the claim is
@@ -295,13 +310,21 @@ class SupportingForm
                 <p data-value="Misstatement">ⓘ <i>Misstatement</i>: The transcribed
                     words that support the claim are the result of a misstatement by the
                     source, or are an inaccurate transcription of the source. </p>
-                <p data-value="Thesis Rival">ⓘ <i>Has Rival</i>: An unflagged rival
+                        <?php
+                        break;
+                    default: // Thesis flags
+                        ?>
+                        <p data-value="Thesis Rival">ⓘ <i>Has Rival</i>: An unflagged rival
                     claim speaks or advocates for the antithesis.</p>
                 <p data-value="Too Early">ⓘ <i>Too Early</i>: This claim is not
                     controversial; no party in the debate speaks or advocates for the
                     antithesis.</p>
                 <p data-value="Too Late">ⓘ <i>Too Late</i>: This claim has already been
                     flagged or discredited.</p>
+                        <?php
+                        break;
+                }
+                ?>
             </div>
         </div>
         <?php
