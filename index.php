@@ -15,9 +15,9 @@
     $numhitsroot = mysqli_num_rows($rootresult12);
     while ($root2 = $rootresult12->fetch_assoc()) {
         ?>
-        <a href="topic.php?topic=<?php echo $root2['topic']; ?>"><button> <?php echo $root2['topic']; ?></button></a>
+        <a class="btn" href="topic.php?topic=<?php echo $root2['topic']; ?>"><?php echo $root2['topic']; ?></a>
     <?php } ?>
     <p>Want to start a new topic?</p>
-    <a class="brand-text" href="add.php"><button>Add New Claim</button></a>
+    <a class="btn btn-primary" href="add.php">Add New Claim</a>
 </main>
 <?php include 'includes/page_bottom.php'; ?>

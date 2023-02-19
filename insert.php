@@ -8,14 +8,15 @@ use Database\Database;
 /*
 This is a backend file that has no front-facing display. It is ran from either details.php or add.php, and handles ALL data insertion.
 */
-
-$flagType = $union = $subject = $targetP = $topic = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $supportMeans = $example = $url = $reason = $thesisST = $reasonST = $ruleST = $vidtimestamp = $citation = $transcription = $claimIDFlagged = $flaggingSupport = ' ';
+// TODO: these columns should be nullable
 $supportMeans = mysqli_real_escape_string($conn, $_POST['union']);
 
 $subject = mysqli_real_escape_string($conn, $_POST['subject']);
 $targetP = mysqli_real_escape_string($conn, $_POST['targetP']);
 $claimIDFlagged = mysqli_real_escape_string($conn, $_POST['claimIDFlaggedINSERT']);
 ?><script> window.alert($claimIDFlagged); </script><?php
+
+$isRootRival = 0;
 
 // pulled from our details page. it is the claimID of the claim being flagged.
 
@@ -27,7 +28,7 @@ $topic = preg_replace('/[^\w\s]/', '', $topic);
 
 if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////// NUMBER ONE
 } else {
-    $c = uniqid(rand(), true);
+    $c = uniqid(rand(), true); // TODO: we don't need this value
 
     $supportID = $c;
 
@@ -43,6 +44,7 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////// NUMBER ONE
 // NOW WE'RE CHECKING TO SEE IF THE DETAILS PAGE IS ADDING A FLAG OR A SUPPORT
 
 // SIMPLE.
+// TODO: these should be prepared statements
 $reason = mysqli_real_escape_string($conn, $_POST['reason']);
 $example = mysqli_real_escape_string($conn, $_POST['example']);
 $url = mysqli_real_escape_string($conn, $_POST['url']);
@@ -56,20 +58,12 @@ $publication = mysqli_real_escape_string($conn, $_POST['publication']);
 $date = mysqli_real_escape_string($conn, $_POST['date']);
 $citationURL = mysqli_real_escape_string($conn, $_POST['citationURL']);
 
-$citation = $author . ', ' . $title . ', ' . $publication . ', ' . $date . ', ' . $citationURL;
-
 $vidtimestamp = mysqli_real_escape_string($conn, $_POST['vidtimestamp']);
 
 $grammar = mysqli_real_escape_string($conn, $_POST['grammar']);
 ?><script> window.alert($grammar); </script> <?php
 
-if ('person' == $grammar) {
-    $ruleST = 'Whomever ' . $reason . ' ' . $targetP . ', as in the case of ' . $example;
-} else {
-    $ruleST = 'Whatever ' . $reason . ' ' . $targetP . ', as in the case of ' . $example;
-}
-
-$thesisST = $subject . ' ' . $targetP;
+$thesisST = $subject . ' ' . $targetP; // todo: remove
 
 $reasonST = $subject . ' ' . $reason;
 
@@ -115,15 +109,16 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // ////////////// TWO
 if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////THREE
 } else {
     $order_support12 = 'SELECT * from claimsdb ORDER BY claimID DESC LIMIT 1';
+    // TODO: these should be prepared statements
     $nice112 = mysqli_query($conn, $order_support12);
 
     if ($row112 = $nice112->fetch_assoc()) {
         $claimIDFlagged = $row112['claimID'];
-        echo $claimIDFlagged;
     }
 
     $sql_support2 = "INSERT INTO claimsdb(subject, targetP, supportMeans, supportID, example, URL, reason, thesisST, reasonST, ruleST, topic, active, vidtimestamp, citation, transcription, COS) VALUES('{$subject}', '{$targetP}', '{$supportMeans}', '{$supportID}','{$example}','{$url}','{$reason}', '{$thesisST}','{$reasonST}','{$ruleST}', '{$topic}', '{$active}', '{$vidtimestamp}','{$citation}','{$transcription}', 'support')";
 
+    // TODO: these should be prepared statements
     if (mysqli_query($conn, $sql_support2)) {
         // success
     } else {
@@ -135,13 +130,13 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////THREE
 
     if ($row11 = $nice11->fetch_assoc()) {
         $claimIDFlagger = $row11['claimID'];
-        echo $claimIDFlagger;
     }
 
     // ---------------------------------------------------------- THIS IS LINKING THE TWO TOGETHER
     // this function below inserts into database
     $sql5_support1 = "INSERT INTO flagsdb(claimIDFlagged, flagType, claimIDFlagger, isRootRival) VALUES('{$claimIDFlagged}', 'supporting','{$claimIDFlagger}','0')";
 
+    // TODO: these should be prepared statements
     if (mysqli_query($conn, $sql5_support1)) {
         // success
         //  header('Location: insert.php');
@@ -198,7 +193,6 @@ if ('flagging' == $FOS || 'true' == $flaggingSupport) {
         $stmt5->execute();
         $rootresult1 = $stmt5->get_result(); // get the mysqli result
         $numhitsroot = mysqli_num_rows($rootresult1);
-        echo $numhitsroot;
 
         // END CHECKING TO SEE IF IT IS A ROOT CLAIM
 
@@ -206,7 +200,6 @@ if ('flagging' == $FOS || 'true' == $flaggingSupport) {
             echo $j['claimID'];
             if (1 == $numhitsroot) {
                 $isRootRival = '1';
-                echo $isRootRival;
             }
         } // END OF WHILE STATEMENT
         // we found a root. its been designated, swapped values, and the additional flag for reciprocity is added. however... the original root isn't rootrival =1 (fix happens below) but flagtype value is still the same.
@@ -338,4 +331,9 @@ if ('supporting' == $FOS) {
 }// end of addpage check
 
 mysqli_close($conn);
+
 ?>
+Redirecting...
+<script>
+window.location.href = "topic.php?topic=" + "<?php $topic ?>";
+</script>

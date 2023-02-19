@@ -21,6 +21,7 @@ function get_image($name)
 function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
 {
     ?>
+    <span class="stem"></span>
     <input id="<?php echo $claim_id; ?>" type="checkbox" name="active_claim">
     <label class="claim"
         <?php if ($rivalling) { ?>style="background:#FFFFE0"<?php } ?>
@@ -45,11 +46,11 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
                     ' as in the case of ' .
                     htmlspecialchars($claim->example) .
                     '';
-                echo '<div class="claim_body">';
+                echo '<div class="claim_body text-left">';
                 echo '<p><b>Reason:</b> ' .
                     $reason .
                     '</p>';
-                echo '<p class="claim_body"><b>Rule & Example:</b> ' .
+                echo '<p class="claim_body text-left"><b>Rule & Example:</b> ' .
                     $rule .
                     '</p></div>';
             }
@@ -57,7 +58,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
                 $claim->supportMeans == 'Testimony' ||
                 $claim->supportMeans == 'Perception'
             ) {
-                echo '<div class="claim_body"><b>Citation:</b> ' .
+                echo '<div class="claim_body text-left"><b>Citation:</b> ' .
                     htmlspecialchars($claim->citation) .
                     '</div>';
             }
@@ -68,7 +69,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
                 echo '<h4>Contests #' . $rivalling . '</h4>';
             }
             echo '<h1 class="thesis">Thesis</h1>';
-            echo '<div class="claim_body">' .
+            echo '<div class="claim_body text-left">' .
                 $claim->subject .
                 ' ' .
                 $claim->targetP .
@@ -80,7 +81,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
             echo 'Flagged: ' . $flag_type . '';
             echo '</div>';
             echo '<h1 class="claim_body thesis">Thesis</h1>';
-            echo '<div class="claim_body">';
+            echo '<div class="claim_body text-left">';
             echo '<p>' . $claim->subject . ' ' . $claim->targetP . '</p>';
             echo '</div>';
     }
@@ -93,12 +94,10 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
         echo get_image('contested');
     }
     ?>
-    <div class="claim_body">
-        <a class="btn btn-primary"
-        href="details.php?id=<?php echo $claim_id; ?>">
-        Details
-        </a>
-    </div>
+    <a class="btn btn-primary"
+    href="details.php?id=<?php echo $claim_id; ?>">
+    Details
+    </a>
     </label>
     <?php
 }
@@ -126,20 +125,22 @@ function sortClaims($claimID)
         sortClaimsRival($claimIDFlagged);
         return;
     }
-    ?>
-    <li>
-        <?php make_label_el($claimID, $claim, $resultFlagType); ?>
-        <ul>
-        <?php
-        // IF A CLAIM IS FLAGGED IT obtains flaggers that aren't rivals
-        // if its a thesis rival it will show up in the query above
-        // this is when the claim is the flagged. this is what gets pushed in the recursion.
-        // continue recursion
-        $result1 = Database::getNonRivalFlags($claimID); // get the mysqli result
-        foreach ($result1 as $id) {
-            sortclaims($id);
-        }?>
-    </ul><?php
+    echo "<li>";
+    make_label_el($claimID, $claim, $resultFlagType);
+    // IF A CLAIM IS FLAGGED IT obtains flaggers that aren't rivals
+    // if its a thesis rival it will show up in the query above
+    // this is when the claim is the flagged. this is what gets pushed in the recursion.
+    // continue recursion
+    $result1 = Database::getNonRivalFlags($claimID); // get the mysqli result
+
+    if (\count($result1) > 0) {
+        echo '<span class="stem"></span>';
+        echo '<ul>';
+        foreach ($result1 as $flagID) {
+            sortClaims($flagID);
+        }
+        echo '</ul>';
+    }
 }
 
 /*
@@ -157,18 +158,17 @@ function sortClaimsRIVAL($claimID)
     foreach ($result1 as $flagID) {
         $rivaling = $flagID;
     }
-    ?>
-
-        <li>
-        <?php make_label_el($claimID, $claim, '', $rivaling); ?>
-        <ul>
-            <!--</font>-->
-                <?php
-                $result1 = Database::getNonRivalFlags($claimID);
-                foreach ($result1 as $flagID) {
-                    sortClaims($flagID);
-                }?>
-        </ul><?php
+    echo '<li>';
+    make_label_el($claimID, $claim, '', $rivaling);
+    $result1 = Database::getNonRivalFlags($claimID);
+    if (\count($result1) > 0) {
+        echo '<span class="stem"></span>';
+        echo '<ul>';
+        foreach ($result1 as $flagID) {
+            sortClaims($flagID);
+        }
+        echo '</ul>';
+    }
 }
 // end of rivalfunction
 ?>

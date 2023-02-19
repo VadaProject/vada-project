@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 
 -- Database: `vadaproject`
 --
-CREATE DATABASE IF NOT EXISTS `vadaproject` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS `VadaProject_DB` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `VadaProject_DB`;
 
 -- --------------------------------------------------------

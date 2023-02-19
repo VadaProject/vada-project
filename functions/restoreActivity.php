@@ -66,8 +66,10 @@ function restoreActivity($claim_id)
         foreach (Database::getThesisRivals($support_id) as $rival_id) {
             restoreActivityRIVAL($rival_id);
             // below should get the companion rival
-            $companion_rival = Database::getThesisRivals($rival_id);
-            restoreActivityRIVAL($companion_rival);
+            $companion_rivals = Database::getThesisRivals($rival_id);
+            foreach ($companion_rivals as $companion_rivals) {
+                restoreActivityRIVAL($companion_rivals);
+            }
         }
         $non_rivalling_flags = Database::getNonRivalFlags($support_id);
         foreach ($non_rivalling_flags as $active_flag_id) {

@@ -1,14 +1,31 @@
 @import url(../fonts/SourceSansPro.css);
 @import url(../fonts/LeagueSpartan.css);
 
+:root {
+	--color-body: #333;
+	--color-body-2: #888;
+	--color-body-3: #ccc;
+	--text-color-heading: #000;
+	--bg-color: #eed;
+	--bg-color-2: #fffff8;
+	--bg-color-3: #fff;
+	--color-primary: #383866;
+	--color-primary-2: #55a;
+	--color-primary-3: #99c;
+	--border-radius: 0.5rem;
+	--border-radius-2: 0.25rem;
+}
+
 body {
 	margin: 0;
-	color: #555;
+	color: var(--color-body);
 	font-family: 'Source Sans Pro', sans-serif;
-	background: #e8e7df;
+	background: var(--bg-color);
 	position: relative;
 	line-height: 1.6;
 	font-size: 1rem;
+	padding-top: 8rem;
+	padding-bottom: 8rem;
 }
 
 @media (prefers-contrast: more) {
@@ -17,29 +34,24 @@ body {
 	}
 }
 
-h1,
-h2,
-h3,
-h4 {
+.wrapper {
+	box-sizing: border-box;
+	/* width: 100vw; */
+	/* max-width: 100%; */
 	text-align: center;
+	/* overflow: auto; */
 }
 
-.wrapper {
-	position: relative;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	text-align: center;
-	overflow: auto;
-}
 
 .wrapper ul {
-	position: relative;
-	display: block;
-	margin: 0 auto;
-	white-space: nowrap;
+	display: flex;
+	justify-content: safe center;
 	list-style: none;
+}
+
+.wrapper>ul {
+	display: inline-flex;
+	margin-inline: auto;
 }
 
 .wrapper ul li {
@@ -49,7 +61,7 @@ h4 {
 
 /* MAKE-UP - Pure esthetics*/
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
 	width: 5px;
 	height: 5px;
 }
@@ -70,7 +82,7 @@ h4 {
 	background: transparent;
 	width: calc(2px / 2);
 	border: 2px solid rgba(26, 26, 26, 0);
-}
+} */
 
 /* @media (min-width: 480px) {
 	:root {
@@ -94,19 +106,13 @@ h4 {
 
 ul,
 li {
-	position: relative;
+	/* position: relative; */
 	display: inline-block;
-	vertical-align: top;
+	/* vertical-align: top; */
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0px;
 
-}
-
-ul:before,
-li:before {
-	content: '';
-	position: absolute;
 }
 
 #floatingRectangle {
@@ -141,67 +147,60 @@ li:before {
 	border-width: 3px;
 }
 
-.wrapper ul > li {
-	margin-top: 0.5em;
-	padding-top: 0.5em;
+.wrapper ul>li {
 	line-height: 1.5em;
 	padding-inline: 0.5rem;
 }
 
-.wrapper ul>li:before {
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 1px;
-	background: grey;
+/* Draw a little indicator on top */
+
+.wrapper ul>li::before {
+	content: '';
+	display: block;
+	box-sizing: border-box;
+	margin-inline: -0.5em;
+	border: 0px solid gray;
+	border-top-width: 1px;
 }
 
-.wrapper ul>li:first-of-type:before {
-	left: 50%;
-	width: 50%;
+.wrapper li .stem {
+	content: '';
+	display: block;
+	margin-left: 50%;
+	padding-top: 1rem;
+	border-left: 1px solid gray;
 }
 
-.wrapper ul>li:last-of-type:before {
-	width: 50%;
+.wrapper ul>li:first-of-type::before {
+	margin-left: 50%;
+	/* border-left-width: 1px; */
 }
 
-.wrapper ul>li:only-of-type:before {
-	width: 10%;
-	left: 45%;
+.wrapper ul>li:last-of-type::before {
+	margin-right: calc(50% - 0.5px);
+	/* border-right-width: 1px; */
 }
 
-.wrapper ul>li.noline:before {
-	background: transparent;
+.wrapper ul>li:only-of-type::before {
+	/* border-left-width: 1px; */
+	border-right-width: 0px;
+	width: 0rem;
 }
 
-.claim {
-	padding: 1rem 1rem;
-	border: 1px solid grey;
-	/* width: 8rem; */
-	white-space: normal;
-	display: inline-block;
-	cursor: pointer;
-	background: white;
-	border-radius: 1rem;
-	transition: width 0.5s ease;
-}
+/* A vertical stem in the middle of each */
 
-/*add*/
-.wrapper [type="radio"], .wrapper [type="checkbox"] {
+/* root element */
+.wrapper>ul>li::before {
+	display: none;
+}
+.wrapper>ul>li > .stem:first-of-type {
+	display: none;
+}
+/* root element */
+.wrapper>ul::before {
 	display: none;
 }
 
-:not(:checked) ~ .claim .claim_body {
-	height: 0; width: 0; opacity: 0; margin: 0;
-	position: absolute;
-}
-/* :checked ~ .claim .claim_{
-	height: unset; width: unset; opacity: unset;
-} */
-
-:checked ~ .claim {
-	max-width: 20rem;
-}
 
 div.a {
 	width: 100%;
@@ -209,9 +208,13 @@ div.a {
 }
 
 .page-container {
-	max-width: 60em;
+	max-width: 60rem;
 	margin: 0 auto;
 	padding: 1rem;
+}
+
+.text-left {
+	text-align: left;
 }
 
 .text-center {
@@ -223,15 +226,75 @@ div.x {
 	padding-right: 180px;
 }
 
-.button {
-	background-color: #d3d3d3;
-	border: none;
-	padding: 7px 10px;
+/* Button */
+
+button,
+input[type="button"],
+.btn {
+	background-color: var(--bg-color-2);
+	border-radius: var(--border-radius);
+	border: 1px solid;
+	border-color: var(--color-body-2);
+	color: var(--text-color-heading);
+	display: inline-block;
+	font-family: 'Questrial', sans-serif;
+	font-size: 0.9rem;
+	padding: 0.25rem 1ch;
 	text-align: center;
 	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	font-family: 'Questrial', sans-serif;
+}
+
+button:hover,
+input[type="button"]:hover,
+.btn:hover {
+	background-color: var(--bg-color-3);
+}
+
+button:active,
+input[type="button"]:active,
+.btn:active {
+	background-color: var(--bg-color);
+	border-color: var(--color-body-3);
+}
+
+.btn-primary {
+	color: white;
+	background-color: var(--color-primary-2);
+	border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+	opacity: 0.9;
+	background-color: var(--color-primary-2);
+	border-color: var(--color-primary);
+}
+
+.btn-primary:active {
+	background-color: var(--color-primary);
+	border-color: var(--color-primary-2);
+}
+
+/* Input elements */
+input,
+textarea,
+select {
+	padding: 0.5rem;
+	font-size: 0.9rem;
+	border-radius: 0.25rem;
+	background-color: var(--bg-color-3);
+}
+
+input[readonly],
+textarea[readonly],
+select[readonly] {
+	background-color: var(--bg-color);
+}
+
+textarea {
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	resize: vertical;
 }
 
 /* The Modal (background) */
@@ -242,8 +305,6 @@ div.x {
 	position: fixed;
 	/* Stay in place */
 	z-index: 1;
-	/* Sit on top */
-	padding-top: 100px;
 	/* Location of the box */
 	left: 0;
 	top: 0;
@@ -262,11 +323,12 @@ div.x {
 /* Modal Content */
 .modal-content-a {
 	text-align: center;
-	background-color: #fefefe;
+	background-color: var(--bg-color-3);
 	margin: auto;
 	padding: 20px;
 	border: 1px solid #888;
 	width: 80%;
+
 }
 
 /* Modal Content */
@@ -301,37 +363,6 @@ div.x {
 	padding: 20px 10px;
 }
 
-/* Style the header links */
-.header a {
-	float: center;
-	color: black;
-	text-align: center;
-	padding: 12px;
-	text-decoration: none;
-	font-size: 18px;
-	line-height: 25px;
-
-	border-radius: 4px;
-}
-
-/* Style the logo link (notice that we set the same value of line-height and font-size to prevent the header to increase when the font gets bigger */
-.header a.logo {
-	font-size: 25px;
-	font-weight: bold;
-}
-
-/* Change the background color on mouse-over */
-.header a:hover {
-	background-color: #ddd;
-	color: black;
-}
-
-/* Style the active/current link*/
-.header a.active {
-	background-color: darkgrey;
-	color: white;
-}
-
 /* Float the link section to the right */
 .header-right {
 	float: right;
@@ -342,40 +373,47 @@ div.x {
 }
 
 footer {
-	text-align: center;
-	padding: 10px;
-	background-color: #3F3E67;
-	color: white;
+	background-color: var(--color-primary);
 	bottom: 0;
+	position: absolute;
+	box-sizing: border-box;
+	color: white;
+	font-size: small;
+	padding: 0.5rem;
+	z-index: 1;
+	text-align: center;
 	width: 100%;
 }
 
 .topnav {
-	overflow: hidden;
-	background-color: #3F3E67;
+	position: absolute;
+	background-color: var(--color-primary);
 	width: 100%;
-	text-align: center;
-	padding-bottom: 10;
-	padding-top: 10;
 	top: 0;
+	left: 0;
+	z-index: 1;
+	padding-top: 1rem;
+	text-align: center;
+}
+
+.topnav h1 {
+	margin: 0;
 }
 
 .topnav a {
-
-	float: center;
-	color: #f2f2f2;
-	padding: 12px 32px;
+	display: inline-block;
+	color: #fff;
+	padding: 0.25rem 2rem;
 	text-decoration: none;
-	font-size: 24px;
 }
 
 .topnav a:hover {
-	background-color: #ddd;
+	background-color: #FFF8;
 	color: black;
 }
 
 .topnav a.active {
-	background-color: #585772;
+	background-color: #FFF2;
 	color: white;
 }
 
@@ -386,9 +424,7 @@ footer {
 	/* Hidden by default */
 	position: fixed;
 	/* Stay in place */
-	z-index: 1;
-	/* Sit on top */
-	padding-top: 100px;
+	z-index: 10;
 	/* Location of the box */
 	left: 0;
 	top: 0;
@@ -408,17 +444,23 @@ footer {
 .modal-content {
 	background-color: #fff;
 	margin: auto;
-	padding: 20px;
+	padding: 1rem;
 	border: 1px solid #888;
 	width: 80%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	translate: -50% -50%;
+	height: 80vh;
 }
 
 /* The Close Button */
 .close {
 	color: #aaaaaa;
-	float: right;
 	font-size: 28px;
 	font-weight: bold;
+	position: absolute;
+	right: 1rem;
 }
 
 .close:hover,
@@ -430,9 +472,9 @@ footer {
 
 div.scroll {
 	overflow: scroll;
-	width: 900px;
-	height: 400px;
 	position: relative;
+	/* width: 900px;
+	height: 400px; */
 }
 
 #explain-element {
@@ -456,11 +498,28 @@ div.scroll {
 	color: black;
 }
 
+/* Claim element */
+
 .claim {
-	text-align: left;
+	position: relative;
+	background-color: var(--bg-color-2);
+	border: 1px solid var(--color-body-2);
+	padding: 1rem 1rem;
+	width: 8rem;
+	white-space: normal;
+	display: block;
+	margin-inline: auto;
+	cursor: pointer;
+	transition: width 0.25s ease;
+	overflow: hidden;
 }
 
-.claim > * {
+.claim:hover {
+	background-color: var(--bg-color-3);
+	border-color: var(--color-body-2);
+}
+
+.claim>* {
 	margin-inline: auto;
 	width: fit-content;
 }
@@ -471,22 +530,53 @@ div.scroll {
 	height: 32px;
 	object-fit: contain;
 }
+
+/* These checkboxes are used to toggle claim visibility */
+.wrapper [type="radio"],
+.wrapper [type="checkbox"] {
+	display: none;
+}
+
+.claim_body {
+	width: 18rem;
+}
+
+.claim .claim_body {
+	transition: opacity 0.25s ease, margin 0.25s ease;
+}
+
+input:not(:checked)~.claim .claim_body,
+input:not(:checked)~.claim .btn {
+	display: block;
+	opacity: 0;
+	margin: 0;
+	padding: 0;
+	height: 0;
+	line-height: 0;
+	overflow: hidden;
+}
+:checked~.claim {
+	width: 18rem;
+}
+
 p {
 	margin-top: 0;
 	margin-bottom: 0.5em;
 }
 
-.claim > * + * {
+.claim>*+* {
 	margin-top: 0.25rem;
 	margin-bottom: 0rem;
 }
 
-.icon, .thesis {
+.icon,
+.thesis {
 	text-transform: uppercase;
 	font-family: "League Spartan", sans-serif;
-	color: black;
+	color: var(--text-color-heading);
 	font-size: 1.2em;
 }
+
 .thesis {
 	color: unset;
 	font-size: 1.8em;
@@ -497,16 +587,20 @@ p {
 	vertical-align: -0.08em;
 	padding-left: 0.25em;
 }
+
 .icon--flag::after {
 	content: url(../svg/flag.svg);
 }
+
 .icon--rivals {
 	color: #c0e;
 }
+
 .icon--rivals::after {
 	content: url(../svg/minimize-2.svg);
 	rotate: 45deg;
 }
+
 .icon--support::after {
 	content: url(../svg/thumbs-up.svg);
 }
@@ -514,6 +608,7 @@ p {
 .icon--contested {
 	color: #e00;
 }
+
 .icon--contested::after {
 	content: url(../svg/alert.svg);
 }
@@ -523,9 +618,72 @@ img.icon--rivals {
 	height: auto;
 }
 
-.btn {
-	-webkit-appearance: button;
-	-moz-appearance: button;
-	appearance: button;
+/* Form */
+
+form label {
+	display: block;
+	font-weight: bold;
+	text-decoration: underline;
+	margin-bottom: 0;
+	margin-top: 1rem;
 }
 
+/* Utils */
+
+.d-flex {
+	display: flex;
+}
+
+.d-inline-block {
+	display: inline-block;
+}
+
+.flex-1 {
+	flex: 1;
+}
+
+.w-100 {
+	width: 100% !important;
+}
+
+/* Classes for highlighting a section as subject/target/etc. */
+
+.subject-display {
+	color: red;
+}
+
+.target-display {
+	color: blue;
+}
+
+.reason-display {
+	color: orange;
+}
+
+.example-display {
+	color: purple;
+}
+
+.subject-display::after {
+	content: '(subject)';
+	vertical-align: super;
+	font-size: smaller;
+}
+
+.target-display::after {
+	content: '(target property)';
+	vertical-align: super;
+	font-size: smaller;
+}
+
+.reason-display::after {
+	content: '(reason)';
+	vertical-align: super;
+	font-size: smaller;
+}
+
+.example-display::after {
+	content: '(example)';
+	vertical-align: super;
+	font-size: smaller;
+}

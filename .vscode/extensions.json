@@ -4,5 +4,7 @@
                 "xdebug.php-debug",
                 "bmewburn.vscode-intelephense-client",
                 "shevaua.phpcs",
+                "wayou.vscode-todo-highlight",
+                "devsense.phptools-vscode"
         ]
 }
