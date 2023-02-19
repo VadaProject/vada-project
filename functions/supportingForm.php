@@ -55,16 +55,16 @@ class SupportingForm
             <?php
         } else {
             ?>
-            <div>
-                <div class="d-inline-block">
+            <div class="d-flex">
+                <div class="flex-1">
                     <label for="subject"><u>Subject</u></label>
-                    <input type="text" id="subjectInput" name="subject"
-                        placeholder="Enter subject..." required></textarea>
+                    <textarea type="text" id="subjectInput" name="subject"
+                        placeholder="Enter subject..." required rows="1"></textarea>
                 </div>
-                <div class="d-inline-block">
+                <div class="flex-1">
                     <label for="targetP"><u>Target Property</u></label>
-                    <input type="text" id="targetInput" name="targetP"
-                        placeholder="Enter target property..." required>
+                    <textarea type="text" id="targetInput" name="targetP"
+                        placeholder="Enter target property..." required rows="1"></textarea>
                 </div>
             </div>
             <?php
@@ -112,8 +112,8 @@ class SupportingForm
             supports the claim.
         <div id="reason" class="inference-only">
             <label for="reasonInput">Reason Property</label>
-            <input type="text" class="reason" id="reasonInput" name="reason"
-                placeholder="Enter reason property..." required>
+            <textarea type="text" class="reason" id="reasonInput" name="reason"
+                placeholder="Enter reason property..." required rows="1"></textarea>
             <p>ⓘ Your reason statement should answer "Why?". You might think of the
                 reason as what comes after "because ...".</p>
             <p>
@@ -123,10 +123,10 @@ class SupportingForm
                     <span data-target="#reasonInput" class="reason-display"></span>.
                 </output>
             </p>
-            <div id="example" class="inference-only d-inline-block">
+            <div id="example" class="inference-only">
                 <label for="exampleInput">Example</label>
-                <input type="text" id="exampleInput" name="example" required
-                    placeholder="Example">
+                <textarea type="text" id="exampleInput" name="example" required
+                    placeholder="Example" rows="1"></textarea>
             </div>
             <p>
                 <label>Rule and Example Statement</label>
@@ -150,20 +150,22 @@ class SupportingForm
                 placeholder="Transcription"
                 style="width: 100%; height: 5rem;"></textarea>
         </div>
-        <div id="citation" class="perception-only testimony-only d-inline-block">
-            <label for="citationInput">Citation</label>
-            <input type="text" id="citationInput" name="citation" required
-                placeholder="Author, title, publication, and date of publication.">
-        </div>
-        <div id="url" class="testimony-only perception-only d-inline-block">
-            <label for="urlInput">URL</label>
-            <input type="url" id="urlInput" name="url"
-                placeholder="https://example.com">
-        </div>
-        <div id="vidtimestamp" class="perception-only d-inline-block">
-            <label for="vidtimestampInput">Video Timestamp</label>
-            <input type="text" id="vidtimestampInput" name="vidtimestamp" required
-                placeholder="Moment occurs at 05:10">
+        <div class="d-flex">
+            <div id="citation" class="perception-only testimony-only flex-1">
+                <label for="citationInput">Citation</label>
+                <textarea type="text" id="citationInput" name="citation" required
+                    placeholder="Author, title, publication, and date of publication."></textarea>
+            </div>
+            <div id="url" class="testimony-only perception-only flex-1">
+                <label for="urlInput">URL</label>
+                <textarea type="url" id="urlInput" name="url"
+                    placeholder="https://example.com"></textarea>
+            </div>
+            <div id="vidtimestamp" class="perception-only flex-1">
+                <label for="vidtimestampInput">Video Timestamp</label>
+                <input type="text" id="vidtimestampInput" name="vidtimestamp" required
+                    placeholder="Moment occurs at 05:10">
+            </div>
         </div>
         <!-- Tarka -->
         <p class="tarka-only">
