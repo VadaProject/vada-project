@@ -32,7 +32,7 @@ function handleSubmit(event) {
     );
     $("#submit").prop('disabled', true);
     setTimeout(() => {
-      $("#submit").prop('enabled', true);
+      $("#submit").prop('disabled', false);
     }, 1000);
   }
   event?.preventDefault();
