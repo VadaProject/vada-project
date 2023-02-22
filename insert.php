@@ -299,11 +299,13 @@ if ('supporting' == $FOS) {
     $activity = $s->get_result(); // get the mysqli result
 
     while ($end = $activity->fetch_assoc()) {
-        $supportingSubject = $end['subject'];
-        $supportingTargetP = $end['targetP'];
+        $supportingSubject = mysqli_real_escape_string($conn, $end['subject'] ?? "");
+        $supportingTargetP = mysqli_real_escape_string($conn, $end['targetP'] ?? "");
     }
 
     $sql1 = "INSERT INTO claimsdb(subject, targetP, supportMeans, supportID, example, URL, reason, thesisST, reasonST, ruleST, topic, active, vidtimestamp, citation, transcription, COS) VALUES('{$supportingSubject}', '{$supportingTargetP}', '{$supportMeans}', '{$supportID}','{$example}','{$url}','{$reason}', '{$thesisST}','{$reasonST}','{$ruleST}', '{$topic}', '{$active}', '{$vidtimestamp}','{$citation}','{$transcription}', 'support')";
+
+    echo "INSERT INTO claimsdb(subject, targetP, supportMeans, supportID, example, URL, reason, thesisST, reasonST, ruleST, topic, active, vidtimestamp, citation, transcription, COS) VALUES('{$supportingSubject}', '{$supportingTargetP}', '{$supportMeans}', '{$supportID}','{$example}','{$url}','{$reason}', '{$thesisST}','{$reasonST}','{$ruleST}', '{$topic}', '{$active}', '{$vidtimestamp}','{$citation}','{$transcription}', 'support')";
 
     if (mysqli_query($conn, $sql1)) {
         // success
