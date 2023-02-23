@@ -136,13 +136,13 @@ function restoreActivityRIVAL($claim_id)
 
     // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
     // rivalB : needs to be active AND it doesn't have a too early / too late AND needs at least one support itself
-    $isChallengedA = !noSupportsRival($claim_id) || doesThesisFlagRival($claim_id);
-    $isChallengedB = !noSupportsRival($rivaling) || doesThesisFlagRival($rivaling);
+    $isChallengedThis = !noSupportsRival($claim_id) || doesThesisFlagRival($claim_id);
+    $isChallengedRival = !noSupportsRival($rivaling) || doesThesisFlagRival($rivaling);
 
-    if ($isChallengedA === $isChallengedB) {
+    if ($isChallengedThis === $isChallengedRival) {
         Database::setClaimActive($claim_id, false);
         Database::setClaimActive($rivaling, false);
-    } elseif ($isChallengedA) {
+    } elseif (!$isChallengedThis) {
         Database::setClaimActive($claim_id, true);
         Database::setClaimActive($rivaling, false);
     } else {
