@@ -81,7 +81,7 @@ function restoreActivity($claim_id)
     // grabs all flaggers for non-rival root claims
     // all tooearly or toolate //$activity
     // *AND* all support flags because while it doesn't occur for the first run through, when a support is put into the parameters, it'll check all reason/rule flags
-    $flags = Database::getFlagsNotThesisRivalNotSupporting($claim_id);
+    $flags = Database::getThesisFlagsNotRival($claim_id);
     foreach ($flags as $flag_id) {
         restoreActivity($flag_id);
         if (Database::isClaimActive($flag_id)) {

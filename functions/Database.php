@@ -170,28 +170,9 @@ class Database
     }
 
     /**
-     * Gets all Too Early and Too Late flags flagging the current claim.
-     *
-     * @param int $claimID Current claim ID
-     * @return int[] List of claim IDs
-     */
-    public static function getFlagsTooEarlyTooLate($claimID)
-    {
-        $query = "SELECT DISTINCT claimIDFlagger
-        from flagsdb WHERE claimIDFlagged = ?
-        and (flagType LIKE 'Too Early' OR flagType LIKE 'Too Late')";
-        // TODO: are these really the only flagTypes we want?
-        $stmt = self::$conn->prepare($query);
-        $stmt->bind_param('i', $claimID);
-        $stmt->execute();
-        $res = $stmt->get_result();
-        return self::getColumnAsIntArray($res, 'claimIDFlagger');
-    }
-
-    /**
      * Gets all flags that aren't Supports or Thesis Rivals.
      */
-    public static function getFlagsNotThesisRivalNotSupporting($claimID)
+    public static function getThesisFlagsNotRival($claimID)
     {
         // TODO: what a stupid name
         $query = "SELECT DISTINCT claimIDFlagger
