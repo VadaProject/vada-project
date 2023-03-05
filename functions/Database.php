@@ -251,6 +251,17 @@ class Database
         }
         return $vals;
     }
+
+    /**
+     * @return string[] The list of topic names
+     */
+    public static function getAllTopics() {
+        $query = 'SELECT DISTINCT topic from claimsdb';
+        $stmt = self::$conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return array_column(mysqli_fetch_all($result,  MYSQLI_NUM), 0);
+    }
 }
 
 Database::staticInit();
