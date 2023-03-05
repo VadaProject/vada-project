@@ -24,7 +24,6 @@ $FOS = mysqli_real_escape_string($conn, $_POST['FOS']);
 
 $topic = mysqli_real_escape_string($conn, $_POST['topic']);
 $topic = trim($topic);
-$topic = preg_replace('/[^\w\s]/', '', $topic);
 
 if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////// NUMBER ONE
 } else {
@@ -335,5 +334,5 @@ mysqli_close($conn);
 ?>
 Redirecting...
 <script>
-window.location.href = "topic.php?topic=" + "<?php $topic ?>";
+window.location.href = "topic.php?topic=" + "<?php htmlspecialchars($topic) ?>";
 </script>

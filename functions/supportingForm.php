@@ -15,16 +15,17 @@ class SupportingForm
 {
     /**
      * Echos the <input name="topic">.
-     * @param $topic If defined, this is the input's value, and it is readonly.
+     * @param $topic_escaped If defined, this is the input's value, and it is readonly.
      * @param $hidden If true, the input is invisible.
      */
     public function topicInput(string $topic = null, bool $hidden = false)
     {
+        $topic_escaped = htmlspecialchars($topic);
         if ($hidden) {
             ?>
             <input type="hidden" id="topicInput"
                 name="topic"
-                value="<?php echo $topic ?? ''; ?>">
+                value="<?php echo $topic_escaped ?? ''; ?>">
             <?php
         } else {
             ?>
@@ -32,7 +33,7 @@ class SupportingForm
                 <label for="topic">Topic</label>
                 <input type="text" id="topicInput"
                     name="topic" placeholder="Enter topic name..." required
-                    pattern="^[\w\s]+$" value="<?php echo $topic ?? ''; ?>" <?php echo $topic ? "readonly" : ""; ?>>
+                    value="<?php echo $topic_escaped ?? ''; ?>" <?php echo $topic_escaped ? "readonly" : ""; ?>>
             </div>
             <?php
         }

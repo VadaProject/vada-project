@@ -202,7 +202,7 @@ include 'includes/page_top.php'; ?>
         echo "<h2>Error: a claim with the ID #$claim_id does not exist.</h2>";
         return;
     }
-    $topic = $claim->topic;
+    $topic = htmlspecialchars($claim->topic);
     ?>
     <h2>
         <?php echo "Claim #$claim_id" ?>
@@ -225,6 +225,7 @@ include 'includes/page_top.php'; ?>
     <script>
         $(document).ready(function () {
             $("#submit").click(function () {
+                alert("AAAA");
                 window.alert("Submitted!");
                 window.location.assign("topic.php?topic=<?php echo $topic; ?>");
                 $.post($("#flagForm").attr("action"),

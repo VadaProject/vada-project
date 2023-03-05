@@ -9,14 +9,10 @@ use Database\Database;
 
 $conn = db_connect();
 $topic = $_GET['topic'];
-if (!isset($topic)) {
-    echo "<h1>Error: topic is not defined. <a href='index.php'>Home</a></h1>";
-    return;
-}
-$PAGE_TITLE = htmlspecialchars("Topic: \"$topic\"");
-// end isset check
+$topic_escaped = htmlspecialchars($topic ?? "undefined");
+$PAGE_TITLE = "Topic: \"$topic_escaped\"";
 ?>
-<?php require 'includes/page_top.php'; ?>
+<?php require 'includes/page_top.php';?>
 <style>
     footer,
     .topnav {
@@ -26,12 +22,24 @@ $PAGE_TITLE = htmlspecialchars("Topic: \"$topic\"");
 
 <div class="wrapper">
     <h2>Topic:
-        <?php echo $topic; ?>
+        <?php echo $topic_escaped; ?>
     </h2>
+    <?php
+    if (!isset($topic)) {
+        echo "<p>Error: topic is not defined. <a href='index.php'>Home</a></p>";
+        return;
+    }
+    ?>
     <p>
         <a class="btn btn-primary"
-            href="add.php?topic=<?php echo $topic; ?>">Add New Claim</a>
+        href="add.php?topic=<?php echo $topic_escaped; ?>">Add New Claim</a>
     </p>
+    <?php
+    if (count(Database::getAllRootClaimIDs($topic)) == 0 && count(Database::getRootRivals($topic)) == 0) {
+        echo "<p>Topic \"$topic_escaped\" is empty.</a></p>";
+        return;
+    }
+    ?>
     <ul>
         <?php
         $root_claim = Database::getAllRootClaimIDs($topic);

@@ -11,8 +11,8 @@ function handleSubmit(event) {
   // use HTML5 form validation but otherwise override submit action
   /** @type HTMLInputElement | null */
   const topicInput = document.querySelector("#topicInput");
-  const topic = topicInput?.value ?? "";
-  const destinationURL = 'topic.php?topic=' + topic.trim();
+  const topic = (topicInput?.value ?? "").trim().replace(/ /g, '+');;
+  const destinationURL = `topic.php?topic=${topic}`;
   const actionURL = $(this).attr('action');
   if (this.checkValidity()) {
     if (!actionURL) {
