@@ -179,14 +179,14 @@ class SupportingForm
      * Echos a <select name="flagType">
      * Also generates tooltips.
      */
-    public function flagTypeInput(string $supportMeans)
+    public function flagTypeInput(string $supportMeans = null)
     {
         // TODO: these switches are really long.
         // Consider a data-driven approach.
         if ($supportMeans === 'Tarka') {
             return;
         }
-        if ($supportMeans === 'NA') {
+        if ($supportMeans === 'NA' || $supportMeans === null) {
             $supportMeans = "Thesis";
         }
         ?>
