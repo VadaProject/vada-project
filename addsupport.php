@@ -39,8 +39,8 @@ $supportingForm = new SupportingForm\SupportingForm();
 </h2>
 <form method="POST" id="myForm" action="insert.php">
 
-    <input type="hidden" name="FOS" value="supporting">
-    <input type="hidden" name="claimIDFlaggedINSERT"
+    <input type="hidden" name="flaggingOrSupporting" value="supporting">
+    <input type="hidden" name="claimIDFlagged"
         value="<?php echo $claim_id; ?>">
     <?php $supportingForm->topicInput($claim->topic, /* hidden */true); ?>
     <?php $supportingForm->subjectTargetInput($claim->subject, $claim->targetP); ?>

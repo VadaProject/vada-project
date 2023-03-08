@@ -9,18 +9,18 @@ use Database\Database;
 This is a backend file that has no front-facing display. It is ran from either details.php or add.php, and handles ALL data insertion.
 */
 // TODO: these columns should be nullable
-$supportMeans = mysqli_real_escape_string($conn, $_POST['union']);
+$supportMeans = mysqli_real_escape_string($conn, $_POST['supportMeans']);
 
 $subject = mysqli_real_escape_string($conn, $_POST['subject']);
 $targetP = mysqli_real_escape_string($conn, $_POST['targetP']);
-$claimIDFlagged = mysqli_real_escape_string($conn, $_POST['claimIDFlaggedINSERT']);
+$claimIDFlagged = mysqli_real_escape_string($conn, $_POST['claimIDFlagged']);
 ?><script> window.alert($claimIDFlagged); </script><?php
 
 $isRootRival = 0;
 
 // pulled from our details page. it is the claimID of the claim being flagged.
 
-$FOS = mysqli_real_escape_string($conn, $_POST['FOS']);
+$FOS = mysqli_real_escape_string($conn, $_POST['flaggingOrSupporting']);
 
 $topic = mysqli_real_escape_string($conn, $_POST['topic']);
 $topic = trim($topic);
@@ -31,6 +31,8 @@ if ('flagging' == $FOS || 'supporting' == $FOS) { // /////////// NUMBER ONE
 
     $supportID = $c;
 
+    // Statement version 1
+    // null values: 
     $sql_AP = "INSERT INTO claimsdb(subject, targetP, supportMeans, supportID, example, URL, reason, thesisST, reasonST, ruleST, topic, active, vidtimestamp, citation, transcription, COS) VALUES('{$subject}', '{$targetP}', 'NA', 'NA','{$NA}','NA','NA', 'NA','NA','NA', '{$topic}', '1', 'NA','NA','NA', 'claim')";
     // THIS IS THE ORIGINAL CLAIM FROM THE ADD PAGE
 
@@ -55,7 +57,6 @@ $author = mysqli_real_escape_string($conn, $_POST['author']);
 $title = mysqli_real_escape_string($conn, $_POST['title']);
 $publication = mysqli_real_escape_string($conn, $_POST['publication']);
 $date = mysqli_real_escape_string($conn, $_POST['date']);
-$citationURL = mysqli_real_escape_string($conn, $_POST['citationURL']);
 
 $vidtimestamp = mysqli_real_escape_string($conn, $_POST['vidtimestamp']);
 

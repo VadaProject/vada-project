@@ -87,7 +87,7 @@ class SupportingForm
         ?>
         <div>
         <label for="supportMeansSelect">What is your Support Means?</label>
-        <select name="union" id="supportMeansSelect" required>
+        <select name="supportMeans" id="supportMeansSelect" required>
             <option value="">Choose One</option>
             <option value="Inference">Inference</option>
             <option value="Testimony">Testimony</option>

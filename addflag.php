@@ -36,8 +36,8 @@ use Database\Database;
         <?php echo $claim_id; ?>
     </h2>
     <form method="POST" id="myForm" action="insert.php">
-        <input type="hidden" name="FOS" value="flagging">
-        <input type="hidden" name="claimIDFlaggedINSERT"
+        <input type="hidden" name="flaggingOrSupporting" value="flagging">
+        <input type="hidden" name="claimIDFlagged"
             value="<?php echo $claim_id; ?>">
         <h3>What are you flagging it for?</h3>
         <?php $supportingForm->topicInput($claim->topic, /* hidden */true); ?>
