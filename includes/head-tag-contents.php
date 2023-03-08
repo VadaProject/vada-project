@@ -13,7 +13,7 @@ switch (basename($_SERVER['SCRIPT_NAME'])) {
         $PAGE_TITLE = 'Home';
 }
 ?>
-<title><?php print $PAGE_TITLE; ?> - Vāda Project</title>
+<title><?php print $PAGE_TITLE ?? ""; ?> - Vāda Project</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="assets/stylesheets/global.css?timestamp=20230219">
 <link rel="icon" href="assets/img/icon.svg"/>

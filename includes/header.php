@@ -2,6 +2,7 @@
     <h1><img src="assets/svg/logo.svg" width="250" alt="Vāda Project"></h1>
     <div>
         <a <?php
+        $CURRENT_PAGE = $CURRENT_PAGE ?? "";
         if ('Index' == $CURRENT_PAGE) {
             echo 'class="active"';
         } ?>
