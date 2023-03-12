@@ -12,7 +12,7 @@ $topic = $_GET['topic'];
 $topic_escaped = htmlspecialchars($topic ?? "undefined");
 $PAGE_TITLE = "Topic: \"$topic_escaped\"";
 ?>
-<?php require 'includes/page_top.php';?>
+<?php require 'includes/page_top.php'; ?>
 <style>
     footer,
     .topnav {
@@ -32,7 +32,7 @@ $PAGE_TITLE = "Topic: \"$topic_escaped\"";
     ?>
     <p>
         <a class="btn btn-primary"
-        href="add.php?topic=<?php echo $topic_escaped; ?>">Add New Claim</a>
+            href="add.php?topic=<?php echo $topic_escaped; ?>">Add New Claim</a>
     </p>
     <?php
     if (count(Database::getAllRootClaimIDs($topic)) == 0 && count(Database::getRootRivals($topic)) == 0) {
@@ -44,19 +44,9 @@ $PAGE_TITLE = "Topic: \"$topic_escaped\"";
         <?php
         $root_claim = Database::getAllRootClaimIDs($topic);
         foreach ($root_claim as $claim_id) {
-            restoreActivity($claim_id);
-        }
-        foreach ($root_claim as $claim_id) {
             sortclaims($claim_id);
         }
         $root_rivals = Database::getRootRivals($topic);
-        foreach ($root_rivals as $claim_id) {
-            restoreActivityRIVAL($claim_id);
-        }
-        $thesis_rivals = Database::getAllThesisRivals($topic);
-        foreach ($thesis_rivals as $claim_id) {
-            restoreActivityRIVAL($claim_id);
-        }
         foreach ($root_rivals as $claim_id) {
             sortclaimsRIVAL($claim_id);
         }

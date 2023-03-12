@@ -77,21 +77,30 @@ try {
     }
     // END TRANSACTION
     Database::$conn->commit();
-    if (isset($thesis_id)) {
-        restoreActivity($thesis_id);
-    }
-    if (isset($flagged_id)) {
-        restoreActivity($flagged_id);
-    }
-    if ($flagType === "Thesis Rival") {
-        restoreActivityRIVAL($thesis_id);
-        restoreActivityRIVAL($flagged_id);
-    }
 } catch (mysqli_sql_exception $ex) {
     error_log($ex->getMessage());
     Database::$conn->rollback();
-    exit("Database error occured, insertion failed.");
+    // exit("Database error occured, insertion failed.");
 }
+
+// Recalculate activity relationships
+$root_claim = Database::getAllRootClaimIDs($topic);
+$thesis_rivals = Database::getAllThesisRivals($topic);
+$root_rivals = Database::getRootRivals($topic);
+for ($i = 0; $i < 2; $i++) {
+    // NOTE: we run this whole routine twice because some flagging relationships take two iterations to fully resolve.
+    // weird issue that should be fixed.
+    foreach ($root_claim as $claim_id) {
+        restoreActivity($claim_id);
+    }
+    foreach ($root_rivals as $claim_id) {
+        restoreActivityRIVAL($claim_id);
+    }
+    foreach ($thesis_rivals as $claim_id) {
+        restoreActivityRIVAL($claim_id);
+    }
+}
+
 ?>
 Redirecting...
 <script>
