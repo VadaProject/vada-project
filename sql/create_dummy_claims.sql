@@ -9,49 +9,6 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
--- Database: `vadaproject`
---
-CREATE DATABASE IF NOT EXISTS `VadaProject_DB` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `VadaProject_DB`;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `claimsdb`
---
-
-CREATE TABLE `claimsdb` (
-  `claimID` int(11) AUTO_INCREMENT PRIMARY KEY,
-  `subject` varchar(255) NOT NULL,
-  `targetP` varchar(255) NOT NULL,
-  `supportMeans` varchar(255) NOT NULL,
-  `supportID` varchar(255) NOT NULL,
-  `example` varchar(255) NOT NULL,
-  `URL` varchar(255) NOT NULL,
-  `reason` varchar(255) NOT NULL,
-  `thesisST` varchar(255) NOT NULL,
-  `reasonST` varchar(255) NOT NULL,
-  `ruleST` varchar(255) NOT NULL,
-  `topic` varchar(255) NOT NULL,
-  `active` int(1) NOT NULL,
-  `vidtimestamp` text NOT NULL,
-  `citation` text NOT NULL,
-  `transcription` text NOT NULL,
-  `ts` timestamp NOT NULL DEFAULT current_timestamp(),
-  `COS` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `claimsdb`
---
 
 INSERT INTO `claimsdb` (`claimID`, `subject`, `targetP`, `supportMeans`, `supportID`, `example`, `URL`, `reason`, `thesisST`, `reasonST`, `ruleST`, `topic`, `active`, `vidtimestamp`, `citation`, `transcription`, `ts`, `COS`) VALUES
 (1423, 'Orange juice', 'is a liquid', 'NA', 'NA', '', 'NA', 'NA', 'NA', 'NA', 'NA', 'Sample Too Early Inferences from PHIL 2010 Spring 2022', 1, 'NA', 'NA', 'NA', '2022-02-22 17:33:59', 'claim'),
