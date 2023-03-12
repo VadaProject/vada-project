@@ -10,7 +10,7 @@ include 'includes/page_top.php';
         <div>
         <?php
         $supportingForm = new SupportingForm();
-        $topic = $_GET["topic"];
+        $topic = $_GET["topic"] ?? null;
         $supportingForm->topicInput($topic); ?>
         <!-- Subject and target property input -->
         <?php $supportingForm->subjectTargetInput(); ?>
