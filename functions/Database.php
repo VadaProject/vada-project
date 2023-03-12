@@ -9,7 +9,7 @@ class Database
     /**
      * @var \mysqli $conn The mysqli connection
      */
-    private static $conn;
+    public static $conn;
 
     public static function staticInit()
     {
@@ -28,8 +28,10 @@ class Database
         $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
+            self::$conn->rollback();
             exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
-        };
+        }
+        ;
         return $stmt->get_result()->fetch_object();
     }
 
@@ -46,14 +48,14 @@ class Database
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
             exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
-        };
+        }
+        ;
         $res = $stmt->get_result()->fetch_column(0);
         if (!isset($res)) {
             return false;
         }
         return $res;
     }
-
     /**
      * @param int $claimID
      * @param bool $active
@@ -67,7 +69,8 @@ class Database
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
             exit(htmlspecialchars("A database error occured while updating claim #$claimID."));
-        };
+        }
+        ;
     }
 
     /**
@@ -83,7 +86,8 @@ class Database
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
             exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
-        };
+        }
+        ;
         foreach ($stmt->get_result() as $row) {
             return $row["claimIDFlagged"];
         }
@@ -105,7 +109,8 @@ class Database
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
             exit(htmlspecialchars("A database error occured while querying claim #$claimID."));
-        };
+        }
+        ;
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
@@ -147,7 +152,8 @@ class Database
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
             exit(htmlspecialchars("A database error occured while querying claim #$claimID."));
-        };
+        }
+        ;
         $res = $stmt->get_result();
         return self::getColumnAsIntArray($res);
     }
@@ -292,7 +298,8 @@ class Database
     /**
      * @return string[] The list of topic names
      */
-    public static function getAllTopics() {
+    public static function getAllTopics()
+    {
         $query = 'SELECT DISTINCT topic from claimsdb';
         $stmt = self::$conn->prepare($query);
         if (!$stmt->execute()) {
@@ -300,8 +307,65 @@ class Database
             exit(htmlspecialchars("A database error occured while getting topics."));
         }
         $result = $stmt->get_result();
-        return array_column(mysqli_fetch_all($result,  MYSQLI_NUM), 0);
+        return array_column(mysqli_fetch_all($result, MYSQLI_NUM), 0);
     }
+
+    // DATABASE CLAIM INSERTION
+    public static function insertThesis(
+        string $topic, string $subject, string $targetP, bool $active = true
+    )
+    {
+        $stmt = self::$conn->prepare("INSERT INTO claimsdb(subject, targetP, topic, active, COS) VALUES(?, ?, ?, ?, 'claim')");
+        $stmt->bind_param("sssi", $subject, $targetP, $topic, $active);
+        if (!$stmt->execute()) {
+            echo 'query error: ' . mysqli_error(self::$conn);
+        } else {
+            return self::$conn->insert_id;
+        }
+    }
+    public static function insertFlag(
+        int $flagged_id, int $flagging_id, string $flagType, bool $isRootRival = false
+    )
+    {
+        $flag_stmt = self::$conn->prepare(
+            "INSERT INTO flagsdb(claimIDFlagged, claimIDFlagger, flagType, isRootRival)
+            VALUES(?, ?, ?, ?)"
+        );
+        $flag_stmt->bind_param("iisi", $flagged_id, $flagging_id, $flagType, $isRootRival);
+        if (!$flag_stmt->execute()) { // fail
+            echo 'query error: ' . mysqli_error(self::$conn);
+            exit("Database error creating a flag relation.");
+        }
+    }
+    public static function insertSupport(
+        string $topic, int $flagged_id, string $subject, string $targetP, string $supportMeans, string $reason = null, string $example = null, string $url = null, string $citation = null, string $transcription = null, string $vidtimestamp = null
+    )
+    {
+        $support_stmt = self::$conn->prepare(
+            "INSERT INTO claimsdb(subject, targetP, supportMeans, example, URL, reason, topic, vidtimestamp, citation, transcription, COS)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'support')"
+        );
+        $support_stmt->bind_param("ssssssssss", $subject, $targetP, $supportMeans, $example, $url, $reason, $topic, $vidtimestamp, $citation, $transcription);
+        if (!$support_stmt->execute()) { // fail
+            echo 'query error: ' . mysqli_error(self::$conn);
+            return false;
+        }
+        $support_id = self::$conn->insert_id;
+        self::insertFlag($flagged_id, $support_id, 'supporting', false);
+        return $support_id;
+    }
+    /** Returns whether a given claim is a root claim, i.e. whether it is not 
+     * flagging any other claim */
+    public static function isRootClaim(int $claim_id)
+    {
+        $stmt5 = self::$conn->prepare('SELECT DISTINCT claimID from claimsdb, flagsdb
+    WHERE claimID = ? AND claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM flagsdb)');
+        $stmt5->bind_param('i', $claim_id);
+        $stmt5->execute();
+        $rootresult1 = $stmt5->get_result(); // get the mysqli result
+        return mysqli_num_rows($rootresult1) > 0;
+    }
+
 }
 
 Database::staticInit();
