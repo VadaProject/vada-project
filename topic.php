@@ -2,7 +2,6 @@
 <?php
 require_once 'functions/sortClaims.php';
 require_once 'functions/doesThesisFlag.php';
-require_once 'functions/noSupports.php';
 require_once 'functions/restoreActivity.php';
 require_once 'functions/Database.php';
 use Database\Database;
@@ -50,6 +49,7 @@ $PAGE_TITLE = "Topic: \"$topic_escaped\"";
         foreach ($root_rivals as $claim_id) {
             sortclaimsRIVAL($claim_id);
         }
+
         ?>
     </ul>
 </div>

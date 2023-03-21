@@ -2,7 +2,6 @@
 
 require_once 'Database.php';
 require_once 'doesThesisFlag.php';
-require_once 'noSupports.php';
 use Database\Database;
 
 /**
@@ -50,8 +49,8 @@ function restoreActivity($claim_id)
             Database::setClaimActive($claim_id, true);
         }
         // are all supports inactive? claim is inactive.
-        if (!doesThesisFlag($claim_id)) {
-            checkIfActiveSupportsIfNoneDisable($claim_id);
+        if (!doesThesisFlag($claim_id) && !Database::hasActiveSupports($claim_id)) {
+            Database::setClaimActive($claim_id, false);
         }
         restoreActivity($support_id);
 
@@ -138,8 +137,8 @@ function restoreActivityRIVAL($claim_id)
 
     // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
     // rivalB : needs to be active AND it doesn't have a too early / too late AND needs at least one support itself
-    $isChallengedThis = !hasActiveSupports($claim_id) || doesThesisFlagRival($claim_id);
-    $isChallengedRival = !hasActiveSupports($rivaling) || doesThesisFlagRival($rivaling);
+    $isChallengedThis = !Database::hasActiveSupports($claim_id) || doesThesisFlagRival($claim_id);
+    $isChallengedRival = !Database::hasActiveSupports($rivaling) || doesThesisFlagRival($rivaling);
 
     if ($isChallengedThis === $isChallengedRival) {
         Database::setClaimActive($claim_id, false);

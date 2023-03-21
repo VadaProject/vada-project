@@ -220,6 +220,25 @@ class Database
     }
 
     /**
+     * Checks if an individual claim has any active supports
+     *
+     * @param int $claim_id the ID of the claim to check
+     * @return bool True if the claim has at least one active support
+     */
+    public static function hasActiveSupports(int $claim_id)
+    {
+        $query = "SELECT COUNT(*) as total FROM flagsdb WHERE claimIDFlagged = ? AND flagType = 'supporting'";
+        $stmt = self::$conn->prepare($query);
+        $stmt->bind_param('i', $claimID);
+        if (!$stmt->execute()) {
+            error_log(self::$conn->error);
+            exit(htmlspecialchars("A database error occured while querying claim #$claimID."));
+        }
+        $stmt->bind_result($total);
+        return $total > 0;
+    }
+
+    /**
      * Gets the set of root claims for the current topic.
      *
      * @param string $topic Topic string
@@ -313,8 +332,7 @@ class Database
     // DATABASE CLAIM INSERTION
     public static function insertThesis(
         string $topic, string $subject, string $targetP, bool $active = true
-    )
-    {
+    ) {
         $stmt = self::$conn->prepare("INSERT INTO claimsdb(subject, targetP, topic, active, COS) VALUES(?, ?, ?, ?, 'claim')");
         $stmt->bind_param("sssi", $subject, $targetP, $topic, $active);
         if (!$stmt->execute()) {
@@ -325,8 +343,7 @@ class Database
     }
     public static function insertFlag(
         int $flagged_id, int $flagging_id, string $flagType, bool $isRootRival = false
-    )
-    {
+    ) {
         $flag_stmt = self::$conn->prepare(
             "INSERT INTO flagsdb(claimIDFlagged, claimIDFlagger, flagType, isRootRival)
             VALUES(?, ?, ?, ?)"
@@ -339,8 +356,7 @@ class Database
     }
     public static function insertSupport(
         string $topic, int $flagged_id, string $subject, string $targetP, string $supportMeans, string $reason = null, string $example = null, string $url = null, string $citation = null, string $transcription = null, string $vidtimestamp = null
-    )
-    {
+    ) {
         $support_stmt = self::$conn->prepare(
             "INSERT INTO claimsdb(subject, targetP, supportMeans, example, URL, reason, topic, vidtimestamp, citation, transcription, COS)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'support')"
