@@ -10,19 +10,15 @@ use Database\Database;
  * @param int $claim_id
  * @return bool True if the claim has at least one active support
  */
-function noSupports($claim_id)
+function checkIfActiveSupportsIfNoneDisable(int $claim_id)
 {
-    $has_active_supports = false;
-    foreach (Database::getSupportingClaims($claim_id) as $flag_id) {
-        if (Database::isClaimActive($flag_id)) {
-            $has_active_supports = true;
+    foreach (Database::getSupportingClaims($claim_id) as $support_id) {
+        if (Database::isClaimActive($support_id)) {
             return true;
         }
     }
-    if (!$has_active_supports) {
-        Database::setClaimActive($claim_id, false);
-        return false;
-    }
+    Database::setClaimActive($claim_id, false);
+    return false;
 }
 /**
  * Checks if an individual claim has any active supports
@@ -30,7 +26,7 @@ function noSupports($claim_id)
  * @param int $claim_id the ID of the claim to check
  * @return bool True if the claim has at least one active support
  */
-function noSupportsRival($claim_id)
+function hasActiveSupports(int $claim_id)
 {
     foreach (Database::getSupportingClaims($claim_id) as $flag_id) {
         if (Database::isClaimActive($flag_id)) {
