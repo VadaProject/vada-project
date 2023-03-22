@@ -27,7 +27,7 @@ function restoreActivity($claim_id)
     $supports = Database::getSupportingClaims($claim_id);
     if (count($supports) == 0) {
         if (
-            !doesThesisFlag($claim_id) &&
+            !hasActiveFlags($claim_id) &&
             !hasRival($claim_id)
         ) {
             Database::setClaimActive($claim_id, true);
@@ -43,13 +43,13 @@ function restoreActivity($claim_id)
         // we only need one to reactivate the claim.
         if (
             Database::isClaimActive($support_id) &&
-            !doesThesisFlag($claim_id) &&
+            !hasActiveFlags($claim_id) &&
             !hasRival($claim_id)
         ) {
             Database::setClaimActive($claim_id, true);
         }
         // are all supports inactive? claim is inactive.
-        if (!doesThesisFlag($claim_id) && !Database::hasActiveSupports($claim_id)) {
+        if (!hasActiveFlags($claim_id) && !Database::hasActiveSupports($claim_id)) {
             Database::setClaimActive($claim_id, false);
         }
         restoreActivity($support_id);
@@ -137,8 +137,8 @@ function restoreActivityRIVAL($claim_id)
 
     // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
     // rivalB : needs to be active AND it doesn't have a too early / too late AND needs at least one support itself
-    $isChallengedThis = !Database::hasActiveSupports($claim_id) || doesThesisFlagRival($claim_id);
-    $isChallengedRival = !Database::hasActiveSupports($rivaling) || doesThesisFlagRival($rivaling);
+    $isChallengedThis = !Database::hasActiveSupports($claim_id) || hasActiveFlagsNonRival($claim_id);
+    $isChallengedRival = !Database::hasActiveSupports($rivaling) || hasActiveFlagsNonRival($rivaling);
 
     if ($isChallengedThis === $isChallengedRival) {
         Database::setClaimActive($claim_id, false);
