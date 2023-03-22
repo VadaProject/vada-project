@@ -14,6 +14,27 @@ function hasRival($claim_id)
     return count($thesis_rivals) > 0;
 }
 
+function restoreActivityTopic(string $topic)
+{
+    // Recalculate activity relationships
+    $root_claim = Database::getAllRootClaimIDs($topic);
+    $thesis_rivals = Database::getAllThesisRivals($topic);
+    $root_rivals = Database::getRootRivals($topic);
+    for ($i = 0; $i < 2; $i++) {
+        // NOTE: we run this whole routine twice because some flagging relationships take two iterations to fully resolve.
+        // weird issue that should be fixed.
+        foreach ($root_claim as $claim_id) {
+            restoreActivity($claim_id);
+        }
+        foreach ($root_rivals as $claim_id) {
+            restoreActivityRIVAL($claim_id);
+        }
+        foreach ($thesis_rivals as $claim_id) {
+            restoreActivityRIVAL($claim_id);
+        }
+    }
+}
+
 /**
  * Checks the flagging relationships of each claim, and
  *   determines whether it is contested or not.
