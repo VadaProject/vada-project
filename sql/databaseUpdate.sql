@@ -46,7 +46,7 @@ SET
     COS = NULLIF(COS, 'NA');
 
 -- Boolean --
-ALTER TABLE claimsdb MODIFY active BOOLEAN;
+ALTER TABLE claimsdb MODIFY active BOOLEAN NOT NULL DEFAULT 1;
 
 UPDATE claimsdb
 SET
@@ -55,7 +55,7 @@ SET
         ELSE FALSE
     END;
 
-ALTER TABLE flagsdb MODIFY isRootRival BOOLEAN;
+ALTER TABLE flagsdb MODIFY isRootRival BOOLEAN NOT NULL DEFAULT 0;
 
 UPDATE claimsdb
 SET
@@ -63,5 +63,20 @@ SET
         WHEN active = '1' THEN TRUE
         ELSE FALSE
     END;
-
 COMMIT;
+
+-- Foreign keys --
+
+DELETE FROM flagsdb
+WHERE flagsdb.claimIDFlagger NOT IN (
+  SELECT claimsdb.claimID FROM claimsdb
+)
+OR WHERE isRootRival != 0
+AND flagsdb.claimIDFlagged NOT IN (
+  SELECT claimsdb.claimID FROM claimsdb
+);
+
+
+ALTER TABLE `flagsdb`
+ADD FOREIGN KEY (`claimIDFlagged`) REFERENCES `claimsdb`(`claimID`) ON DELETE CASCADE,
+ADD FOREIGN KEY (`claimIDFlagger`) REFERENCES `claimsdb`(`claimID`) ON DELETE CASCADE;
