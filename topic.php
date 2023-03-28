@@ -34,6 +34,7 @@ $PAGE_TITLE = "Topic: \"$topic_escaped\"";
             href="add.php?topic=<?php echo $topic_escaped; ?>">Add New Claim</a>
     </p>
     <?php
+    restoreActivityTopic($topic);
     if (count(Database::getAllRootClaimIDs($topic)) == 0 && count(Database::getRootRivals($topic)) == 0) {
         echo "<p>Topic \"$topic_escaped\" is empty.</a></p>";
         return;
