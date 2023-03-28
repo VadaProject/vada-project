@@ -14,6 +14,31 @@ function hasRival($claim_id)
     return count($thesis_rivals) > 0;
 }
 
+/// TODO: rewrite these functions to be simpler and more efficient.
+/*
+IF a claim is a claim/flag that is NOT rivalling another:
+- it is active iff:
+- it has at least one support
+- AND it has no active flags
+IF a claim is a support:
+- it is active iff:
+- it has no active flags
+IF a claim rivals another claim:
+- it is active iff:
+- AND it has at least one active support
+- AND it has no active flags
+- AND its rival should be inactive
+- (i.e. it has no active support/or it has active flags.)
+
+Clarity: if both rivals are supported and unflagged (i.e. they should be active), they are both inactive. otherwise they follow normal activity rules.
+
+claim IDs loosely order the tree, so we can just iterate backwards 
+across those instead of recursing.
+there should be a separate function that simply determines true/false if a 
+claim should be active, based on its children and rivals.
+rivals currently need to be resolved together. wonder what to do about this.
+*/
+
 function restoreActivityTopic(string $topic)
 {
     // Recalculate activity relationships
@@ -54,7 +79,7 @@ function restoreActivity($claim_id)
             Database::setClaimActive($claim_id, true);
         }
     }
-    // else
+    $hasActiveSupport = false;
     foreach ($supports as $support_id) {
         // $claim_id is the original claim. $support_id is the support.
         // check to see if all the supports are inactive.
@@ -67,11 +92,8 @@ function restoreActivity($claim_id)
             !hasActiveFlags($claim_id) &&
             !hasRival($claim_id)
         ) {
-            Database::setClaimActive($claim_id, true);
-        }
-        // are all supports inactive? claim is inactive.
-        if (!hasActiveFlags($claim_id) && !Database::hasActiveSupports($claim_id)) {
-            Database::setClaimActive($claim_id, false);
+            // Database::setClaimActive($claim_id, true);
+            $hasActiveSupport = true;
         }
         restoreActivity($support_id);
 
@@ -97,6 +119,7 @@ function restoreActivity($claim_id)
             }
         }
     }
+    $isSupport = Database::getClaim($claim_id)->COS == "support";
 
     // this needs to be checking thesis flags for root claims
     // GRABS ALL FLAGS OF ORIGINAL CLAIM ---------------------------- BLUE ON DIAGRAM, 3
@@ -104,16 +127,20 @@ function restoreActivity($claim_id)
     // all tooearly or toolate //$activity
     // *AND* all support flags because while it doesn't occur for the first run through, when a support is put into the parameters, it'll check all reason/rule flags
     $flags = Database::getThesisFlagsNotRival($claim_id);
+    $hasActiveFlag = false;
     foreach ($flags as $flag_id) {
         restoreActivity($flag_id);
         if (Database::isClaimActive($flag_id)) {
             Database::setClaimActive($claim_id, false);
-        } else {
-            Database::setClaimActive($claim_id, true);
+            $hasActiveFlag = true;
         }
         foreach (Database::getThesisRivals($claim_id) as $thesis_rival_id) {
             restoreActivityRIVAL($thesis_rival_id);
         }
+    }
+    if (!hasRival($claim_id)) {
+        Database::setClaimActive($claim_id, 
+        ($isSupport || $hasActiveSupport) && !$hasActiveFlag);
     }
 }
 /**
@@ -143,7 +170,6 @@ function restoreActivityRIVAL($claim_id)
         $rivaling = $thesis_rival_id;
         // $rivaling is Rival B.
     }
-
     // above finds rival A's companion, aka rival b.
     // above is to check active status of flagging claims OF RIVAL COMPANION
     // this is finding the flaggers for rival B
@@ -152,10 +178,6 @@ function restoreActivityRIVAL($claim_id)
     foreach (Database::getNonRivalFlags($rivaling) as $rivals_flag_id) {
         restoreActivity($rivals_flag_id);
     }
-
-    $statusA = '';
-    $statusB = '';
-
     // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
     // rivalB : needs to be active AND it doesn't have a too early / too late AND needs at least one support itself
     $isChallengedThis = !Database::hasActiveSupports($claim_id) || hasActiveFlagsNonRival($claim_id);
