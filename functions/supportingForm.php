@@ -329,4 +329,11 @@ class SupportingForm
         </div>
         <?php
     }
+
+    public function showError(string $msg = null) {
+        if (isset($msg)) {
+            $msg_escaped = htmlspecialchars($msg);
+            echo "<p class='error'>{$msg_escaped}</p>";
+        }
+    }
 }

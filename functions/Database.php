@@ -381,7 +381,6 @@ class Database
         $rootresult1 = $stmt5->get_result(); // get the mysqli result
         return mysqli_num_rows($rootresult1) > 0;
     }
-
 }
 
 Database::staticInit();

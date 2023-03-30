@@ -3,6 +3,11 @@
 This script is the target endpoint for add.php form submissions.
 */
 
+if (!isset($_POST)) {
+    // the form has not been submitted. continue.
+    return;
+}
+
 require_once 'config/db_connect.php';
 $conn = db_connect();
 
@@ -18,13 +23,6 @@ $_POST = array_map('trim', $_POST);
 $topic = $_POST['topic'] ?? null;
 $subject = $_POST['subject'] ?? null;
 $targetP = $_POST['targetP'] ?? null;
-
-if (!isset($topic, $subject, $targetP)) {
-    $params = $_SERVER['QUERY_STRING'];
-    error_log("Invalid submission $params");
-    exit("Error: Missing required form parameters.");
-}
-
 $reason = $_POST['reason'] ?? null;
 $supportMeans = $_POST['supportMeans'] ?? null;
 $example = $_POST['example'] ?? null;
@@ -38,10 +36,10 @@ $flaggingOrSupporting = $_POST['flaggingOrSupporting'] ?? null;
 $topic_trimmed = trim($topic);
 $flagged_id = $_POST['claimIDFlagged'] ?? null;
 
-if (isset($flaggingOrSupporting) && !isset($flagged_id)) {
+if (!isset($topic, $subject, $targetP)) {
     $params = $_SERVER['QUERY_STRING'];
     error_log("Invalid submission $params");
-    exit("Missing required form parameters.");
+    return "Error: Missing required form parameters.";
 }
 
 // START TRANSACTION
@@ -90,7 +88,8 @@ try {
 } catch (mysqli_sql_exception $ex) {
     error_log($ex->getMessage());
     Database::$conn->rollback();
-    // exit("Database error occured, insertion failed.");
+    $error = "A database error occured, insertion failed: " . $ex->getMessage();
 } finally {
     restoreActivityTopic($topic);
 }
+return true;

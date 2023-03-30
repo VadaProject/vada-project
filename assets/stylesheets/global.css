@@ -687,3 +687,7 @@ form label {
 	vertical-align: super;
 	font-size: smaller;
 }
+
+.error {
+	color: red;
+}

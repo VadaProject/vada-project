@@ -1,4 +1,7 @@
 <?php
+// handle database insertion, then render page.
+require "insert.php";
+
 require_once 'functions/supportingForm.php';
 require_once 'functions/Database.php';
 use Database\Database;
@@ -6,7 +9,6 @@ use Database\Database;
 ?>
 <!DOCTYPE html>
 <html>
-
 <head>
     <?php require 'includes/head-tag-contents.php'; ?>
     <style>
@@ -37,8 +39,10 @@ $supportingForm = new SupportingForm\SupportingForm();
 <h2>Supporting claim #
     <?php echo $claim_id; ?>
 </h2>
-<form method="POST" id="myForm" action="insert.php">
-
+<form method="POST" id="myForm" target="_parent">
+    <?php
+    $supportingForm->showError($error ?? null); // does nothing if null
+    ?>
     <input type="hidden" name="flaggingOrSupporting" value="supporting">
     <input type="hidden" name="claimIDFlagged"
         value="<?php echo $claim_id; ?>">

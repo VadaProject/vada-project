@@ -1,15 +1,19 @@
 <?php require_once 'functions/supportingForm.php';
 use SupportingForm\SupportingForm;
-?>
-<?php
+
+// handle database insertion, then render page.
+require "insert.php";
+
 $PAGE_TITLE = "Add claim";
-include 'includes/page_top.php';
+require 'includes/page_top.php';
+
 ?>
 <main class="page-container">
-    <form method="POST" id="myForm" action="insert.php">
+    <form method="POST" id="myForm" target="_parent">
         <div>
-        <?php
+            <?php
         $supportingForm = new SupportingForm();
+        $supportingForm->showError($error ?? null); // does nothing if null
         $topic = $_GET["topic"] ?? null;
         $supportingForm->topicInput($topic); ?>
         <!-- Subject and target property input -->
