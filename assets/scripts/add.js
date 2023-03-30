@@ -2,44 +2,6 @@
  * This script handles dynamic form validation and submission.
  */
 
-/**
- * Handles the form submit event
- *
- * @param event {JQuery.SubmitEvent}
- */
-function handleSubmit(event) {
-  // use HTML5 form validation but otherwise override submit action
-  /** @type HTMLInputElement | null */
-  const topicInput = document.querySelector("#topicInput");
-  const topic = (topicInput?.value ?? "").trim().replace(/ /g, '+');;
-  const destinationURL = `topic.php?topic=${topic}`;
-  const actionURL = $(this).attr('action');
-  if (this.checkValidity()) {
-    if (!actionURL) {
-      console.error(`Form ${this} has no [action] parameter set`);
-      return;
-    }
-    const data = $(this).find(":input").serializeArray();
-    $.post(
-      actionURL,
-      data,
-      function success(info) {
-        $('#result').html(info);
-        alert("Submitted!");
-        console.debug(info);
-        window.parent.location.href = destinationURL;
-      },
-    );
-    $("#submit").prop('disabled', true);
-    setTimeout(() => {
-      $("#submit").prop('disabled', false);
-    }, 1000);
-  }
-  event?.preventDefault();
-}
-
-$('#myForm').on("submit", handleSubmit);
-
 // supportMeansSelect
 const supportMeansSelect = document.getElementById('supportMeansSelect');
 function handleSupportMeansChange() {
@@ -127,5 +89,4 @@ if ($("#flagTypeSelect").length > 0) {
 
   $("#flagTypeSelect").on("change", handleFlagTypeSelectChange)
   handleFlagTypeSelectChange.apply($("#flagTypeSelect")[0]);
-
 }

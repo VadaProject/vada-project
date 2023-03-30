@@ -22,7 +22,7 @@ $targetP = $_POST['targetP'] ?? null;
 if (!isset($topic, $subject, $targetP)) {
     $params = $_SERVER['QUERY_STRING'];
     error_log("Invalid submission $params");
-    exit("Missing required form parameters.");
+    exit("Error: Missing required form parameters.");
 }
 
 $reason = $_POST['reason'] ?? null;
@@ -46,6 +46,8 @@ if (isset($flaggingOrSupporting) && !isset($flagged_id)) {
 
 // START TRANSACTION
 Database::$conn->begin_transaction();
+$thesis_id = null;
+$support_id = null;
 try {
     switch ($flaggingOrSupporting) {
         case "flagging":
@@ -63,29 +65,32 @@ try {
             // set newly-flagged claim to be inactive.
             // Database::setClaimActive($claimIDFlagged, false);
             // Insert support
-            Database::insertSupport($topic_trimmed, $thesis_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
+            $support_id = Database::insertSupport($topic_trimmed, $thesis_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
             break;
         case "supporting":
             // Insert support.
-            Database::insertSupport($topic_trimmed, $flagged_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
+            $support_id = Database::insertSupport($topic_trimmed, $flagged_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
             break;
         default:
             // Insert thesis claim
             $thesis_id = Database::insertThesis($topic_trimmed, $subject, $targetP);
             // Insert support for thesis
-            Database::insertSupport($topic_trimmed, $thesis_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
+            $support_id = Database::insertSupport($topic_trimmed, $thesis_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
     }
     // END TRANSACTION
     Database::$conn->commit();
+    if ($thesis_id) {
+        echo "Successfully inserted claim #$thesis_id";
+    }
+    if ($support_id) {
+        echo "Successfully inserted claim #$thesis_id";
+    }
+    $topic_url_part = urlencode($topic_trimmed);
+    header("Location: topic.php?topic={$topic_url_part}#{$support_id}");
 } catch (mysqli_sql_exception $ex) {
     error_log($ex->getMessage());
     Database::$conn->rollback();
     // exit("Database error occured, insertion failed.");
+} finally {
+    restoreActivityTopic($topic);
 }
-
-restoreActivityTopic($topic);
-?>
-Redirecting...
-<script>
-    window.location.href = "topic.php?topic=" + "<?php htmlspecialchars($topic_trimmed) ?>";
-</script>
