@@ -88,7 +88,7 @@ RENAME TO `Claim`;
 CREATE TABLE IF NOT EXISTS Topic (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name TINYTEXT NOT NULL UNIQUE,
-    description TEXT
+    description TINYTEXT
 );
 -- Add a new column "topic_id" to the Claim table
 ALTER TABLE Claim ADD COLUMN topic_id INT;
@@ -100,8 +100,10 @@ UPDATE Claim c
 JOIN Topic t ON c.topic = t.name
 SET c.topic_id = t.id;
 -- Drop old topic column
--- ALTER TABLE Claim
--- DROP COLUMN topic;
--- Complete topic table --
+ALTER TABLE Claim
+DROP COLUMN topic;
+
+-- Complete topic table; make name non-unique --
 ALTER TABLE Topic
 MODIFY `name` TINYTEXT NOT NULL;
+ALTER TABLE `Topic` DROP INDEX `name`; 
