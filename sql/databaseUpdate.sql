@@ -1,4 +1,4 @@
-START TRANSACTION;
+-- This script updates existing instances of the Vada Project 2.0 to the new schema. --
 
 -- Convert charsets to utf8mb4 --
 ALTER TABLE claimsdb CONVERT TO CHARACTER
@@ -45,9 +45,8 @@ SET
     transcription = NULLIF(transcription, 'NA'),
     COS = NULLIF(COS, 'NA');
 
--- Boolean --
+-- Change active to a Boolean --
 ALTER TABLE claimsdb MODIFY active BOOLEAN NOT NULL DEFAULT 1;
-
 UPDATE claimsdb
 SET
     active = CASE
@@ -63,10 +62,8 @@ SET
         WHEN active = '1' THEN TRUE
         ELSE FALSE
     END;
-COMMIT;
 
--- Foreign keys --
-
+-- Remove invalid flag rows --
 DELETE FROM flagsdb
 WHERE flagsdb.claimIDFlagger NOT IN (
   SELECT claimsdb.claimID FROM claimsdb
@@ -76,7 +73,7 @@ AND flagsdb.claimIDFlagged NOT IN (
   SELECT claimsdb.claimID FROM claimsdb
 );
 
-
+-- Create foreign key constraints for flagsdb --
 ALTER TABLE `flagsdb`
 ADD FOREIGN KEY (`claimIDFlagged`) REFERENCES `claimsdb`(`claimID`) ON DELETE CASCADE,
 ADD FOREIGN KEY (`claimIDFlagger`) REFERENCES `claimsdb`(`claimID`) ON DELETE CASCADE;
