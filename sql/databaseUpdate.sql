@@ -84,3 +84,24 @@ RENAME TO `Flag`;
 ALTER TABLE `claimsdb`
 RENAME TO `Claim`;
 
+-- Create the Topic table
+CREATE TABLE IF NOT EXISTS Topic (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name TINYTEXT NOT NULL UNIQUE,
+    description TEXT
+);
+-- Add a new column "topic_id" to the Claim table
+ALTER TABLE Claim ADD COLUMN topic_id INT;
+-- Populate the Topic table with distinct topic names from the Claim table
+INSERT IGNORE INTO Topic (name)
+SELECT DISTINCT topic FROM Claim;
+-- Update the Claim table with corresponding topic ids from the Topic table
+UPDATE Claim c
+JOIN Topic t ON c.topic = t.name
+SET c.topic_id = t.id;
+-- Drop old topic column
+-- ALTER TABLE Claim
+-- DROP COLUMN topic;
+-- Complete topic table --
+ALTER TABLE Topic
+MODIFY `name` TINYTEXT NOT NULL;
