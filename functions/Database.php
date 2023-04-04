@@ -80,7 +80,7 @@ class Database
     public static function getFlaggedClaim(int $claim_id)
     {
         $stmt = self::$conn->prepare(
-            'SELECT DISTINCT * from flagsdb WHERE claimIDFlagger = ?'
+            'SELECT DISTINCT * from Flag WHERE claimIDFlagger = ?'
         );
         $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
@@ -103,7 +103,7 @@ class Database
     public static function getFlaggedClaims(int $claimID)
     {
         $stmt = self::$conn->prepare(
-            'SELECT DISTINCT * from flagsdb WHERE claimIDFlagger = ?'
+            'SELECT DISTINCT * from Flag WHERE claimIDFlagger = ?'
         );
         $stmt->bind_param('i', $claimID);
         if (!$stmt->execute()) {
@@ -124,7 +124,7 @@ class Database
     public static function getNonRivalFlags(int $claimID)
     {
         $query = "SELECT DISTINCT claimIDFlagger
-        from Claim, flagsdb where claimIDFlagged = ?
+        from Claim, Flag where claimIDFlagged = ?
         AND flagType NOT LIKE 'Thesis Rival'";
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $claimID);
@@ -145,7 +145,7 @@ class Database
     public static function getThesisRivals(int $claimID)
     {
         $query = "SELECT DISTINCT claimIDFlagger
-        from flagsdb where claimIDFlagged = ?
+        from Flag where claimIDFlagged = ?
         AND flagType LIKE 'Thesis Rival'";
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $claimID);
@@ -167,7 +167,7 @@ class Database
     public static function getFlagsNotSupporting(int $claimID)
     {
         $query = "SELECT DISTINCT claimIDFlagger
-        from flagsdb WHERE claimIDFlagged = ?
+        from Flag WHERE claimIDFlagged = ?
         and flagType NOT LIKE 'supporting'";
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $claimID);
@@ -188,7 +188,7 @@ class Database
     public static function getSupportingClaims(int $claimID)
     {
         $query = "SELECT DISTINCT claimIDFlagger
-        from flagsdb WHERE claimIDFlagged = ?
+        from Flag WHERE claimIDFlagged = ?
         and flagType LIKE 'supporting'";
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $claimID);
@@ -207,7 +207,7 @@ class Database
     {
         // TODO: what a stupid name
         $query = "SELECT DISTINCT claimIDFlagger
-        from flagsdb
+        from Flag
         WHERE claimIDFlagged = ? and flagType NOT LIKE 'Thesis Rival' and flagType NOT LIKE 'supporting'";
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $claimID);
@@ -227,7 +227,7 @@ class Database
      */
     public static function hasActiveSupports(int $claim_id)
     {
-        $query = "SELECT COUNT(*) as total FROM flagsdb WHERE claimIDFlagged = ? AND flagType = 'supporting'";
+        $query = "SELECT COUNT(*) as total FROM Flag WHERE claimIDFlagged = ? AND flagType = 'supporting'";
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $claimID);
         if (!$stmt->execute()) {
@@ -246,8 +246,8 @@ class Database
      */
     public static function getAllRootClaimIDs(int $topic)
     {
-        $query = 'SELECT DISTINCT claimID from Claim, flagsdb
-        WHERE topic_id = ? AND claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM flagsdb)';
+        $query = 'SELECT DISTINCT claimID from Claim, Flag
+        WHERE topic_id = ? AND claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM Flag)';
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $topic);
         if (!$stmt->execute()) {
@@ -267,8 +267,8 @@ class Database
     public static function getRootRivals(int $topic)
     {
         $query = 'SELECT DISTINCT Claim.claimID from Claim
-        JOIN flagsdb ON flagsdb.claimIDFlagger = Claim.claimID
-        WHERE Claim.topic = ? AND flagsdb.isRootRival = 1';
+        JOIN Flag ON Flag.claimIDFlagger = Claim.claimID
+        WHERE Claim.topic = ? AND Flag.isRootRival = 1';
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('s', $topic);
         if (!$stmt->execute()) {
@@ -288,8 +288,8 @@ class Database
     public static function getAllThesisRivals(int $topic)
     {
         $query = 'SELECT DISTINCT Claim.claimID from Claim
-        JOIN flagsdb ON flagsdb.claimIDFlagger = Claim.claimID
-        WHERE Claim.topic = ? AND flagsdb.flagType LIKE "Thesis Rival"';
+        JOIN Flag ON Flag.claimIDFlagger = Claim.claimID
+        WHERE Claim.topic = ? AND Flag.flagType LIKE "Thesis Rival"';
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('s', $topic);
         if (!$stmt->execute()) {
@@ -345,7 +345,7 @@ class Database
         int $flagged_id, int $flagging_id, string $flagType, bool $isRootRival = false
     ) {
         $flag_stmt = self::$conn->prepare(
-            "INSERT INTO flagsdb(claimIDFlagged, claimIDFlagger, flagType, isRootRival)
+            "INSERT INTO Flag(claimIDFlagged, claimIDFlagger, flagType, isRootRival)
             VALUES(?, ?, ?, ?)"
         );
         $flag_stmt->bind_param("iisi", $flagged_id, $flagging_id, $flagType, $isRootRival);
@@ -374,8 +374,8 @@ class Database
      * flagging any other claim */
     public static function isRootClaim(int $claim_id)
     {
-        $stmt5 = self::$conn->prepare('SELECT DISTINCT claimID from Claim, flagsdb
-    WHERE claimID = ? AND claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM flagsdb)');
+        $stmt5 = self::$conn->prepare('SELECT DISTINCT claimID from Claim, Flag
+    WHERE claimID = ? AND claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM Flag)');
         $stmt5->bind_param('i', $claim_id);
         $stmt5->execute();
         $rootresult1 = $stmt5->get_result(); // get the mysqli result
