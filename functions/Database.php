@@ -381,6 +381,14 @@ class Database
         $rootresult1 = $stmt5->get_result(); // get the mysqli result
         return mysqli_num_rows($rootresult1) > 0;
     }
+
+    public static function createNewTopic(string $name, string $description) {
+        $stmt = self::$conn->prepare("INSERT INTO Topic(name, description) VALUES (?, ?)");
+        $stmt->bind_param("ss", $name, $description);
+        $stmt->execute();
+        $topic_id = self::$conn->insert_id;
+        return $topic_id;
+    }
 }
 
 Database::staticInit();
