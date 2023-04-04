@@ -14,29 +14,19 @@ namespace SupportingForm;
 class SupportingForm
 {
     /**
-     * Echos the <input name="topic">.
-     * @param $topic_escaped If defined, this is the input's value, and it is readonly.
-     * @param $hidden If true, the input is invisible.
+     * Creates an invisible field for topic_id.
+     * This is required on all claims. Currently handled in the frontend.
+     * TODO: this should only be required on add.php
+     * Other forms should extrapolate from the claim flagged.
+     * possiblility of corruption with malicious packets.
      */
-    public function topicInput(string $topic = null, bool $hidden = false)
+    public function topicInput(int $topic_id)
     {
-        $topic_escaped = htmlspecialchars($topic);
-        if ($hidden) {
-            ?>
-            <input type="hidden" id="topicInput"
-                name="topic"
-                value="<?php echo $topic_escaped ?? ''; ?>">
-            <?php
-        } else {
-            ?>
-            <div>
-                <label for="topic">Topic</label>
-                <input type="text" id="topicInput"
-                    name="topic" placeholder="Enter topic name..." required
-                    value="<?php echo $topic_escaped ?? ''; ?>" <?php echo $topic_escaped ? "readonly" : ""; ?>>
-            </div>
-            <?php
-        }
+        ?>
+        <input type="hidden" id="topicInput"
+            name="topic_id"
+            value="<?php echo $topic_id ?? ''; ?>">
+        <?php
     }
 
     /**

@@ -110,7 +110,7 @@ function displayTarka(object $claim)
 }
 
 function makeLinkAnchor(string $href = '') {
-    if (!isset($href) || count_chars($href) == 0) {
+    if (!isset($href) || strlen($href) == 0) {
         return;
     }
     if ($href == "Enter URL" || $href == "NA") {
@@ -202,7 +202,7 @@ include 'includes/page_top.php'; ?>
         echo "<h2>Error: a claim with the ID #$claim_id does not exist.</h2>";
         return;
     }
-    $topic = htmlspecialchars($claim->topic);
+    $topic_id = htmlspecialchars($claim->topic);
     ?>
     <h2>
         <?php echo "Claim #$claim_id" ?>
@@ -227,7 +227,7 @@ include 'includes/page_top.php'; ?>
             $("#submit").click(function () {
                 alert("AAAA");
                 window.alert("Submitted!");
-                window.location.assign("topic.php?topic=<?php echo $topic; ?>");
+                window.location.assign("topic.php?topic=<?php echo $topic_id; ?>");
                 $.post($("#flagForm").attr("action"),
                     $("#flagForm :input").serializeArray(),
                     function (info) {

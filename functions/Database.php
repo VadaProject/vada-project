@@ -261,19 +261,19 @@ class Database
     /**
      * Gets the set of claims for a given topic which have isRootRival set.
      *
-     * @param int $topic
+     * @param int $topic_id
      * @return int[] List of claim IDs
      */
-    public static function getRootRivals(int $topic)
+    public static function getRootRivals(int $topic_id)
     {
         $query = 'SELECT DISTINCT Claim.claimID from Claim
         JOIN Flag ON Flag.claimIDFlagger = Claim.claimID
-        WHERE Claim.topic = ? AND Flag.isRootRival = 1';
+        WHERE Claim.topic_id = ? AND Flag.isRootRival = 1';
         $stmt = self::$conn->prepare($query);
-        $stmt->bind_param('s', $topic);
+        $stmt->bind_param('i', $topic_id);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
-            exit(htmlspecialchars("A database error occured while querying topic $topic."));
+            exit(htmlspecialchars("A database error occured while querying topic $topic_id."));
         }
         $res = $stmt->get_result();
         return self::getColumnAsIntArray($res);
@@ -282,19 +282,19 @@ class Database
     /**
      * Gets the set of claims for a given topic which are thesis rivals
      *
-     * @param int $topic
+     * @param int $topic_id
      * @return int[] List of claim IDs
      */
-    public static function getAllThesisRivals(int $topic)
+    public static function getAllThesisRivals(int $topic_id)
     {
         $query = 'SELECT DISTINCT Claim.claimID from Claim
         JOIN Flag ON Flag.claimIDFlagger = Claim.claimID
-        WHERE Claim.topic = ? AND Flag.flagType LIKE "Thesis Rival"';
+        WHERE Claim.topic_id = ? AND Flag.flagType LIKE "Thesis Rival"';
         $stmt = self::$conn->prepare($query);
-        $stmt->bind_param('s', $topic);
+        $stmt->bind_param('s', $topic_id);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
-            exit(htmlspecialchars("A database error occured while querying topic $topic."));
+            exit(htmlspecialchars("A database error occured while querying topic $topic_id."));
         }
         $res = $stmt->get_result();
         return self::getColumnAsIntArray($res);
@@ -314,27 +314,34 @@ class Database
         return array_map('intval', $column_array); // to int
     }
 
+    public static function getTopic(int $topic_id)
+    {
+        $stmt = self::$conn->prepare('SELECT * FROM Topic WHERE id = ? LIMIT 1');
+        $stmt->bind_param("i", $topic_id);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_object();
+    }
+
     /**
      * @return string[] The list of topic names
      */
     public static function getAllTopics()
     {
-        $query = 'SELECT DISTINCT topic from Claim';
-        $stmt = self::$conn->prepare($query);
+        $stmt = self::$conn->prepare('SELECT * FROM Topic');
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
             exit(htmlspecialchars("A database error occured while getting topics."));
         }
         $result = $stmt->get_result();
-        return array_column(mysqli_fetch_all($result, MYSQLI_NUM), 0);
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 
     // DATABASE CLAIM INSERTION
     public static function insertThesis(
-        int $topic, string $subject, string $targetP, bool $active = true
+        int $topic_id, string $subject, string $targetP, bool $active = true
     ) {
-        $stmt = self::$conn->prepare("INSERT INTO Claim(subject, targetP, topic, active, COS) VALUES(?, ?, ?, ?, 'claim')");
-        $stmt->bind_param("sssi", $subject, $targetP, $topic, $active);
+        $stmt = self::$conn->prepare("INSERT INTO Claim(topic_id, subject, targetP, active, COS) VALUES(?, ?, ?, ?, 'claim')");
+        $stmt->bind_param("issi", $topic_id, $subject, $targetP, $active);
         if (!$stmt->execute()) {
             echo 'query error: ' . mysqli_error(self::$conn);
         } else {
@@ -355,13 +362,13 @@ class Database
         }
     }
     public static function insertSupport(
-        int $topic, int $flagged_id, string $subject, string $targetP, string $supportMeans, string $reason = null, string $example = null, string $url = null, string $citation = null, string $transcription = null, string $vidtimestamp = null
+        int $topic_id, int $flagged_id, string $subject, string $targetP, string $supportMeans, string $reason = null, string $example = null, string $url = null, string $citation = null, string $transcription = null, string $vidtimestamp = null
     ) {
         $support_stmt = self::$conn->prepare(
-            "INSERT INTO Claim(subject, targetP, supportMeans, example, URL, reason, topic, vidtimestamp, citation, transcription, COS)
+            "INSERT INTO Claim(topic_id, subject, targetP, supportMeans, example, URL, reason,  vidtimestamp, citation, transcription, COS)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'support')"
         );
-        $support_stmt->bind_param("ssssssssss", $subject, $targetP, $supportMeans, $example, $url, $reason, $topic, $vidtimestamp, $citation, $transcription);
+        $support_stmt->bind_param("isssssssss", $topic_id, $subject, $targetP, $supportMeans, $example, $url, $reason, $vidtimestamp, $citation, $transcription);
         if (!$support_stmt->execute()) { // fail
             echo 'query error: ' . mysqli_error(self::$conn);
             return false;

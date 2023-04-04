@@ -43,7 +43,7 @@ require "insert.php";
             value="<?php echo $claim_id; ?>">
         <h3>What are you flagging it for?</h3>
         <?php 
-        $supportingForm->topicInput($claim->topic, /* hidden */true); 
+        $supportingForm->topicInput($claim->topic_id); 
         $supportingForm->flagTypeInput($claim->supportMeans);
         ?>
         <h3>Enter your new thesis.</h3>

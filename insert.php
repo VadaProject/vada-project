@@ -20,7 +20,7 @@ use Database\Database;
 
 $_POST = array_map('trim', $_POST);
 
-$topic = $_POST['topic'] ?? null;
+$topic_id = intval($_POST['topic_id'] ?? null);
 $subject = $_POST['subject'] ?? null;
 $targetP = $_POST['targetP'] ?? null;
 $reason = $_POST['reason'] ?? null;
@@ -33,10 +33,10 @@ $flagType = $_POST['flagType'] ?? null;
 $vidtimestamp = $_POST['vidtimestamp'] ?? null;
 $grammar = $_POST['grammar'] ?? null;
 $flaggingOrSupporting = $_POST['flaggingOrSupporting'] ?? null;
-$topic_trimmed = trim($topic);
+$topic_trimmed = trim($topic_id);
 $flagged_id = $_POST['claimIDFlagged'] ?? null;
 
-if (!isset($topic, $subject, $targetP)) {
+if (!isset($topic_id, $subject, $targetP)) {
     $params = $_SERVER['QUERY_STRING'];
     error_log("Invalid submission $params");
     return "Error: Missing required form parameters.";
@@ -51,7 +51,7 @@ try {
         case "flagging":
             // Insert flag's thesis claim
             $active = ('Thesis Rival' != $flagType); // thesis rivals are contested by default
-            $thesis_id = Database::insertThesis($topic_trimmed, $subject, $targetP, $active);
+            $thesis_id = Database::insertThesis($topic_id, $subject, $targetP, $active);
             // Check if the flagged claim is a root claim.
             $isRootRival = ('Thesis Rival' == $flagType) && Database::isRootClaim($flagged_id);
             // Insert a flagging relation between the thesis and the claim it flags
@@ -63,17 +63,17 @@ try {
             // set newly-flagged claim to be inactive.
             // Database::setClaimActive($claimIDFlagged, false);
             // Insert support
-            $support_id = Database::insertSupport($topic_trimmed, $thesis_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
+            $support_id = Database::insertSupport($topic_id, $thesis_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
             break;
         case "supporting":
             // Insert support.
-            $support_id = Database::insertSupport($topic_trimmed, $flagged_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
+            $support_id = Database::insertSupport($topic_id, $flagged_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
             break;
         default:
             // Insert thesis claim
-            $thesis_id = Database::insertThesis($topic_trimmed, $subject, $targetP);
+            $thesis_id = Database::insertThesis($topic_id, $subject, $targetP);
             // Insert support for thesis
-            $support_id = Database::insertSupport($topic_trimmed, $thesis_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
+            $support_id = Database::insertSupport($topic_id, $thesis_id, $subject, $targetP, $supportMeans, $reason, $example, $url, $citation, $transcription, $vidtimestamp);
     }
     // END TRANSACTION
     Database::$conn->commit();
@@ -84,12 +84,12 @@ try {
         echo "Successfully inserted claim #$thesis_id";
     }
     $topic_url_part = urlencode($topic_trimmed);
-    header("Location: topic.php?topic={$topic_url_part}#{$support_id}");
+    header("Location: topic.php?id={$topic_id}#{$support_id}");
 } catch (mysqli_sql_exception $ex) {
     error_log($ex->getMessage());
     Database::$conn->rollback();
     $error = "A database error occured, insertion failed: " . $ex->getMessage();
 } finally {
-    restoreActivityTopic($topic);
+    restoreActivityTopic($topic_id);
 }
 return true;

@@ -39,7 +39,7 @@ claim should be active, based on its children and rivals.
 rivals currently need to be resolved together. wonder what to do about this.
 */
 
-function restoreActivityTopic(string $topic)
+function restoreActivityTopic(int $topic)
 {
     // Recalculate activity relationships
     $root_claim = Database::getAllRootClaimIDs($topic);

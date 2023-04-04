@@ -46,7 +46,7 @@ $supportingForm = new SupportingForm\SupportingForm();
     <input type="hidden" name="flaggingOrSupporting" value="supporting">
     <input type="hidden" name="claimIDFlagged"
         value="<?php echo $claim_id; ?>">
-    <?php $supportingForm->topicInput($claim->topic, /* hidden */true); ?>
+    <?php $supportingForm->topicInput($claim->topic_id); ?>
     <?php $supportingForm->subjectTargetInput($claim->subject, $claim->targetP); ?>
     <?php $supportingForm->supportMeansInput(); ?>
     <div>
