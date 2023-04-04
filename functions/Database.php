@@ -23,7 +23,7 @@ class Database
     public static function getClaim(int $claim_id)
     {
         $stmt = self::$conn->prepare(
-            'SELECT DISTINCT * from claimsdb where claimID = ?'
+            'SELECT DISTINCT * from Claim where claimID = ?'
         );
         $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
@@ -42,7 +42,7 @@ class Database
     public static function isClaimActive(int $claim_id)
     {
         $stmt = self::$conn->prepare(
-            'SELECT active from claimsdb where claimID = ?'
+            'SELECT active from Claim where claimID = ?'
         );
         $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
@@ -63,7 +63,7 @@ class Database
     public static function setClaimActive(int $claimID, bool $active)
     {
         $stmt = self::$conn->prepare(
-            'UPDATE claimsdb SET active = ? WHERE claimID = ?'
+            'UPDATE Claim SET active = ? WHERE claimID = ?'
         );
         $stmt->bind_param('ii', $active, $claimID);
         if (!$stmt->execute()) {
@@ -124,7 +124,7 @@ class Database
     public static function getNonRivalFlags(int $claimID)
     {
         $query = "SELECT DISTINCT claimIDFlagger
-        from claimsdb, flagsdb where claimIDFlagged = ?
+        from Claim, flagsdb where claimIDFlagged = ?
         AND flagType NOT LIKE 'Thesis Rival'";
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $claimID);
@@ -241,15 +241,15 @@ class Database
     /**
      * Gets the set of root claims for the current topic.
      *
-     * @param string $topic Topic string
+     * @param int $topic Topic string
      * @return int[] List of claim IDs
      */
-    public static function getAllRootClaimIDs(string $topic)
+    public static function getAllRootClaimIDs(int $topic)
     {
-        $query = 'SELECT DISTINCT claimID from claimsdb, flagsdb
-        WHERE topic = ? AND claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM flagsdb)';
+        $query = 'SELECT DISTINCT claimID from Claim, flagsdb
+        WHERE topic_id = ? AND claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM flagsdb)';
         $stmt = self::$conn->prepare($query);
-        $stmt->bind_param('s', $topic);
+        $stmt->bind_param('i', $topic);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
             exit(htmlspecialchars("A database error occured while querying topic $topic."));
@@ -261,14 +261,14 @@ class Database
     /**
      * Gets the set of claims for a given topic which have isRootRival set.
      *
-     * @param string $topic
+     * @param int $topic
      * @return int[] List of claim IDs
      */
-    public static function getRootRivals(string $topic)
+    public static function getRootRivals(int $topic)
     {
-        $query = 'SELECT DISTINCT claimsdb.claimID from claimsdb
-        JOIN flagsdb ON flagsdb.claimIDFlagger = claimsdb.claimID
-        WHERE claimsdb.topic = ? AND flagsdb.isRootRival = 1';
+        $query = 'SELECT DISTINCT Claim.claimID from Claim
+        JOIN flagsdb ON flagsdb.claimIDFlagger = Claim.claimID
+        WHERE Claim.topic = ? AND flagsdb.isRootRival = 1';
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('s', $topic);
         if (!$stmt->execute()) {
@@ -282,14 +282,14 @@ class Database
     /**
      * Gets the set of claims for a given topic which are thesis rivals
      *
-     * @param string $topic
+     * @param int $topic
      * @return int[] List of claim IDs
      */
-    public static function getAllThesisRivals(string $topic)
+    public static function getAllThesisRivals(int $topic)
     {
-        $query = 'SELECT DISTINCT claimsdb.claimID from claimsdb
-        JOIN flagsdb ON flagsdb.claimIDFlagger = claimsdb.claimID
-        WHERE claimsdb.topic = ? AND flagsdb.flagType LIKE "Thesis Rival"';
+        $query = 'SELECT DISTINCT Claim.claimID from Claim
+        JOIN flagsdb ON flagsdb.claimIDFlagger = Claim.claimID
+        WHERE Claim.topic = ? AND flagsdb.flagType LIKE "Thesis Rival"';
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('s', $topic);
         if (!$stmt->execute()) {
@@ -319,7 +319,7 @@ class Database
      */
     public static function getAllTopics()
     {
-        $query = 'SELECT DISTINCT topic from claimsdb';
+        $query = 'SELECT DISTINCT topic from Claim';
         $stmt = self::$conn->prepare($query);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
@@ -331,9 +331,9 @@ class Database
 
     // DATABASE CLAIM INSERTION
     public static function insertThesis(
-        string $topic, string $subject, string $targetP, bool $active = true
+        int $topic, string $subject, string $targetP, bool $active = true
     ) {
-        $stmt = self::$conn->prepare("INSERT INTO claimsdb(subject, targetP, topic, active, COS) VALUES(?, ?, ?, ?, 'claim')");
+        $stmt = self::$conn->prepare("INSERT INTO Claim(subject, targetP, topic, active, COS) VALUES(?, ?, ?, ?, 'claim')");
         $stmt->bind_param("sssi", $subject, $targetP, $topic, $active);
         if (!$stmt->execute()) {
             echo 'query error: ' . mysqli_error(self::$conn);
@@ -355,10 +355,10 @@ class Database
         }
     }
     public static function insertSupport(
-        string $topic, int $flagged_id, string $subject, string $targetP, string $supportMeans, string $reason = null, string $example = null, string $url = null, string $citation = null, string $transcription = null, string $vidtimestamp = null
+        int $topic, int $flagged_id, string $subject, string $targetP, string $supportMeans, string $reason = null, string $example = null, string $url = null, string $citation = null, string $transcription = null, string $vidtimestamp = null
     ) {
         $support_stmt = self::$conn->prepare(
-            "INSERT INTO claimsdb(subject, targetP, supportMeans, example, URL, reason, topic, vidtimestamp, citation, transcription, COS)
+            "INSERT INTO Claim(subject, targetP, supportMeans, example, URL, reason, topic, vidtimestamp, citation, transcription, COS)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'support')"
         );
         $support_stmt->bind_param("ssssssssss", $subject, $targetP, $supportMeans, $example, $url, $reason, $topic, $vidtimestamp, $citation, $transcription);
@@ -374,7 +374,7 @@ class Database
      * flagging any other claim */
     public static function isRootClaim(int $claim_id)
     {
-        $stmt5 = self::$conn->prepare('SELECT DISTINCT claimID from claimsdb, flagsdb
+        $stmt5 = self::$conn->prepare('SELECT DISTINCT claimID from Claim, flagsdb
     WHERE claimID = ? AND claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM flagsdb)');
         $stmt5->bind_param('i', $claim_id);
         $stmt5->execute();

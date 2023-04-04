@@ -80,3 +80,10 @@ AND flagsdb.claimIDFlagged NOT IN (
 ALTER TABLE `flagsdb`
 ADD FOREIGN KEY (`claimIDFlagged`) REFERENCES `claimsdb`(`claimID`) ON DELETE CASCADE,
 ADD FOREIGN KEY (`claimIDFlagger`) REFERENCES `claimsdb`(`claimID`) ON DELETE CASCADE;
+
+-- Rename tables --
+ALTER TABLE `flagsdb`
+RENAME TO `Flag`;
+ALTER TABLE `claimsdb`
+RENAME TO `Claim`;
+
