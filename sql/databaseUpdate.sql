@@ -18,7 +18,6 @@ DROP IF EXISTS `supportID`;
 
 -- Allow null values --
 ALTER TABLE `claimsdb`
-CHANGE `claimID` `id` int AUTOINCREMENT
 MODIFY `subject` varchar(255),
 MODIFY `targetP` varchar(255),
 MODIFY `supportMeans` varchar(255),
