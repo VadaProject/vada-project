@@ -11,18 +11,19 @@ $PAGE_TITLE = "Add claim";
 require 'includes/page_top.php';
 
 $topic_id = intval($_GET["topic"]) ?? null;
-if (!isset($topic_id) || $topic_id == 0 || !isset($topic)) {
-    echo "Invalid URL params. Redirecting...";
-    header("Location: index.php");
+if (!isset($topic_id) || $topic_id == 0) {
+    echo "Invalid URL params.";
+    return;
 }
-if (!isset())
 $topic = Database::getTopic($topic_id);
-echo "Error: "
-return
+if (!isset($topic)) {
+    echo "Error: No topic with id $topic_id exists.";
+    return;
+}
 
 ?>
 <main class="page-container">
-    <h3>Adding a new thesis to </h3>
+    <h3>Adding a new thesis to topic "WIP"</h3>
     <form method="POST" id="myForm" target="_parent">
         <div>
             <?php
