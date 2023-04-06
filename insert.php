@@ -43,7 +43,7 @@ if (!isset($topic_id, $subject, $targetP)) {
 }
 
 // START TRANSACTION
-Database::$conn->begin_transaction();
+Database::$conn->beginTransaction();
 $thesis_id = null;
 $support_id = null;
 try {
