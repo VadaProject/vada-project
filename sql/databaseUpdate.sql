@@ -91,7 +91,9 @@ CREATE TABLE IF NOT EXISTS Topic (
     description TINYTEXT
 );
 -- Add a new column "topic_id" to the Claim table
-ALTER TABLE Claim ADD COLUMN topic_id INT;
+ALTER TABLE Claim
+ADD COLUMN IF NOT EXISTS topic_id INT NOT NULL;
+
 -- Populate the Topic table with distinct topic names from the Claim table
 INSERT IGNORE INTO Topic (name)
 SELECT DISTINCT topic FROM Claim;
@@ -99,6 +101,13 @@ SELECT DISTINCT topic FROM Claim;
 UPDATE Claim c
 JOIN Topic t ON c.topic = t.name
 SET c.topic_id = t.id;
+
+-- Create a foreign key constraint for Claim's topic_id --
+ADD CONSTRAINT fk_claim_topic
+  FOREIGN KEY (topic_id)
+  REFERENCES Topic(id)
+  ON DELETE CASCADE;
+
 -- Drop old topic column
 ALTER TABLE Claim
 DROP COLUMN topic;
@@ -107,3 +116,11 @@ DROP COLUMN topic;
 ALTER TABLE Topic
 MODIFY `name` TINYTEXT NOT NULL;
 ALTER TABLE `Topic` DROP INDEX `name`; 
+
+-- Create Group table --
+
+CREATE TABLE IF NOT EXISTS `Group` (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name TINYTEXT NOT NULL,
+    access_code TINYTEXT NOT NULL,
+)
