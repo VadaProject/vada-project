@@ -193,19 +193,17 @@ function displayNotSupport(object $claim)
 <?php
 $claim_id = $_GET['id']; // get claim id from URL search tags
 $claim = Database::getClaim($claim_id);
-$PAGE_TITLE = "Claim #$claim_id";
+$PAGE_TITLE = "Claim #{$claim->display_id}";
 include 'includes/page_top.php'; ?>
 <main class="page-container">
     <?php
-
     if (is_null($claim)) {
         echo "<h2>Error: a claim with the ID #$claim_id does not exist.</h2>";
         return;
-    }
-    $topic_id = htmlspecialchars($claim->topic);
-    ?>
+    } ?>
+    <?php echo "<a href='topic.php?id={$claim->topic_id}'>Back to topic</a>"; ?>
     <h2>
-        <?php echo "Claim #$claim_id" ?>
+        <?php echo "Claim #{$claim->display_id}" ?>
     </h2>
     <?php
     if ($claim->COS == 'claim') { ?>
@@ -222,30 +220,6 @@ include 'includes/page_top.php'; ?>
         displayNotSupport($claim);
     }
     ?>
-    <script>
-        $(document).ready(function () {
-            $("#submit").click(function () {
-                alert("AAAA");
-                window.alert("Submitted!");
-                window.location.assign("topic.php?topic=<?php echo $topic_id; ?>");
-                $.post($("#flagForm").attr("action"),
-                    $("#flagForm :input").serializeArray(),
-                    function (info) {
-                        $("#result").html(info);
-                    });
-                clearInput();
-            });
-            $("#flagForm").submit(function () {
-                return false;
-            });
-
-            function clearInput() {
-                $("#flagForm :input").each(function () {
-                    $(this).val('');
-                });
-            }
-        });
-    </script>
     </div>
     </div>
     <script>

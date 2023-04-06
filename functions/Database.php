@@ -21,9 +21,11 @@ class Database
      * @return object|null A claim object
      */
     public static function getClaim(int $claim_id)
-    {
+    {   
+        // TODO: make this more readable. 
+        // inject an extra column, with the display_id
         $stmt = self::$conn->prepare(
-            'SELECT DISTINCT * from Claim where id = ?'
+            'SELECT c.*, sub.display_id FROM Claim c JOIN ( SELECT topic_id, id, ROW_NUMBER() OVER (PARTITION BY topic_id ORDER BY id) AS display_id FROM Claim ) sub ON c.id = sub.id WHERE c.id = ?'
         );
         $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {

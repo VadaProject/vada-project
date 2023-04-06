@@ -85,7 +85,7 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
             echo '<p>' . $claim->subject . ' ' . $claim->targetP . '</p>';
             echo '</div>';
     }
-    echo '<div>#' . $claim_id . '</div>';
+    echo "<div>#{$claim->display_id}</div>";
 
     // add is subject person or object to inference div
 
@@ -158,8 +158,9 @@ function sortClaimsRIVAL($claim_id)
     foreach ($result1 as $flag_id) {
         $rivaling = $flag_id;
     }
+    $rival_claim = Database::getClaim($rivaling);
     echo '<li>';
-    make_label_el($claim_id, $claim, '', $rivaling);
+    make_label_el($claim_id, $claim, '', $rival_claim->display_id);
     $result1 = Database::getNonRivalFlags($claim_id);
     if (\count($result1) > 0) {
         echo '<span class="stem"></span>';

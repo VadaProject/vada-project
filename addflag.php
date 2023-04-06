@@ -34,7 +34,7 @@ require "insert.php";
     $supportingForm = new SupportingForm\SupportingForm();
     ?>
     <h2>Flagging claim #
-        <?php echo $claim_id; ?>
+        <?php echo $claim->display_id; ?>
     </h2>
     <form method="POST" id="myForm" target="_parent">
         <?php $supportingForm->showError($error ?? null); ?>

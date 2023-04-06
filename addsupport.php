@@ -31,13 +31,13 @@ if (is_null($claim)) {
     return;
 }
 if ($claim->COS == "support") {
-    echo "<h2>Error: claim #$claim_id is a support and cannot be supported.</h2>";
+    echo "<h2>Error: claim $claim_id is a support and cannot be supported.</h2>";
     return;
 }
 $supportingForm = new SupportingForm\SupportingForm();
 ?>
 <h2>Supporting claim #
-    <?php echo $claim_id; ?>
+    <?php echo $claim->display_id; ?>
 </h2>
 <form method="POST" id="myForm" target="_parent">
     <?php
