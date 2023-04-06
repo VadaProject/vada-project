@@ -104,13 +104,13 @@ function make_label_el($claim_id, $claim, $flag_type, $rivalling = '')
 
 // starts two chains of recursion. one with normal root claims.
 // the other with root rivals. the rivals, of course, are put into the rival recursion.
-function sortClaims($claimID)
+function sortClaims($claim_id)
 {
-    $claim = Database::getClaim($claimID);
+    $claim = Database::getClaim($claim_id);
     if (!$claim) {
         return;
     }
-    $flags = Database::getFlaggedClaims($claimID);
+    $flags = Database::getFlaggedClaims($claim_id);
     $resultFlagType = $claimIDFlagger = $claimIDFlagged = '';
     foreach ($flags as $f) {
         $resultFlagType = $f['flagType'];
@@ -119,25 +119,25 @@ function sortClaims($claimID)
     }
     if ($resultFlagType == 'Thesis Rival') {
         // echo 'The flag ' . $claimIDFlagger . ' has a rival!: ' . '';
-        // for THIS claimID - check for flaggers that aren't rival .. sort claim those
+        // for THIS $claim_id - check for flaggers that aren't rival .. sort claim those
         sortClaimsRival($claimIDFlagger);
-        // for the CORRESPONDING claimID - check for flaggers that aren't rival .. sort claim those.
+        // for the CORRESPONDING $claim_id - check for flaggers that aren't rival .. sort claim those.
         sortClaimsRival($claimIDFlagged);
         return;
     }
     echo "<li>";
-    make_label_el($claimID, $claim, $resultFlagType);
+    make_label_el($claim_id, $claim, $resultFlagType);
     // IF A CLAIM IS FLAGGED IT obtains flaggers that aren't rivals
     // if its a thesis rival it will show up in the query above
     // this is when the claim is the flagged. this is what gets pushed in the recursion.
     // continue recursion
-    $result1 = Database::getNonRivalFlags($claimID); // get the mysqli result
+    $result1 = Database::getNonRivalFlags($claim_id); // get the mysqli result
 
     if (\count($result1) > 0) {
         echo '<span class="stem"></span>';
         echo '<ul>';
-        foreach ($result1 as $flagID) {
-            sortClaims($flagID);
+        foreach ($result1 as $flag_id) {
+            sortClaims($flag_id);
         }
         echo '</ul>';
     }
@@ -149,23 +149,23 @@ The key difference is handling the “mutualistic flagging” relationship that 
 It breaks an infinite loop that would otherwise occur if a rival was handled recursively in sortClaims().
 */
 
-function sortClaimsRIVAL($claimID)
+function sortClaimsRIVAL($claim_id)
 {
     // get the info for the claim being flagged
-    $claim = Database::getClaim($claimID);
+    $claim = Database::getClaim($claim_id);
     // look for normal non-rival flags for this rivaling claim.
-    $result1 = Database::getThesisRivals($claimID);
-    foreach ($result1 as $flagID) {
-        $rivaling = $flagID;
+    $result1 = Database::getThesisRivals($claim_id);
+    foreach ($result1 as $flag_id) {
+        $rivaling = $flag_id;
     }
     echo '<li>';
-    make_label_el($claimID, $claim, '', $rivaling);
-    $result1 = Database::getNonRivalFlags($claimID);
+    make_label_el($claim_id, $claim, '', $rivaling);
+    $result1 = Database::getNonRivalFlags($claim_id);
     if (\count($result1) > 0) {
         echo '<span class="stem"></span>';
         echo '<ul>';
-        foreach ($result1 as $flagID) {
-            sortClaims($flagID);
+        foreach ($result1 as $flag_id) {
+            sortClaims($flag_id);
         }
         echo '</ul>';
     }

@@ -39,14 +39,14 @@ function makeSupportingModal(int $claim_id)
 function displayInference(object $claim)
 {
     $FOS = 'flagging';
-    $claimIDFlagged = Database::getFlaggedClaim($claim->claimID);
+    $claimIDFlagged = Database::getFlaggedClaim($claim->id);
     $flaggedClaim = Database::getClaim($claimIDFlagged);
     if (!isset($claimIDFlagged)) {
-        echo "<h2>Error: claim #{$claim->claimID} has no flagging relation set. This is probably a bug, please contact an administrator.</h2>";
+        echo "<h2>Error: claim #{$claim->id} has no flagging relation set. This is probably a bug, please contact an administrator.</h2>";
         return;
     }
     if (!isset($flaggedClaim)) {
-        echo "<h2>Error: claim #{$claim->claimID} flags claim #{$claimIDFlagged}, but that claim does not exist. This is probably a bug, please contact an administrator.</h2>";
+        echo "<h2>Error: claim #{$claim->id} flags claim #{$claimIDFlagged}, but that claim does not exist. This is probably a bug, please contact an administrator.</h2>";
         return;
     }
     ?>
@@ -169,10 +169,10 @@ function displaySupport(object $claim)
             displayTestimony($claim);
             break;
         default:
-            echo "<h3>Error: Claim #{$claim->claimID} has an invalid support means.<h3>";
+            echo "<h3>Error: Claim #{$claim->id} has an invalid support means.<h3>";
             return;
     }
-    makeFlaggingModal($claim->claimID);
+    makeFlaggingModal($claim->id);
     if ($claim->supportMeans !== "Inference" && $claim->supportMeans !== "Tarka") {
         flagModalButton($claim->supportMeans);
     }
@@ -185,8 +185,8 @@ function displayNotSupport(object $claim)
         <button class="btn" onclick="showFlagModal();">Flag Claim</button>
         <button class="btn" onclick="showSupportModal();">Support Claim</button>
     </div>
-    <?php makeFlaggingModal($claim->claimID); ?>
-    <?php makeSupportingModal($claim->claimID); ?>
+    <?php makeFlaggingModal($claim->id); ?>
+    <?php makeSupportingModal($claim->id); ?>
 <?php
 }
 ?>

@@ -18,6 +18,7 @@ DROP IF EXISTS `supportID`;
 
 -- Allow null values --
 ALTER TABLE `claimsdb`
+CHANGE `claimID` `id` int AUTOINCREMENT
 MODIFY `subject` varchar(255),
 MODIFY `targetP` varchar(255),
 MODIFY `supportMeans` varchar(255),
@@ -124,3 +125,9 @@ CREATE TABLE IF NOT EXISTS `Group` (
     name TINYTEXT NOT NULL,
     access_code TINYTEXT NOT NULL,
 )
+
+-- Rename ID columns --
+ALTER TABLE `Claim`
+CHANGE `claimID` `id` int AUTO_INCREMENT;
+ALTER TABLE `Flag`
+CHANGE `flagID` `id` int AUTO_INCREMENT;

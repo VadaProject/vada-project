@@ -23,7 +23,7 @@ class Database
     public static function getClaim(int $claim_id)
     {
         $stmt = self::$conn->prepare(
-            'SELECT DISTINCT * from Claim where claimID = ?'
+            'SELECT DISTINCT * from Claim where id = ?'
         );
         $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
@@ -42,7 +42,7 @@ class Database
     public static function isClaimActive(int $claim_id)
     {
         $stmt = self::$conn->prepare(
-            'SELECT active from Claim where claimID = ?'
+            'SELECT active from Claim where id = ?'
         );
         $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
@@ -57,25 +57,25 @@ class Database
         return $res;
     }
     /**
-     * @param int $claimID
+     * @param int $claim_id
      * @param bool $active
      */
-    public static function setClaimActive(int $claimID, bool $active)
+    public static function setClaimActive(int $claim_id, bool $active)
     {
         $stmt = self::$conn->prepare(
-            'UPDATE Claim SET active = ? WHERE claimID = ?'
+            'UPDATE Claim SET active = ? WHERE id = ?'
         );
-        $stmt->bind_param('ii', $active, $claimID);
+        $stmt->bind_param('ii', $active, $claim_id);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
-            exit(htmlspecialchars("A database error occured while updating claim #$claimID."));
+            exit(htmlspecialchars("A database error occured while updating claim #$claim_id."));
         }
         ;
     }
 
     /**
      * @param int $claim_id
-     * @return int|null The claim which is flagged by claimID
+     * @return int|null The claim which is flagged by $claim_id
      */
     public static function getFlaggedClaim(int $claim_id)
     {
@@ -97,18 +97,18 @@ class Database
     /**
      * Gets the set of claims which are flagged by the current claim.
      *
-     * @param int $claimID Current claim ID
+     * @param int $claim_id Current claim ID
      * @return array List of claim IDs
      */
-    public static function getFlaggedClaims(int $claimID)
+    public static function getFlaggedClaims(int $claim_id)
     {
         $stmt = self::$conn->prepare(
             'SELECT DISTINCT * from Flag WHERE claimIDFlagger = ?'
         );
-        $stmt->bind_param('i', $claimID);
+        $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
-            exit(htmlspecialchars("A database error occured while querying claim #$claimID."));
+            exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
         }
         ;
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -116,21 +116,21 @@ class Database
 
     // look for normal non-rival flags for this rivaling claim.
     /**
-     * Returns the ID of each non-rival claim which flags $claimID
+     * Returns the ID of each non-rival claim which flags $claim_id
      *
-     * @param int $claimID
+     * @param int $claim_id
      * @return int[]
      */
-    public static function getNonRivalFlags(int $claimID)
+    public static function getNonRivalFlags(int $claim_id)
     {
         $query = "SELECT DISTINCT claimIDFlagger
         from Claim, Flag where claimIDFlagged = ?
         AND flagType NOT LIKE 'Thesis Rival'";
         $stmt = self::$conn->prepare($query);
-        $stmt->bind_param('i', $claimID);
+        $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
-            exit(htmlspecialchars("A database error occured while querying claim #$claimID."));
+            exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
         }
         $res = $stmt->get_result();
         return self::getColumnAsIntArray($res);
@@ -139,19 +139,19 @@ class Database
     /**
      * Gets the set of Thesis Rivals which flag the current claim.
      *
-     * @param int $claimID Current claim ID
+     * @param int $claim_id Current claim ID
      * @return int[] List of claim IDs
      */
-    public static function getThesisRivals(int $claimID)
+    public static function getThesisRivals(int $claim_id)
     {
         $query = "SELECT DISTINCT claimIDFlagger
         from Flag where claimIDFlagged = ?
         AND flagType LIKE 'Thesis Rival'";
         $stmt = self::$conn->prepare($query);
-        $stmt->bind_param('i', $claimID);
+        $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
-            exit(htmlspecialchars("A database error occured while querying claim #$claimID."));
+            exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
         }
         ;
         $res = $stmt->get_result();
@@ -161,19 +161,19 @@ class Database
     /**
      * Gets all claims that flag the current claim and aren't Supporting.
      *
-     * @param int $claimID Current claim ID
+     * @param int $claim_id Current claim ID
      * @return int[] List of claim IDs
      */
-    public static function getFlagsNotSupporting(int $claimID)
+    public static function getFlagsNotSupporting(int $claim_id)
     {
         $query = "SELECT DISTINCT claimIDFlagger
         from Flag WHERE claimIDFlagged = ?
         and flagType NOT LIKE 'supporting'";
         $stmt = self::$conn->prepare($query);
-        $stmt->bind_param('i', $claimID);
+        $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
-            exit(htmlspecialchars("A database error occured while querying claim #$claimID."));
+            exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
         }
         $res = $stmt->get_result();
         return self::getColumnAsIntArray($res);
@@ -182,19 +182,19 @@ class Database
     /**
      * Gets all Support claims that flag the current claim.
      *
-     * @param int $claimID Current claim ID
+     * @param int $claim_id Current claim ID
      * @return int[] List of claim IDs
      */
-    public static function getSupportingClaims(int $claimID)
+    public static function getSupportingClaims(int $claim_id)
     {
         $query = "SELECT DISTINCT claimIDFlagger
         from Flag WHERE claimIDFlagged = ?
         and flagType LIKE 'supporting'";
         $stmt = self::$conn->prepare($query);
-        $stmt->bind_param('i', $claimID);
+        $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
-            exit(htmlspecialchars("A database error occured while querying claim #$claimID."));
+            exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
         }
         $res = $stmt->get_result();
         return self::getColumnAsIntArray($res);
@@ -203,17 +203,17 @@ class Database
     /**
      * Gets all flags that aren't Supports or Thesis Rivals.
      */
-    public static function getThesisFlagsNotRival(int $claimID)
+    public static function getThesisFlagsNotRival(int $claim_id)
     {
         // TODO: what a stupid name
         $query = "SELECT DISTINCT claimIDFlagger
         from Flag
         WHERE claimIDFlagged = ? and flagType NOT LIKE 'Thesis Rival' and flagType NOT LIKE 'supporting'";
         $stmt = self::$conn->prepare($query);
-        $stmt->bind_param('i', $claimID);
+        $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
-            exit(htmlspecialchars("A database error occured while querying claim #$claimID."));
+            exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
         }
         $res = $stmt->get_result();
         return self::getColumnAsIntArray($res);
@@ -229,10 +229,10 @@ class Database
     {
         $query = "SELECT COUNT(*) as total FROM Flag WHERE claimIDFlagged = ? AND flagType = 'supporting'";
         $stmt = self::$conn->prepare($query);
-        $stmt->bind_param('i', $claimID);
+        $stmt->bind_param('i', $claim_id);
         if (!$stmt->execute()) {
             error_log(self::$conn->error);
-            exit(htmlspecialchars("A database error occured while querying claim #$claimID."));
+            exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
         }
         $stmt->bind_result($total);
         return $total > 0;
@@ -246,8 +246,8 @@ class Database
      */
     public static function getAllRootClaimIDs(int $topic)
     {
-        $query = 'SELECT DISTINCT claimID from Claim, Flag
-        WHERE topic_id = ? AND claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM Flag)';
+        $query = 'SELECT DISTINCT id from Claim, Flag
+        WHERE topic_id = ? AND id NOT IN (SELECT DISTINCT claimIDFlagger FROM Flag)';
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $topic);
         if (!$stmt->execute()) {
@@ -266,8 +266,8 @@ class Database
      */
     public static function getRootRivals(int $topic_id)
     {
-        $query = 'SELECT DISTINCT Claim.claimID from Claim
-        JOIN Flag ON Flag.claimIDFlagger = Claim.claimID
+        $query = 'SELECT DISTINCT Claim.id from Claim
+        JOIN Flag ON Flag.claimIDFlagger = Claim.id
         WHERE Claim.topic_id = ? AND Flag.isRootRival = 1';
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('i', $topic_id);
@@ -287,8 +287,8 @@ class Database
      */
     public static function getAllThesisRivals(int $topic_id)
     {
-        $query = 'SELECT DISTINCT Claim.claimID from Claim
-        JOIN Flag ON Flag.claimIDFlagger = Claim.claimID
+        $query = 'SELECT DISTINCT Claim.id from Claim
+        JOIN Flag ON Flag.claimIDFlagger = Claim.id
         WHERE Claim.topic_id = ? AND Flag.flagType LIKE "Thesis Rival"';
         $stmt = self::$conn->prepare($query);
         $stmt->bind_param('s', $topic_id);
@@ -381,8 +381,8 @@ class Database
      * flagging any other claim */
     public static function isRootClaim(int $claim_id)
     {
-        $stmt5 = self::$conn->prepare('SELECT DISTINCT claimID from Claim, Flag
-    WHERE claimID = ? AND claimID NOT IN (SELECT DISTINCT claimIDFlagger FROM Flag)');
+        $stmt5 = self::$conn->prepare('SELECT DISTINCT id from Claim, Flag
+    WHERE id = ? AND id NOT IN (SELECT DISTINCT claimIDFlagger FROM Flag)');
         $stmt5->bind_param('i', $claim_id);
         $stmt5->execute();
         $rootresult1 = $stmt5->get_result(); // get the mysqli result
