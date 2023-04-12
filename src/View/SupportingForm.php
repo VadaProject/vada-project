@@ -1,6 +1,5 @@
 <?php
-
-namespace SupportingForm;
+namespace Vada\View;
 
 // There are three versions of this form used in the application
 // add.php: The user inputs the topic, thesis, support unless set, in which case it's displayed and read only.

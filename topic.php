@@ -1,17 +1,22 @@
-<!-- <?php require_once 'config/db_connect.php'; ?> -->
 <?php
-require_once 'functions/sortClaims.php';
-require_once 'functions/doesThesisFlag.php';
-require_once 'functions/restoreActivity.php';
-require_once 'functions/Database.php';
-use Database\Database;
+require "vendor/autoload.php";
 
-$conn = db_connect();
-$topic_id = $_GET['id'];
-$topic_obj = Database::getTopic($topic_id);
-$topic_name = htmlspecialchars($topic_obj->name ?? "undefined");
-$topic_description = $topic_obj->description ? htmlspecialchars($topic_obj->description) : null;
-$PAGE_TITLE = "Topic: \"$topic_name\"";
+use \Vada\Model\Database;
+
+$pdo = Database::connect();
+$claimRepository = new Vada\Model\ClaimRepository($pdo);
+$topicRepository = new Vada\Model\TopicRepository($pdo);
+$activityController = new Vada\Controller\ActivityController($claimRepository);
+
+if (!isset($_GET['tid'])) {
+    exit("Error: ID not given.");
+}
+$topic = $topicRepository->getTopicByID($_GET['tid']);
+if (!isset($topic)) {
+    exit("Error: ID does not exist");
+}
+
+$PAGE_TITLE = "Topic: {$topic->name}";
 ?>
 <?php require 'includes/page_top.php'; ?>
 <style>
@@ -23,48 +28,25 @@ $PAGE_TITLE = "Topic: \"$topic_name\"";
 
 <div class="wrapper">
     <h2 style="margin-bottom: 0.5rem;">Topic:
-        <?php echo $topic_name; ?>
+        <?php echo htmlspecialchars($topic->name); ?>
     </h2>
     <?php
-    if (isset($topic_description)) { ?>
+    if ($topic->hasDescription()) { ?>
         <p style='max-width: 50rem; margin-inline: auto;'><b>Description:</b>
-        <?php echo $topic_description; ?>
-        </p>
+        <?php echo htmlspecialchars($topic->description ?? "(no description)"); ?>
+    </p>
     <?php
-    }
-    if (!isset($topic_id)) {
-        // header("Location: index.php");
-        return;
-    }
-    if (!isset($topic_obj)) {
-        // header("Location: index.php");
-        return;
     }
     ?>
     <p>
         <a class="btn btn-primary"
-            href="add.php?topic=<?php echo $topic_id; ?>">Add New Claim</a>
+        href="add.php?tid=<?php echo $topic->id; ?>">Add New Claim</a>
     </p>
     <?php
-    restoreActivityTopic($topic_id);
-    if (count(Database::getAllRootClaimIDs($topic_id)) == 0 && count(Database::getRootRivals($topic_id)) == 0) {
-        echo "<p>Topic \"$topic_name\" is empty.</a></p>";
-        return;
-    }
+    $activityController->restoreActivityTopic($topic);
+    $claimTreeController = new Vada\Controller\ClaimTreeController($claimRepository, $topic);
+    $claimTreeController->displayClaimTree();
     ?>
-    <ul>
-        <?php
-        $root_claim = Database::getAllRootClaimIDs($topic_id);
-        foreach ($root_claim as $claim_id) {
-            sortclaims($claim_id);
-        }
-        $root_rivals = Database::getRootRivals($topic_id);
-        foreach ($root_rivals as $claim_id) {
-            sortclaimsRIVAL($claim_id);
-        }
-
-        ?>
-    </ul>
 </div>
 <?php include 'includes/page_bottom.php'; ?>
 <script src="assets/scripts/ajaxindex.js"></script>

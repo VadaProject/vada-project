@@ -1,224 +1,30 @@
 <?php
+require "vendor/autoload.php";
+
 /*
 This displays the argument in full detail and pushes any user interaction/submissions to add.php.
 */
-require_once 'functions/Database.php';
-require_once 'functions/sortClaims.php';
-use Database\Database;
+use Vada\Model\ClaimRepository;
+use Vada\Model\TopicRepository;
+use Vada\Model\Database;
+use Vada\View\ClaimDetails;
 
-function flagModalButton(string $supportMeans)
-{
-    ?>
-    <button class="openmodal myBtn" onclick="showFlagModal();">
-        <?php echo htmlspecialchars("Flag $supportMeans"); ?>
-    </button>
-<?php
-}
+$pdo = Database::connect();
+$claimRepository = new ClaimRepository($pdo);
+$topicRepository = new TopicRepository($pdo);
 
-function makeFlaggingModal(int $claim_id)
-{
-    ?>
-    <div class="modal myModal" id="flagModal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal(this);">&times;</span>
-            <iframe src="<?php echo "addflag.php?id=$claim_id"; ?>"></iframe>
-        </div>
-    </div>
-<?php }
-function makeSupportingModal(int $claim_id)
-{
-    ?>
-    <div class="modal myModal" id="supportModal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal(this);">&times;</span>
-            <iframe src="<?php echo "addsupport.php?id=$claim_id"; ?>"></iframe>
-        </div>
-    </div>
-<?php }
 
-function displayInference(object $claim)
-{
-    $FOS = 'flagging';
-    $claimIDFlagged = Database::getFlaggedClaim($claim->id);
-    $flaggedClaim = Database::getClaim($claimIDFlagged);
-    if (!isset($claimIDFlagged)) {
-        echo "<h2>Error: claim #{$claim->id} has no flagging relation set. This is probably a bug, please contact an administrator.</h2>";
-        return;
-    }
-    if (!isset($flaggedClaim)) {
-        echo "<h2>Error: claim #{$claim->id} flags claim #{$claimIDFlagged}, but that claim does not exist. This is probably a bug, please contact an administrator.</h2>";
-        return;
-    }
-    ?>
-    <table>
-        <tr>
-            <th>Thesis Statement (
-                <?php echo "<a href='?id=$claimIDFlagged'>#$claimIDFlagged</a>" ?>)
-            </th>
-            <td>
-                <span class="subject-display">
-                    <?php echo $flaggedClaim->subject; ?>
-                </span>
-                <span class="target-display">
-                    <?php echo $flaggedClaim->targetP; ?>
-                </span>.
-            </td>
-            <td>
-                <?php echo "<a class='btn' href='?id=$claimIDFlagged'>Flag Thesis</a>" ?>
-            </td>
-        </tr>
-        <tr>
-            <th>Reason Statement</th>
-            <td>
-                <span class="subject-display">
-                    <?php echo $claim->subject; ?>
-                </span>
-                <span class="reason-display">
-                    <?php echo $claim->reason; ?>
-                </span>.
-            </td>
-            <td rowspan="2">
-                <?php flagModalButton($claim->supportMeans); ?>
-            </td>
-        </tr>
-        <tr>
-            <th>Rule & Example Statement</th>
-            <td>
-                Whomever/Whatever
-                <span class="reason-display">
-                    <?php echo $claim->reason; ?>
-                </span>
-                <span class="target-display">
-                    <?php echo $flaggedClaim->targetP; ?>
-                </span>,
-                as in the case of
-                <span class="example-display">
-                    <?php echo $claim->example; ?>
-                </span>.
-            </td>
-        </tr>
-    </table>
-<?php
-}
-
-function displayTarka(object $claim)
-{ ?>
-    <p>ⓘ <i>Tarka</i> (<b>philosophical argument</b>) allows for supplementary
-        free-form discussion.</p>
-    <p>Please explain argument in the Disqus comments section below.</p>
-<?php
-}
-
-function makeLinkAnchor(string $href = '') {
-    if (!isset($href) || strlen($href) == 0) {
-        return;
-    }
-    if ($href == "Enter URL" || $href == "NA") {
-        // legacy placeholder values
-        return;
-    }
-    echo "<p>";
-    echo "<label>URL:</label> ";
-    echo "<a target='_blank' href='$href'?>$href</a>";
-    echo "</p>";
-}
-
-function displayTestimony(object $claim)
-{
-    $url = $claim->URL ?? $claim->citationURL ?? "";
-    ?>
-    <p><label>Transcription:</label>
-    <!-- TODO: style this -->
-    <textarea readonly
-    style="display: block; max-width: 100%; min-width: 100%; height: auto"><?php echo $claim->transcription; ?></textarea>
-    <p><label>Citation:</label>
-    <?php echo $claim->citation; ?>
-    </p>
-    <?php makeLinkAnchor($url); ?>
-</p>
-<?php }
-
-function displayPerception(object $claim)
-{
-    $url = $claim->URL ?? $claim->citationURL ?? "";
-    ?>
-    <p><label>Citation:</label>
-        <?php echo $claim->citation; ?>
-    </p>
-    <?php makeLinkAnchor($url); ?>
-    <p><label>Timestamp:</label>
-        <?php echo $claim->vidtimestamp; ?>
-    </p>
-<?php }
-
-function displaySupport(object $claim)
-{
-    echo '<h3>' . get_image('support') . '</h3>';
-    echo "<p><label>Support Means:</label> {$claim->supportMeans}</p>";
-    switch ($claim->supportMeans) {
-        case 'Inference':
-            displayInference($claim);
-            break;
-        case 'Tarka':
-            displayTarka($claim);
-            break;
-        case 'Perception':
-            displayPerception($claim);
-            break;
-        case 'Testimony':
-            displayTestimony($claim);
-            break;
-        default:
-            echo "<h3>Error: Claim #{$claim->id} has an invalid support means.<h3>";
-            return;
-    }
-    makeFlaggingModal($claim->id);
-    if ($claim->supportMeans !== "Inference" && $claim->supportMeans !== "Tarka") {
-        flagModalButton($claim->supportMeans);
-    }
-}
-
-function displayNotSupport(object $claim)
-{
-    ?>
-    <div>
-        <button class="btn" onclick="showFlagModal();">Flag Claim</button>
-        <button class="btn" onclick="showSupportModal();">Support Claim</button>
-    </div>
-    <?php makeFlaggingModal($claim->id); ?>
-    <?php makeSupportingModal($claim->id); ?>
-<?php
-}
 ?>
 <?php
-$claim_id = $_GET['id']; // get claim id from URL search tags
-$claim = Database::getClaim($claim_id);
+$claim_id = $_GET['cid']; // get claim id from URL search tags
+$claim = $claimRepository->getClaimByID($claim_id);
+$parent_claim = $claimRepository->getFlaggedClaim($claim_id);
 $PAGE_TITLE = "Claim #{$claim->display_id}";
 include 'includes/page_top.php'; ?>
 <main class="page-container">
     <?php
-    if (is_null($claim)) {
-        echo "<h2>Error: a claim with the ID #$claim_id does not exist.</h2>";
-        return;
-    } ?>
-    <?php echo "<a href='topic.php?id={$claim->topic_id}'>Back to topic</a>"; ?>
-    <h2>
-        <?php echo "Claim #{$claim->display_id}" ?>
-    </h2>
-    <?php
-    if ($claim->COS == 'claim') { ?>
-        <span class="subject-display">
-            <?php echo $claim->subject ?>
-        </span>
-        <span class="target-display">
-            <?php echo $claim->targetP ?>
-        </span>.
-    <?php }
-    if ($claim->COS == 'support') {
-        displaySupport($claim);
-    } else {
-        displayNotSupport($claim);
-    }
+    $claimDetails = new ClaimDetails($claim, $parent_claim);
+    $claimDetails->render();
     ?>
     </div>
     </div>

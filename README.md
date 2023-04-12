@@ -9,11 +9,15 @@ This repository holds the PHP files which make up the application's front-end.
 ### Initialize Apache web server
 
 1. Download and install [XAMPP](https://www.apachefriends.org/download.html) and [Composer](https://getcomposer.org/download/).
-1. Clone this repository into XAMPP's `htdocs/` folder and name the folder `directory`.
+1. Clone this repository into XAMPP's `htdocs/` folder and name the folder `vada`.
    - ```sh
      cd [xampp_root]/htdocs
-     git clone https://github.com/VadaProject/application.git directory
+     git clone https://github.com/VadaProject/application.git vada
      ```
+1. Run composer:
+   - ```sh
+      composer install
+      ```
 1. From XAMPP's control panel, start the Apache and MySQL servers.
 
 ### Initialize database

@@ -1,10 +1,18 @@
 <?php
+require "vendor/autoload.php";
 // handle database insertion, then render page.
+
 require "insert.php";
 
-require_once 'functions/supportingForm.php';
-require_once 'functions/Database.php';
-use Database\Database;
+
+use Vada\Model\ClaimRepository;
+use Vada\Model\TopicRepository;
+use Vada\Model\Database;
+use Vada\View\SupportingForm;
+
+$pdo = Database::connect();
+$claimRepository = new ClaimRepository($pdo);
+$topicRepository = new TopicRepository($pdo);
 
 ?>
 <!DOCTYPE html>
@@ -20,12 +28,12 @@ use Database\Database;
     </style>
 </head <body lang="en-US">
 <?php
-$claim_id = $_GET["id"];
+$claim_id = $_GET["cid"];
 if (!isset($claim_id)) {
     echo "<h2>Error: no claim ID given.</h2>";
     return;
 }
-$claim = Database::getClaim($claim_id);
+$claim = $claimRepository->getClaimByID($claim_id);
 if (is_null($claim)) {
     echo "<h2>Error: a claim with the ID #$claim_id does not exist.</h2>";
     return;
@@ -34,7 +42,7 @@ if ($claim->COS == "support") {
     echo "<h2>Error: claim $claim_id is a support and cannot be supported.</h2>";
     return;
 }
-$supportingForm = new SupportingForm\SupportingForm();
+$supportingForm = new SupportingForm();
 ?>
 <h2>Supporting claim #
     <?php echo $claim->display_id; ?>

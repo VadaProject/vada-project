@@ -496,7 +496,7 @@ div.scroll {
 	color: black;
 }
 
-/* Claim element */
+/* ClaimCard */
 
 .claim {
 	position: relative;
@@ -521,6 +521,10 @@ div.scroll {
 	margin-inline: auto;
 	width: fit-content;
 }
+.claim>*+* {
+	margin-top: 0.25rem;
+	margin-bottom: 0rem;
+}
 
 .claim img {
 	display: block;
@@ -532,7 +536,10 @@ div.scroll {
 /* These checkboxes are used to toggle claim visibility */
 .wrapper [type="radio"],
 .wrapper [type="checkbox"] {
-	display: none;
+	visibility: hidden;
+	height: 0px;
+	width: 0px;
+	position: absolute;
 }
 
 .claim_body {
@@ -562,58 +569,30 @@ p {
 	margin-bottom: 0.5em;
 }
 
-.claim>*+* {
-	margin-top: 0.25rem;
-	margin-bottom: 0rem;
-}
-
-.icon,
-.thesis {
+/* Defined in Icon */
+.heading {
 	text-transform: uppercase;
 	font-family: "League Spartan", sans-serif;
 	color: var(--text-color-heading);
-	font-size: 1.2em;
 }
-
-.thesis {
-	color: unset;
-	font-size: 1.8em;
-}
-
-.icon::after {
-	display: inline-block;
-	vertical-align: -0.08em;
-	padding-left: 0.25em;
-}
-
-.icon--flag::after {
-	content: url(../svg/flag.svg);
-}
-
-.icon--rivals {
+.heading--rivals {
 	color: #c0e;
 }
-
-.icon--rivals::after {
-	content: url(../svg/minimize-2.svg);
-	rotate: 45deg;
-}
-
-.icon--support::after {
-	content: url(../svg/thumbs-up.svg);
-}
-
-.icon--contested {
+.heading--contested {
 	color: #e00;
 }
-
-.icon--contested::after {
-	content: url(../svg/alert.svg);
+h2.heading {
+	font-size: 1.8rem;
+	margin-top: 1rem;
 }
-
-img.icon--rivals {
-	width: 100px;
-	height: auto;
+h3.heading {
+	margin-top: 0;
+	margin-bottom: unset;
+	font-size: 1.2rem;
+}
+.icon {
+	color: currentColor !important;
+	vertical-align: -0.08em; /* display on-line with text */
 }
 
 /* Form */
@@ -688,4 +667,31 @@ form label {
 
 .error {
 	color: red;
+}
+
+/* Topic list */
+
+.topics-list {
+	display: grid;
+	grid-gap: 0.5rem;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));;
+	list-style: none;
+	padding-inline-start: 0;
+}
+
+.topics-list__item {
+	background: var(--bg-color-3);
+	border: 1px solid var(--color-body-2);
+	padding: 1rem;
+}
+
+.topics-list__item__description {
+	display: block;
+	/* white-space: nowrap; */
+	text-overflow: ellipsis;
+	overflow: hidden;
+	height: 2rem;
+}
+.topics-list__item__description {
+
 }

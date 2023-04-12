@@ -1,7 +1,13 @@
 <?php
-require_once 'functions/supportingForm.php';
-require_once 'functions/Database.php';
-use Database\Database;
+require "vendor/autoload.php";
+use Vada\Model\ClaimRepository;
+use Vada\Model\TopicRepository;
+use Vada\Model\Database;
+use Vada\View\SupportingForm;
+
+$pdo = Database::connect();
+$claimRepository = new ClaimRepository($pdo);
+$topicRepository = new TopicRepository($pdo);
 
 // handle database insertion, then render page.
 require "insert.php";
@@ -21,17 +27,17 @@ require "insert.php";
 <body lang="en-US">
     <?php
     // the claim_id to support is read from a URL param.
-    $claim_id = $_GET["id"];
+    $claim_id = $_GET["cid"];
     if (!isset($claim_id)) {
         echo "<h2>Error: no claim ID given.</h2>";
         return;
     }
-    $claim = Database::getClaim($claim_id);
+    $claim = $claimRepository->getClaimByID($claim_id);
     if (is_null($claim)) {
         echo "<h2>Error: a claim with the ID #$claim_id does not exist.</h2>";
         return;
     }
-    $supportingForm = new SupportingForm\SupportingForm();
+    $supportingForm = new SupportingForm();
     ?>
     <h2>Flagging claim #
         <?php echo $claim->display_id; ?>

@@ -1,4 +1,7 @@
-<?php include 'includes/page_top.php'; ?>
+<?php
+require "vendor/autoload.php";
+
+include 'includes/page_top.php'; ?>
 <main class="page-container">
     <h2>User Guide</h2>
     <h3>Support Means</h3>

@@ -1,18 +1,24 @@
 <?php
-require_once 'functions/supportingForm.php';
-require_once 'functions/Database.php';
-use SupportingForm\SupportingForm;
-use Database\Database;
+require "vendor/autoload.php";
 
-$conn = db_connect();
+
+use Vada\Model\TopicRepository;
+use Vada\Model\Database;
+use Vada\Model\Topic;
+
+$pdo = Database::connect();
+$topicRepository = new TopicRepository($pdo);
 
 if (isset($_POST["name"])) {
     try {
-        $name = $_POST["name"];
-        $description = $_POST["description"] ?? null;
+        $topic = new Topic(
+            id: -1,
+            name: $_POST["name"],
+            description: $_POST["description"] ?? null
+        );
+        $topicRepository->insert($topic);
         echo "Inserted!";
-        $topic_id = Database::createNewTopic($name, $description);
-        header("Location: topic.php?id={$topic_id}");
+        header("Location: topic.php?tid={$topic->id}");
         exit;
     } catch (Exception $e) {
         error_log($e->getMessage());
@@ -31,11 +37,15 @@ require 'includes/page_top.php';
         <div>
             <div>
                 <label for="topic">Topic</label>
-                <input class="w-100" type="text" id="topicInput" name="name" placeholder="Enter topic name..." required maxlength="100">
+                <input class="w-100" type="text" id="topicInput" name="name"
+                    placeholder="Enter topic name..." required maxlength="100">
                 <label for="description">Description (optional)</label>
-                <input class="w-100" id="description" name="description" placeholder="Enter a short description of the topic..." maxlength="255">
+                <input class="w-100" id="description" name="description"
+                    placeholder="Enter a short description of the topic..."
+                    maxlength="255">
             </div>
-            <button class="btn-primary" type="submit" id="submit">Submit</button>
+            <button class="btn-primary" type="submit"
+                id="submit">Submit</button>
         </div>
     </form>
     <script src="assets/scripts/add.js?timestamp=20230219"></script>
