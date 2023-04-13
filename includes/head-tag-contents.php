@@ -1,4 +1,5 @@
 <?php
+global $PAGE_TITLE;
 switch (basename($_SERVER['SCRIPT_NAME'])) {
     case 'about.php':
         $CURRENT_PAGE = 'About';
