@@ -14,9 +14,10 @@ This repository holds the PHP files which make up the application's front-end.
      cd [xampp_root]/htdocs
      git clone https://github.com/VadaProject/application.git vada
      ```
-1. Run composer:
+1. Run Composer:
    - ```sh
-      composer install
+      composer install       # install dependencies
+      composer dump-autoload # create 
       ```
 1. From XAMPP's control panel, start the Apache and MySQL servers.
 
