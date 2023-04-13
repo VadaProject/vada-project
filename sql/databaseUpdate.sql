@@ -130,3 +130,10 @@ ALTER TABLE `Claim`
 CHANGE `claimID` `id` int AUTO_INCREMENT;
 ALTER TABLE `Flag`
 CHANGE `flagID` `id` int AUTO_INCREMENT;
+
+-- Add timestamp column --
+ALTER TABLE `Topic`
+ADD COLUMN `ts` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+-- Backport existing timestamps -- 
+UPDATE Topic
+SET ts = COALESCE((SELECT MIN(ts) FROM Claim WHERE Claim.topic_id = Topic.id), CURRENT_TIMESTAMP);
