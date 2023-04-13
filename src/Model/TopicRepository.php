@@ -42,8 +42,4 @@ class TopicRepository
         $topic->id = intval($this->conn->lastInsertId());
         return $topic;
     }
-    public function createNewTopic(string $name, string $description)
-    {
-
-    }
 }
