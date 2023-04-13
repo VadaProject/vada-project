@@ -6,11 +6,6 @@
     },
     "config": {
     },
-    "extra": {
-        "grumphp": {
-            "config-default-path": ".grumphp.yml.dist"
-        }
-    },
     "require": {
         "rivsen/hello-world": "^0.1.0"
     },
