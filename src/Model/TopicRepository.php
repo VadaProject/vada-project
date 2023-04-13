@@ -14,21 +14,21 @@ class TopicRepository
      */
     public function getTopicByID(int $topic_id)
     {
-        $stmt = $this->conn->prepare('SELECT * FROM Topic WHERE id = :ID LIMIT 1');
+        $stmt = $this->conn->prepare('SELECT id, name, description, ts FROM Topic WHERE id = :ID LIMIT 1');
         $stmt->bindParam("ID", $topic_id);
         $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return new Topic($row["id"], $row["name"], $row["description"]);
+        $row = $stmt->fetch(PDO::FETCH_NUM);
+        return new Topic(...$row);
     }
     /**
      * @return Topic[] All topics available in the database.
      */
     public function getAllTopics()
     {
-        $stmt = $this->conn->prepare('SELECT * FROM Topic');
+        $stmt = $this->conn->prepare('SELECT id, name, description, ts FROM Topic ORDER BY `ts` DESC');
         $stmt->execute();
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return array_map(fn($row) => new Topic($row["id"], $row["name"], $row["description"]), $rows);
+        $rows = $stmt->fetchAll(PDO::FETCH_NUM);
+        return array_map(fn($row) => new Topic(...$row), $rows);
     }
 
     /**
