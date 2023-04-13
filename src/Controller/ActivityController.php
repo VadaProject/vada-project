@@ -1,7 +1,6 @@
 <?php
 namespace Vada\Controller;
 
-use PDO;
 use Vada\Model\ClaimRepository;
 use Vada\Model\Topic;
 
@@ -53,18 +52,22 @@ class ActivityController
      */
     private function restoreActivity($claim_id)
     {
+        $claim = $this->claimRepository->getClaimByID($claim_id);
+        $hasRival = isset($claim->rival_id);
         // grabs supports for initial claim NUMBER ONE ON DIAGRAM, RED
-        $supports = $this->claimRepository->getSupportingClaims($claim_id);
+        $supports = $this->claimRepository->getSupports($claim_id);
         if (count($supports) == 0) {
             if (
                 !$this->claimRepository->hasActiveFlags($claim_id) &&
-                !$this->claimRepository->hasRival($claim_id)
+                !$hasRival
             ) {
                 $this->claimRepository->setClaimActive($claim_id, true);
             }
         }
         $hasActiveSupport = false;
+        // run restoreActivity on each support
         foreach ($supports as $support_id) {
+            $support = $this->claimRepository->getClaimByID($support_id);
             // $claim_id is the original claim. $support_id is the support.
             // check to see if all the supports are inactive.
             // OR if ONE support is active.
@@ -74,9 +77,8 @@ class ActivityController
             if (
                 $this->claimRepository->isClaimActive($support_id) &&
                 !$this->claimRepository->hasActiveFlags($claim_id) &&
-                !$this->claimRepository->hasRival($claim_id)
+                !$hasRival
             ) {
-                // $this->claimRepository->setClaimActive($claim_id, true);
                 $hasActiveSupport = true;
             }
             $this->restoreActivity($support_id);
@@ -84,33 +86,24 @@ class ActivityController
             // /////////////////////////////////////////////////////// NUMBER TWO ON DIAGRAM, ORANGE
             // below grabs all flaggers for the support and JUST the support. not the claims.  - act3, s3, activity3
 
-            // this is for rivals
-            foreach ($this->claimRepository->getThesisRivals($support_id) as $rival_id) {
-                $this->restoreActivityRIVAL($rival_id);
-                // below should get the companion rival
-                $companion_rivals = $this->claimRepository->getThesisRivals($rival_id);
-                foreach ($companion_rivals as $companion_rivals) {
-                    $this->restoreActivityRIVAL($companion_rivals);
-                }
+            // Handle rivals
+            if ($support->rival_id) {
+                $this->restoreActivityRIVAL($support_id);
+                $this->restoreActivityRIVAL($support->rival_id);
             }
-            $non_rivaling_flags = $this->claimRepository->getNonRivalFlags($support_id);
-            foreach ($non_rivaling_flags as $active_flag_id) {
-                $this->restoreActivity($active_flag_id);
-
+            $flags = $this->claimRepository->getFlagsAndSupports($support_id);
+            foreach ($flags as $flag_id) {
+                $this->restoreActivity($flag_id);
                 // If the flag is active, then the support is inactive.
-                if ($this->claimRepository->isClaimActive($active_flag_id)) {
+                if ($this->claimRepository->isClaimActive($flag_id)) {
                     $this->claimRepository->setClaimActive($support_id, false);
                 }
             }
         }
-        $isSupport = $this->claimRepository->getClaimByID($claim_id)->COS == "support";
+        $isSupport = $claim->COS == "support";
 
-        // this needs to be checking thesis flags for root claims
-        // GRABS ALL FLAGS OF ORIGINAL CLAIM ---------------------------- BLUE ON DIAGRAM, 3
-        // grabs all flaggers for non-rival root claims
-        // all tooearly or toolate //$activity
-        // *AND* all support flags because while it doesn't occur for the first run through, when a support is put into the parameters, it'll check all reason/rule flags
-        $flags = $this->claimRepository->getThesisFlagsNotRival($claim_id);
+        // run restoreActivity on each flag.
+        $flags = $this->claimRepository->getFlags($claim_id);
         $hasActiveFlag = false;
         foreach ($flags as $flag_id) {
             $this->restoreActivity($flag_id);
@@ -118,11 +111,12 @@ class ActivityController
                 $this->claimRepository->setClaimActive($claim_id, false);
                 $hasActiveFlag = true;
             }
-            foreach ($this->claimRepository->getThesisRivals($claim_id) as $thesis_rival_id) {
-                $this->restoreActivityRIVAL($thesis_rival_id);
+            // Handle rivals
+            if ($claim->rival_id) {
+                $this->restoreActivityRIVAL($support->rival_id);
             }
         }
-        if (!$this->claimRepository->hasRival($claim_id)) {
+        if (!$hasRival) {
             $this->claimRepository->setClaimActive(
                 $claim_id,
                 ($isSupport || $hasActiveSupport) && !$hasActiveFlag
@@ -136,39 +130,35 @@ class ActivityController
      */
     private function restoreActivityRIVAL($claim_id)
     {
+        $claim = $this->claimRepository->getClaimByID($claim_id);
         // Finds the flagger, and continues the recursion by invoking
         // restoreActivity
         // set of all too-early and too-late
         // looks for normal non-rival flags for this rivaling claim.
-        foreach ($this->claimRepository->getNonRivalFlags($claim_id) as $non_rival_flag_id) {
-            $this->restoreActivity($non_rival_flag_id);
+        foreach ($this->claimRepository->getFlagsAndSupports($claim_id) as $flagsupport_id) {
+            $this->restoreActivity($flagsupport_id);
         }
         // check active status of flagging claims OF RIVAL COMPANION
         // finds the companion
-        $rivaling = '';
-        foreach ($this->claimRepository->getThesisRivals($claim_id) as $thesis_rival_id) {
-            // found rival pair!
-            $rivaling = $thesis_rival_id;
-            // $rivaling is Rival B.
-        }
+        $rival_id = $claim->rival_id;
         // recurse. run restoreActivity on all flags and supports (not thesis rivals).
-        foreach ($this->claimRepository->getNonRivalFlags($rivaling) as $rivals_flag_id) {
+        foreach ($this->claimRepository->getFlagsAndSupports($rival_id) as $rivals_flag_id) {
             $this->restoreActivity($rivals_flag_id);
         }
         // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
         // rivalB : needs to be active AND it doesn't have a too early / too late AND needs at least one support itself
         $isChallengedThis = !$this->claimRepository->hasActiveSupports($claim_id) || $this->claimRepository->hasActiveFlagsNonRival($claim_id);
-        $isChallengedRival = !$this->claimRepository->hasActiveSupports($rivaling) || $this->claimRepository->hasActiveFlagsNonRival($rivaling);
+        $isChallengedRival = !$this->claimRepository->hasActiveSupports($rival_id) || $this->claimRepository->hasActiveFlagsNonRival($rival_id);
 
         if ($isChallengedThis === $isChallengedRival) {
             $this->claimRepository->setClaimActive($claim_id, false);
-            $this->claimRepository->setClaimActive($rivaling, false);
+            $this->claimRepository->setClaimActive($rival_id, false);
         } elseif (!$isChallengedThis) {
             $this->claimRepository->setClaimActive($claim_id, true);
-            $this->claimRepository->setClaimActive($rivaling, false);
+            $this->claimRepository->setClaimActive($rival_id, false);
         } else {
             $this->claimRepository->setClaimActive($claim_id, false);
-            $this->claimRepository->setClaimActive($rivaling, true);
+            $this->claimRepository->setClaimActive($rival_id, true);
         }
     }
 }

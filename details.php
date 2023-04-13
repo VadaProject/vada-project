@@ -13,12 +13,11 @@ $pdo = Database::connect();
 $claimRepository = new ClaimRepository($pdo);
 $topicRepository = new TopicRepository($pdo);
 
-
 ?>
 <?php
 $claim_id = $_GET['cid']; // get claim id from URL search tags
 $claim = $claimRepository->getClaimByID($claim_id);
-$parent_claim = $claimRepository->getFlaggedClaim($claim_id);
+$parent_claim = $claimRepository->getClaimByID($claim->flagged_id);
 $PAGE_TITLE = "Claim #{$claim->display_id}";
 include 'includes/page_top.php'; ?>
 <main class="page-container">

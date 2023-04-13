@@ -137,3 +137,20 @@ ADD COLUMN `ts` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
 -- Backport existing timestamps -- 
 UPDATE Topic
 SET ts = COALESCE((SELECT MIN(ts) FROM Claim WHERE Claim.topic_id = Topic.id), CURRENT_TIMESTAMP);
+
+-- Step 1: Add columns to Claim table
+ALTER TABLE Claim
+ADD COLUMN flag_type VARCHAR(50),
+ADD COLUMN flagged_id INT,
+ADD COLUMN rival_id INT,
+ADD COLUMN isRootRival BOOLEAN NOT NULL DEFAULT FALSE;
+
+-- Step 2: Update Claim table with data from existing tables
+UPDATE Claim
+LEFT JOIN Flag ON Claim.id = Flag.claimIDFlagger AND Flag.flagType != 'Thesis Rival'
+LEFT JOIN Flag RivalFlag ON Claim.id = RivalFlag.claimIDFlagger AND RivalFlag.flagType = 'Thesis Rival'
+SET Claim.flag_type = LEFT(Flag.flagType, 50),
+    Claim.flagged_id = Flag.claimIDFlagged,
+    Claim.rival_id = RivalFlag.claimIDFlagged,
+    Claim.isRootRival = COALESCE(RivalFlag.isRootRival, FALSE);
+

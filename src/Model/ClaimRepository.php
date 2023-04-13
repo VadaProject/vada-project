@@ -18,23 +18,44 @@ class ClaimRepository
     }
 
     /**
-     * @param int $claim_id
+     * @param int|null $claim_id
      * @return object|null A claim object
      */
-    public function getClaimByID(int $claim_id)
+    public function getClaimByID(int|null $claim_id)
     {
+        if (!isset($claim_id)) {
+            return null;
+        }
         // TODO: make this more readable. 
         // inject an extra column, with the display_id
-        $stmt = $this->conn->prepare(
-            'SELECT c.*, sub.display_id FROM Claim c JOIN ( SELECT topic_id, id, ROW_NUMBER() OVER (PARTITION BY topic_id ORDER BY id) AS display_id FROM Claim ) sub ON c.id = sub.id WHERE c.id = ?'
-        );
+        $stmt = $this->conn->prepare('SELECT
+        c.*,
+        display.display_id
+    FROM
+        Claim c
+        JOIN (
+            SELECT
+                topic_id,
+                id,
+                ROW_NUMBER() OVER (
+                    PARTITION BY
+                        topic_id
+                    ORDER BY
+                        id
+                ) AS display_id
+            FROM
+                Claim
+        ) display ON c.id = display.id
+    WHERE
+        c.id = ?;');
         $stmt->bindParam(1, $claim_id);
         if (!$stmt->execute()) {
             error_log($this->conn->error);
             $this->conn->rollback();
             exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
         }
-        return $stmt->fetchObject();
+        $claim = $stmt->fetchObject();
+        return $claim ? $claim : null;
     }
     /**
      * @param int $claim_id
@@ -66,45 +87,6 @@ class ClaimRepository
             exit(htmlspecialchars("A database error occured while updating claim #$claim_id."));
         }
     }
-    /**
-     * @param int $claim_id
-     * @return object|null The claim which is flagged by $claim_id
-     */
-    public function getFlaggedClaim(int $claim_id)
-    {
-        $stmt = $this->conn->prepare(
-            'SELECT DISTINCT * from Flag WHERE claimIDFlagger = ?'
-        );
-        $stmt->bindParam(1, $claim_id);
-        $stmt->execute();
-        $claim_id = $stmt->fetchColumn();
-        if (!isset($claim_id)) {
-            return;
-        }
-        $claim = $this->getClaimByID($claim_id);
-        if (!$claim) {
-            return;
-        }
-        return $claim;
-    }
-    /**
-     * Gets the set of claims which are flagged by the current claim.
-     *
-     * @param int $claim_id Current claim ID
-     * @return array List of claim IDs
-     */
-    public function getFlaggedClaims(int $claim_id)
-    {
-        $stmt = $this->conn->prepare(
-            'SELECT DISTINCT * from Flag WHERE claimIDFlagger = ?'
-        );
-        $stmt->bindParam(1, $claim_id);
-        if (!$stmt->execute()) {
-            error_log($this->conn->error);
-            exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
-        }
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
     // look for normal non-rival flags for this rivaling claim.
     /**
      * Returns the ID of each non-rival claim which flags $claim_id
@@ -112,38 +94,15 @@ class ClaimRepository
      * @param int $claim_id
      * @return int[]
      */
-    public function getNonRivalFlags(int $claim_id)
+    public function getFlagsAndSupports(int $claim_id)
     {
-        $query = "SELECT DISTINCT claimIDFlagger
-        from Claim, Flag where claimIDFlagged = ?
-        AND flagType NOT LIKE 'Thesis Rival'";
+        $query = "SELECT DISTINCT id FROM Claim WHERE flagged_id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $claim_id);
         if (!$stmt->execute()) {
             error_log($this->conn->error);
             exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
         }
-
-        return $stmt->fetchAll(PDO::FETCH_COLUMN);
-    }
-    /**
-     * Gets the set of Thesis Rivals which flag the current claim.
-     *
-     * @param int $claim_id Current claim ID
-     * @return int[] List of claim IDs
-     */
-    public function getThesisRivals(int $claim_id)
-    {
-        $query = "SELECT DISTINCT claimIDFlagger
-        from Flag where claimIDFlagged = ?
-        AND flagType LIKE 'Thesis Rival'";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $claim_id);
-        if (!$stmt->execute()) {
-            error_log($this->conn->error);
-            exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
-        }
-
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
     /**
@@ -152,31 +111,30 @@ class ClaimRepository
      * @param int $claim_id Current claim ID
      * @return int[] List of claim IDs
      */
-    public function getFlagsNotSupporting(int $claim_id)
+    public function getFlagsAndRivals(int $claim_id)
     {
-        $query = "SELECT DISTINCT claimIDFlagger
-        from Flag WHERE claimIDFlagged = ?
-        and flagType NOT LIKE 'supporting'";
+        $query = "SELECT DISTINCT id
+        from Claim WHERE (flagged_id = :id OR rival_id = :id)
+        and flag_type NOT LIKE 'supporting'";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $claim_id);
+        $stmt->bindParam(":id", $claim_id);
         if (!$stmt->execute()) {
             error_log($this->conn->error);
             exit(htmlspecialchars("A database error occured while querying claim #$claim_id."));
         }
-
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
     /**
-     * Gets all Support claims that flag the current claim.
+     * Gets the list of claims which support this claim.
      *
      * @param int $claim_id Current claim ID
      * @return int[] List of claim IDs
      */
-    public function getSupportingClaims(int $claim_id)
+    public function getSupports(int $claim_id)
     {
-        $query = "SELECT DISTINCT claimIDFlagger
-        from Flag WHERE claimIDFlagged = ?
-        and flagType LIKE 'supporting'";
+        $query = "SELECT DISTINCT id
+        from Claim WHERE flagged_id = ?
+        and flag_type LIKE 'supporting'";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $claim_id);
         if (!$stmt->execute()) {
@@ -186,15 +144,14 @@ class ClaimRepository
         return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
     /**
-     * Gets all flags that aren't Supports or Thesis Rivals.
+     * Gets the id of each claim which flags the claim. This is specifically flags inserted via the "Flag Claim" UI. NOT including "supports" or thesis rivals.
      * @return int[] The claim_id of each flag.
      */
-    public function getThesisFlagsNotRival(int $claim_id)
+    public function getFlags(int $claim_id)
     {
-        // TODO: what a stupid name
-        $query = "SELECT DISTINCT claimIDFlagger
-        from Flag
-        WHERE claimIDFlagged = ? and flagType NOT LIKE 'Thesis Rival' and flagType NOT LIKE 'supporting'";
+        $query = "SELECT DISTINCT id
+        from Claim
+        WHERE flagged_id = ? and flag_type NOT LIKE 'Thesis Rival' and flag_type NOT LIKE 'supporting'";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $claim_id);
         if (!$stmt->execute()) {
@@ -211,7 +168,11 @@ class ClaimRepository
      */
     public function hasActiveSupports(int $claim_id)
     {
-        $query = "SELECT EXISTS (SELECT COUNT(*) as total FROM Flag WHERE claimIDFlagged = ? AND flagType = 'supporting')";
+        $query = "SELECT EXISTS (SELECT id
+            FROM Claim
+            WHERE flag_type = 'supporting'
+            AND flagged_id = ?
+            AND active = true)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $claim_id);
         if (!$stmt->execute()) {
@@ -228,8 +189,8 @@ class ClaimRepository
      */
     public function getRootClaimsByTopic(Topic $topic)
     {
-        $query = 'SELECT DISTINCT id from Claim, Flag
-        WHERE topic_id = ? AND id NOT IN (SELECT DISTINCT claimIDFlagger FROM Flag)';
+        $query = 'SELECT DISTINCT id from Claim
+        WHERE topic_id = ? AND flagged_id IS NULL AND rival_id IS NULL';
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $topic->id);
         if (!$stmt->execute()) {
@@ -247,8 +208,7 @@ class ClaimRepository
     public function getRootRivals(Topic $topic)
     {
         $query = 'SELECT DISTINCT Claim.id from Claim
-        JOIN Flag ON Flag.claimIDFlagger = Claim.id
-        WHERE Claim.topic_id = ? AND Flag.isRootRival = 1';
+        WHERE topic_id = ? AND isRootRival = true';
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $topic->id);
         if (!$stmt->execute()) {
@@ -265,9 +225,8 @@ class ClaimRepository
      */
     public function getAllThesisRivals(Topic $topic)
     {
-        $query = 'SELECT DISTINCT Claim.id from Claim
-        JOIN Flag ON Flag.claimIDFlagger = Claim.id
-        WHERE Claim.topic_id = ? AND Flag.flagType LIKE "Thesis Rival"';
+        $query = 'SELECT DISTINCT id from Claim
+        WHERE topic_id = ? AND rival_id IS NOT NULL';
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $topic->id);
         $stmt->execute();
@@ -294,12 +253,15 @@ class ClaimRepository
         int $flagged_id, int $flagging_id, string $flagType, bool $isRootRival = false
     ) {
         $flag_stmt = $this->conn->prepare(
-            "INSERT INTO Flag(claimIDFlagged, claimIDFlagger, flagType, isRootRival)
-            VALUES(:flagged_id, :flagging_id, :flagType, :isRootRival)"
+            "UPDATE Claim
+            SET flag_type = :flag_type,
+            flagged_id = :flagged_id,
+            isRootRival = :isRootRival
+            WHERE id = :flagging_id;"
         );
         $flag_stmt->bindValue(":flagged_id", $flagged_id, PDO::PARAM_INT);
         $flag_stmt->bindValue(":flagging_id", $flagging_id, PDO::PARAM_INT);
-        $flag_stmt->bindValue(":flagType", $flagType, PDO::PARAM_STR);
+        $flag_stmt->bindValue(":flag_type", $flagType, PDO::PARAM_STR);
         $flag_stmt->bindValue(":isRootRival", $isRootRival, PDO::PARAM_BOOL);
         if (!$flag_stmt->execute()) { // fail
             echo 'query error: ' . $flag_stmt->errorInfo()[2];
@@ -339,7 +301,9 @@ class ClaimRepository
     public function isRootClaim(int $claim_id)
     {
         $is_root = false;
-        $stmt5 = $this->conn->prepare('SELECT EXISTS(SELECT DISTINCT id FROM Claim WHERE id = ? AND id NOT IN (SELECT DISTINCT claimIDFlagger FROM Flag));');
+        $stmt5 = $this->conn->prepare(
+            'SELECT EXISTS(SELECT DISTINCT id FROM Claim WHERE id = ? AND id NOT IN (SELECT DISTINCT flagged_id FROM Claim));'
+        );
         $stmt5->bindParam(1, $claim_id);
         $stmt5->bindColumn(1, $is_root);
         $stmt5->execute();
@@ -349,7 +313,7 @@ class ClaimRepository
     public function hasActiveFlags(int $claim_id)
     {
         // TODO: this operation could probably be written as a single database query, using joins...
-        $result = $this->getFlagsNotSupporting($claim_id);
+        $result = $this->getFlagsAndRivals($claim_id);
         foreach ($result as $flaggerID) {
             $flagger = $this->getClaimByID($flaggerID);
             if ($flagger->active == 1) {
@@ -367,7 +331,7 @@ class ClaimRepository
      */
     public function hasActiveFlagsNonRival(int $claim_id)
     {
-        $flaggers = $this->getThesisFlagsNotRival($claim_id);
+        $flaggers = $this->getFlags($claim_id);
         foreach ($flaggers as $flaggerID) {
             $flagger = $this->getClaimByID($flaggerID);
             if ($flagger && $flagger->active == 1) {
@@ -375,15 +339,5 @@ class ClaimRepository
             }
         }
         return false;
-    }
-
-    /**
-     * @param int $claim_id The claim to check.
-     * @return bool Returns true if a claim has an ACTIVE thesis rival
-     */
-    public function hasRival($claim_id)
-    {
-        $thesis_rivals = $this->getThesisRivals($claim_id);
-        return count($thesis_rivals) > 0;
     }
 }
