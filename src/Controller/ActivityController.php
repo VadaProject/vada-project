@@ -2,7 +2,6 @@
 namespace Vada\Controller;
 
 use Vada\Model\ClaimRepository;
-use Vada\Model\Topic;
 
 /** 
  * This class implements business logic for processing whether a Claim is considered "contested" (active = false) or "uncontested" (active = true).
@@ -19,13 +18,12 @@ class ActivityController
     /**
      * For the given topic_id, recalculate claim activity.
      */
-    public function restoreActivityTopic(Topic $topic)
+    public function restoreActivityTopic(int $topic_id)
     {
-        $topic_id = $topic->id;
         // Recalculate activity relationships
-        $root_claim = $this->claimRepository->getRootClaimsByTopic($topic);
-        $thesis_rivals = $this->claimRepository->getAllThesisRivals($topic);
-        $root_rivals = $this->claimRepository->getRootRivals($topic);
+        $root_claim = $this->claimRepository->getRootClaimsByTopic($topic_id);
+        $thesis_rivals = $this->claimRepository->getAllThesisRivals($topic_id);
+        $root_rivals = $this->claimRepository->getRootRivals($topic_id);
         for ($i = 0; $i < 2; $i++) {
             // NOTE: we run this whole routine twice because some flagging relationships take two iterations to fully resolve.
             // weird issue that should be fixed.
@@ -58,7 +56,7 @@ class ActivityController
         $supports = $this->claimRepository->getSupports($claim_id);
         if (count($supports) == 0) {
             if (
-                !$this->claimRepository->hasActiveFlags($claim_id) &&
+                !$this->claimRepository->hasActiveFlagsOrRivals($claim_id) &&
                 !$hasRival
             ) {
                 $this->claimRepository->setClaimActive($claim_id, true);
@@ -76,7 +74,7 @@ class ActivityController
             // we only need one to reactivate the claim.
             if (
                 $this->claimRepository->isClaimActive($support_id) &&
-                !$this->claimRepository->hasActiveFlags($claim_id) &&
+                !$this->claimRepository->hasActiveFlagsOrRivals($claim_id) &&
                 !$hasRival
             ) {
                 $hasActiveSupport = true;
@@ -147,8 +145,8 @@ class ActivityController
         }
         // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
         // rivalB : needs to be active AND it doesn't have a too early / too late AND needs at least one support itself
-        $isChallengedThis = !$this->claimRepository->hasActiveSupports($claim_id) || $this->claimRepository->hasActiveFlagsNonRival($claim_id);
-        $isChallengedRival = !$this->claimRepository->hasActiveSupports($rival_id) || $this->claimRepository->hasActiveFlagsNonRival($rival_id);
+        $isChallengedThis = !$this->claimRepository->hasActiveSupports($claim_id) || $this->claimRepository->hasActiveFlags($claim_id);
+        $isChallengedRival = !$this->claimRepository->hasActiveSupports($rival_id) || $this->claimRepository->hasActiveFlags($rival_id);
 
         if ($isChallengedThis === $isChallengedRival) {
             $this->claimRepository->setClaimActive($claim_id, false);

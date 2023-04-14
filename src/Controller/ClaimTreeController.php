@@ -8,17 +8,17 @@ use Vada\View\ClaimCard;
 class ClaimTreeController
 {
     private ClaimRepository $claimRepository;
-    private Topic $topic;
+    private int $topic_id;
 
-    public function __construct(ClaimRepository $claimRepository, Topic $topic)
+    public function __construct(ClaimRepository $claimRepository, int $topic_id)
     {
         $this->claimRepository = $claimRepository;
-        $this->topic = $topic;
+        $this->topic_id = $topic_id;
     }
     // TODO: this logic should be split into separate "claim tree getter" and claim tree renderer.
     public function displayClaimTree() {
-        $root_claims = $this->claimRepository->getRootClaimsByTopic($this->topic);
-        $root_rivals = $this->claimRepository->getRootRivals($this->topic);
+        $root_claims = $this->claimRepository->getRootClaimsByTopic($this->topic_id);
+        $root_rivals = $this->claimRepository->getRootRivals($this->topic_id);
         if (count($root_claims) == 0 && count($root_rivals) == 0) {
             echo "<p>Topic is empty.</a></p>";
             return;
@@ -48,8 +48,8 @@ class ClaimTreeController
         }
         // has rival?
         if (isset($claim->rival_id)) {
-            $this->sortClaimsRival($claim->rival_id);
             $this->sortClaimsRival($claim->id);
+            $this->sortClaimsRival($claim->rival_id);
             return;
         }
         echo "<li>";

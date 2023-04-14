@@ -6,15 +6,16 @@ use Vada\Model\TopicRepository;
 use Vada\Model\Database;
 use Vada\Model\Topic;
 
-$pdo = Database::connect();
-$topicRepository = new TopicRepository($pdo);
+$db = Database::connect();
+$topicRepository = new TopicRepository($db);
 
 if (isset($_POST["name"])) {
     try {
         $topic = new Topic(
             id: -1,
             name: $_POST["name"],
-            description: $_POST["description"] ?? null
+            description: $_POST["description"] ?? null,
+            ts: "now"
         );
         $topicRepository->insert($topic);
         echo "Inserted!";

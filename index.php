@@ -5,8 +5,8 @@ namespace Vada;
 
 require "vendor/autoload.php";
 
-$pdo = Model\Database::connect();
-$topicRepository = new Model\TopicRepository($pdo);
+$db = Model\Database::connect();
+$topicRepository = new Model\TopicRepository($db);
 ?>
 <?php require 'includes/page_top.php'; ?>
 <main class="page-container">

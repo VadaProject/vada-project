@@ -9,20 +9,27 @@ use Vada\Model\TopicRepository;
 use Vada\Model\Database;
 use Vada\View\ClaimDetails;
 
-$pdo = Database::connect();
-$claimRepository = new ClaimRepository($pdo);
-$topicRepository = new TopicRepository($pdo);
+$db = Database::connect();
+$claimRepository = new ClaimRepository($db);
+$topicRepository = new TopicRepository($db);
 
 ?>
 <?php
-$claim_id = $_GET['cid']; // get claim id from URL search tags
+if (!isset($_GET['cid'])) {
+    exit("Error: missing URl param 'cid'.");
+}
+$claim_id = intval($_GET['cid']); // get claim id from URL search tags
 $claim = $claimRepository->getClaimByID($claim_id);
-$parent_claim = $claimRepository->getClaimByID($claim->flagged_id);
+if (!isset($claim)) {
+    exit("Error: claim $claim_id does not exist.");
+}
+$parent_claim = $claimRepository->getClaimByID($claim->flagged_id ?? null);
 $PAGE_TITLE = "Claim #{$claim->display_id}";
+$claimDetails = new ClaimDetails($claim, $parent_claim);
+
 include 'includes/page_top.php'; ?>
 <main class="page-container">
     <?php
-    $claimDetails = new ClaimDetails($claim, $parent_claim);
     $claimDetails->render();
     ?>
     </div>

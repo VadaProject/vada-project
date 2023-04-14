@@ -8,14 +8,14 @@ class Topic
     public int $id;
     public string $name;
     public string|null $description;
-    public \DateTime $dt;
+    public \DateTime $ts;
     
-    public function __construct(int $id = -1, string $name, string $description = null, string $dt)
+    public function __construct(int $id = -1, string $name, string $description = null, string $ts = null)
     {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
-        $this->dt = new \DateTime($dt);
+        $this->ts = new \DateTime($ts);
     }
 
     public function hasDescription()

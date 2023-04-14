@@ -3,17 +3,18 @@ require "vendor/autoload.php";
 
 use \Vada\Model\Database;
 
-$pdo = Database::connect();
-$claimRepository = new Vada\Model\ClaimRepository($pdo);
-$topicRepository = new Vada\Model\TopicRepository($pdo);
+$db = Database::connect();
+$claimRepository = new Vada\Model\ClaimRepository($db);
+$topicRepository = new Vada\Model\TopicRepository($db);
 $activityController = new Vada\Controller\ActivityController($claimRepository);
 
 if (!isset($_GET['tid'])) {
-    exit("Error: ID not given.");
+    exit("Error: url param `tid` not set.");
 }
-$topic = $topicRepository->getTopicByID($_GET['tid']);
+$topic_id = intval($_GET['tid']);
+$topic = $topicRepository->getTopicByID($topic_id);
 if (!isset($topic)) {
-    exit("Error: ID does not exist");
+    exit("Error: topic #$topic_id does not exist");
 }
 
 $PAGE_TITLE = "Topic: {$topic->name}";
@@ -33,18 +34,18 @@ $PAGE_TITLE = "Topic: {$topic->name}";
     <?php
     if ($topic->hasDescription()) { ?>
         <p style='max-width: 50rem; margin-inline: auto;'><b>Description:</b>
-        <?php echo htmlspecialchars($topic->description ?? "(no description)"); ?>
-    </p>
-    <?php
+            <?php echo htmlspecialchars($topic->description ?? "(no description)"); ?>
+        </p>
+        <?php
     }
     ?>
     <p>
         <a class="btn btn-primary"
-        href="add.php?tid=<?php echo $topic->id; ?>">Add New Claim</a>
+            href="add.php?tid=<?php echo $topic->id; ?>">Add New Claim</a>
     </p>
     <?php
-    $activityController->restoreActivityTopic($topic);
-    $claimTreeController = new Vada\Controller\ClaimTreeController($claimRepository, $topic);
+    $activityController->restoreActivityTopic($topic->id);
+    $claimTreeController = new Vada\Controller\ClaimTreeController($claimRepository, $topic->id);
     $claimTreeController->displayClaimTree();
     ?>
 </div>

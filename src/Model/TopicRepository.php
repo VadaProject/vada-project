@@ -1,23 +1,27 @@
 <?php
 namespace Vada\Model;
-use PDO;
+
+use \ParagonIE\EasyDB\EasyDB;
 
 class TopicRepository
 {
-    private $conn;
-    public function __construct(\PDO $conn)
+    private EasyDB $db;
+    public function __construct(EasyDB $db)
     {
-        $this->conn = $conn;
+        $this->db = $db;
     }
     /**
-     * @return Topic|null The topic with the given ID
+     * @return Topic|null The topic with the given ID, or null if one does not exist.
      */
     public function getTopicByID(int $topic_id)
     {
-        $stmt = $this->conn->prepare('SELECT id, name, description, ts FROM Topic WHERE id = :ID LIMIT 1');
-        $stmt->bindParam("ID", $topic_id);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_NUM);
+        $row = $this->db->row(
+            'SELECT id, name, description, ts FROM Topic WHERE id = :id LIMIT 1',
+            $topic_id
+        );
+        if (!$row) {
+            return null;
+        }
         return new Topic(...$row);
     }
     /**
@@ -25,21 +29,22 @@ class TopicRepository
      */
     public function getAllTopics()
     {
-        $stmt = $this->conn->prepare('SELECT id, name, description, ts FROM Topic ORDER BY `ts` DESC');
-        $stmt->execute();
-        $rows = $stmt->fetchAll(PDO::FETCH_NUM);
+        $rows = $this->db->run(
+            'SELECT id, name, description, ts FROM Topic ORDER BY `ts` DESC'
+        );
         return array_map(fn($row) => new Topic(...$row), $rows);
     }
 
     /**
      * Inserts the given topic into the database.
      */
-    public function insert(Topic $topic) {
-        $stmt = $this->conn->prepare("INSERT INTO Topic(name, description) VALUES (?, ?)");
-        $stmt->bindValue(1, $topic->name);
-        $stmt->bindValue(2, $topic->description);
-        $stmt->execute();
-        $topic->id = intval($this->conn->lastInsertId());
+    public function insert(Topic $topic)
+    {
+        $id = $this->db->insertReturnID("Topic", [
+            "name" => $topic->name,
+            "description" => $topic->description
+        ]);
+        $topic->id = intval($id);
         return $topic;
     }
 }

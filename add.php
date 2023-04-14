@@ -6,9 +6,9 @@ use Vada\Model\ClaimRepository;
 use Vada\Model\TopicRepository;
 use Vada\Model\Database;
 
-$pdo = Database::connect();
-$claimRepository = new ClaimRepository($pdo);
-$topicRepository = new TopicRepository($pdo);
+$db = Database::connect();
+$claimRepository = new ClaimRepository($db);
+$topicRepository = new TopicRepository($db);
 
 // handle database insertion, then render page.
 require "insert.php";

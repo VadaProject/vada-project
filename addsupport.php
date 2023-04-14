@@ -10,9 +10,9 @@ use Vada\Model\TopicRepository;
 use Vada\Model\Database;
 use Vada\View\SupportingForm;
 
-$pdo = Database::connect();
-$claimRepository = new ClaimRepository($pdo);
-$topicRepository = new TopicRepository($pdo);
+$db = Database::connect();
+$claimRepository = new ClaimRepository($db);
+$topicRepository = new TopicRepository($db);
 
 ?>
 <!DOCTYPE html>
@@ -26,7 +26,8 @@ $topicRepository = new TopicRepository($pdo);
             padding-bottom: 1rem;
         }
     </style>
-</head <body lang="en-US">
+</head>
+<body lang="en-US">
 <?php
 $claim_id = $_GET["cid"];
 if (!isset($claim_id)) {
