@@ -31,14 +31,9 @@ $PAGE_TITLE = "Topic: {$topic->name}";
     <h2 style="margin-bottom: 0.5rem;">Topic:
         <?php echo htmlspecialchars($topic->name); ?>
     </h2>
-    <?php
-    if ($topic->hasDescription()) { ?>
-        <p style='max-width: 50rem; margin-inline: auto;'><b>Description:</b>
-            <?php echo htmlspecialchars($topic->description ?? "(no description)"); ?>
-        </p>
-        <?php
-    }
-    ?>
+    <p style='max-width: 50rem; margin-inline: auto;'><b>Description:</b>
+        <?php echo $topic->getDescriptionHTML(); ?>
+    </p>
     <p>
         <a class="btn btn-primary"
             href="add.php?tid=<?php echo $topic->id; ?>">Add New Claim</a>

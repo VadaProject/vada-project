@@ -17,13 +17,18 @@ class Topic
         $this->description = $description;
         $this->ts = new \DateTime($ts);
     }
-
-    public function hasDescription()
-    {
-        return strlen($this->description ?? "") > 0;
-    }
     public function getURL()
     {
         return "topic.php?tid={$this->id}";
+    }
+
+    /**
+     * @return string The escaped HTML for the description.
+     */
+    public function getDescriptionHTML() {
+        if (!isset($this->description) || $this->description === "") {
+            return '<span class="empty">(no description)</span>';
+        }
+        return htmlspecialchars($this->description);
     }
 }

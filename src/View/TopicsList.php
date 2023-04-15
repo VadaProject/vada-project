@@ -29,7 +29,7 @@ class TopicsList
                     </a>
                     <span class="topics-list__item__description">
                         <?php
-                        echo htmlspecialchars($topic->description ?? "(no description)");
+                        echo $topic->getDescriptionHTML();
                         ?>
                     </span>
                 </li>
