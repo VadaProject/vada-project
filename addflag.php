@@ -26,12 +26,12 @@ require "insert.php";
 </head>
 <body lang="en-US">
     <?php
-    // the claim_id to support is read from a URL param.
-    $claim_id = $_GET["cid"];
-    if (!isset($claim_id)) {
+    if (!isset($_GET["cid"])) {
         echo "<h2>Error: no claim ID given.</h2>";
         return;
     }
+    // the claim_id to support is read from a URL param.
+    $claim_id = intval($_GET["cid"]);
     $claim = $claimRepository->getClaimByID($claim_id);
     if (is_null($claim)) {
         echo "<h2>Error: a claim with the ID #$claim_id does not exist.</h2>";

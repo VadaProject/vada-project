@@ -29,13 +29,13 @@ $topicRepository = new TopicRepository($db);
 </head>
 <body lang="en-US">
 <?php
-$claim_id = $_GET["cid"];
-if (!isset($claim_id)) {
+if (empty($_GET["cid"])) {
     echo "<h2>Error: no claim ID given.</h2>";
     return;
 }
+$claim_id = $_GET["cid"];
 $claim = $claimRepository->getClaimByID($claim_id);
-if (is_null($claim)) {
+if (empty($claim)) {
     echo "<h2>Error: a claim with the ID #$claim_id does not exist.</h2>";
     return;
 }

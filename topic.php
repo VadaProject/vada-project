@@ -8,12 +8,12 @@ $claimRepository = new Vada\Model\ClaimRepository($db);
 $topicRepository = new Vada\Model\TopicRepository($db);
 $activityController = new Vada\Controller\ActivityController($claimRepository);
 
-if (!isset($_GET['tid'])) {
+if (empty($_GET['tid'])) {
     exit("Error: url param `tid` not set.");
 }
 $topic_id = intval($_GET['tid']);
 $topic = $topicRepository->getTopicByID($topic_id);
-if (!isset($topic)) {
+if (empty($topic)) {
     exit("Error: topic #$topic_id does not exist");
 }
 

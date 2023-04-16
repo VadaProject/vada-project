@@ -17,12 +17,12 @@ $PAGE_TITLE = "Add claim";
 require 'includes/page_top.php';
 
 $topic_id = intval($_GET["tid"]) ?? null;
-if (!isset($topic_id) || $topic_id == 0) {
+if (empty($topic_id)) {
     echo "Invalid URL params.";
     return;
 }
 $topic = $topicRepository->getTopicByID($topic_id);
-if (!isset($topic)) {
+if (empty($topic)) {
     echo "Error: No topic with id $topic_id exists.";
     return;
 }

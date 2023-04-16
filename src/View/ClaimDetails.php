@@ -109,7 +109,7 @@ class ClaimDetails
     function displayInference()
     {
         $FOS = 'flagging';
-        if (!isset($this->parent_claim)) {
+        if (empty($this->parent_claim)) {
             echo "<h2>Error: claim has no flagging relation set. This is probably a bug, please contact an administrator.</h2>";
             return;
         }

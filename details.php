@@ -15,12 +15,12 @@ $topicRepository = new TopicRepository($db);
 
 ?>
 <?php
-if (!isset($_GET['cid'])) {
-    exit("Error: missing URl param 'cid'.");
+if (empty($_GET['cid'])) {
+    exit("Error: missing URL param 'cid'.");
 }
 $claim_id = intval($_GET['cid']); // get claim id from URL search tags
 $claim = $claimRepository->getClaimByID($claim_id);
-if (!isset($claim)) {
+if (empty($claim)) {
     exit("Error: claim $claim_id does not exist.");
 }
 $parent_claim = $claimRepository->getClaimByID($claim->flagged_id ?? null);

@@ -7,7 +7,7 @@ This script is the target endpoint for add.php form submissions.
 
 // TODO: this logic should be abstracted, then moved into the respective add forms.
 
-if (!isset($_POST["topic_id"])) {
+if (empty($_POST["topic_id"])) {
     // the form has not been submitted. continue.
     return;
 }

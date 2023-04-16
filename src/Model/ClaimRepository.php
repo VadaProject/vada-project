@@ -21,7 +21,7 @@ class ClaimRepository
      */
     public function getClaimByID(int|null $claim_id)
     {
-        if (!isset($claim_id)) {
+        if (empty($claim_id)) {
             return null;
         }
         // inject an extra column, with the display_id
@@ -35,7 +35,7 @@ class ClaimRepository
             WHERE c.id = ?',
             $claim_id
         );
-        if (!isset($row) || !$row) {
+        if (empty($row)) {
             return null;
         }
         $claim = (object) $row;
