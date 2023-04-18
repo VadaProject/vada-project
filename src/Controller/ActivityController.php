@@ -111,7 +111,7 @@ class ActivityController
             }
             // Handle rivals
             if ($claim->rival_id) {
-                $this->restoreActivityRIVAL($support->rival_id);
+                $this->restoreActivityRIVAL($claim->rival_id);
             }
         }
         if (!$hasRival) {
