@@ -1,5 +1,5 @@
 <?php
-require "vendor/autoload.php";
+require __DIR__ . "/../vendor/autoload.php";
 
 /*
 This displays the argument in full detail and pushes any user interaction/submissions to add.php.
@@ -27,7 +27,7 @@ $parent_claim = $claimRepository->getClaimByID($claim->flagged_id ?? null);
 $PAGE_TITLE = "Claim #{$claim->display_id}";
 $claimDetails = new ClaimDetails($claim, $parent_claim);
 
-include 'includes/page_top.php'; ?>
+require __DIR__ . '/../includes/page_top.php'; ?>
 <main class="page-container">
     <?php
     $claimDetails->render();
@@ -86,7 +86,7 @@ include 'includes/page_top.php'; ?>
                 Disqus.</a></noscript>
     </div>
 </main>
-<?php include 'includes/page_bottom.php'; ?>
+<?php require __DIR__ . '/../includes/page_bottom.php'; ?>
 <style>
     .card {
         border: 3px double black;

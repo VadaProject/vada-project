@@ -43,7 +43,7 @@ enum Icon {
     public function getIconElement() {
         $file = $this->getFileName();
         if (isset($file)) {
-            $res = file_get_contents(__DIR__ . "/../../assets/svg/$file");
+            $res = file_get_contents(__DIR__ . "/../../public/assets/svg/$file");
             return $res;
         }
     }

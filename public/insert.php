@@ -1,5 +1,5 @@
 <?php
-require "vendor/autoload.php";
+require __DIR__ . "/../vendor/autoload.php";
 
 /*
 This script is the target endpoint for add.php form submissions.

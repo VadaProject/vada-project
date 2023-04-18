@@ -1,4 +1,4 @@
-<?php include 'includes/page_top.php'; ?>
+<?php require __DIR__ . '/../includes/page_top.php'; ?>
 <main class="page-container">
     <h2>About</h2>
     <p>The Vāda Project is a platform for collaborative and reason- and evidence-sensitive debate that is built on a contemporary systematization of particular Indian theories of knowledge sources (<i>pramāṇa</i>) and methods of reasoning (<i>nyāya</i>). This systematization is most directly indebted to the theories and methods both of the Nyāya philosophy of <a href="https://en.wikipedia.org/wiki/Ny%C4%81ya_S%C5%ABtras"> Akṣapāda Gautama and his successors</a>, and of the Buddhist philosophy of <a href="https://plato.stanford.edu/entries/dharmakiirti/"> Dharmakīrti</a> and his successors. </p>
@@ -10,4 +10,4 @@
     <p>The Vāda Project wishes to honor Akṣapāda Gautama, Dharmakīrti, Ratñakīrti, Bimal Krishna Matilal, Arindam Chakrabarti, Pradeep Gokhale, and Parimal Patil by striving toward, while expecting to fall short of, their standards of conciseness, clarity, wisdom, ingenuity, and practical concern.</p>
     <p>Further, the Vāda Project is grateful to the Norman J. Radow College of Humanities and Social Sciences and the Department of History and Philosophy at Kennesaw State University, which have provided generous financial and logistical support. </p>
 </main>
-<?php include 'includes/page_bottom.php'; ?>
+<?php require __DIR__ . '/../includes/page_bottom.php'; ?>

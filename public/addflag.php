@@ -1,5 +1,5 @@
 <?php
-require "vendor/autoload.php";
+require __DIR__ . "/../vendor/autoload.php";
 use Vada\Model\ClaimRepository;
 use Vada\Model\TopicRepository;
 use Vada\Model\Database;
@@ -15,7 +15,7 @@ require "insert.php";
 <!DOCTYPE html>
 <html>
 <head>
-    <?php require 'includes/head-tag-contents.php'; ?>
+    <?php require __DIR__ . '/../includes/head-tag-contents.php'; ?>
     <style>
         body {
             background-color: white;

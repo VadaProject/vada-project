@@ -1,5 +1,5 @@
 <?php
-require "vendor/autoload.php";
+require __DIR__ . "/../vendor/autoload.php";
 
 
 use Vada\Model\TopicRepository;
@@ -29,7 +29,7 @@ if (isset($_POST["name"])) {
 }
 
 $PAGE_TITLE = "New Topic";
-require 'includes/page_top.php';
+require __DIR__ . '/../includes/page_top.php';
 ?>
 <main class="page-container">
     <h2>Add New Topic</h2>
@@ -52,4 +52,4 @@ require 'includes/page_top.php';
     <script src="assets/scripts/add.js?timestamp=20230219"></script>
 </main>
 
-<?php include 'includes/page_bottom.php'; ?>
+<?php require __DIR__ . '/../includes/page_bottom.php'; ?>

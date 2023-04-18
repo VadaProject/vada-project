@@ -1,7 +1,7 @@
 <?php
-require "vendor/autoload.php";
+require __DIR__ . "/../vendor/autoload.php";
 
-include 'includes/page_top.php'; ?>
+require __DIR__ . '/../includes/page_top.php'; ?>
 <main class="page-container">
     <h2>User Guide</h2>
     <h3>Support Means</h3>
@@ -588,4 +588,4 @@ include 'includes/page_top.php'; ?>
 
     </div>
 </main>
-<?php include 'includes/page_bottom.php'; ?>
+<?php require __DIR__ . '/../includes/page_bottom.php'; ?>

@@ -1,5 +1,5 @@
 <?php
-require "vendor/autoload.php";
+require __DIR__ . "/../vendor/autoload.php";
 
 use \Vada\Model\Database;
 
@@ -19,7 +19,7 @@ if (empty($topic)) {
 
 $PAGE_TITLE = "Topic: {$topic->name}";
 ?>
-<?php require 'includes/page_top.php'; ?>
+<?php require __DIR__ . '/../includes/page_top.php'; ?>
 <style>
     footer,
     .topnav {
@@ -44,5 +44,5 @@ $PAGE_TITLE = "Topic: {$topic->name}";
     $claimTreeController->displayClaimTree();
     ?>
 </div>
-<?php include 'includes/page_bottom.php'; ?>
+<?php require __DIR__ . '/../includes/page_bottom.php'; ?>
 <script src="assets/scripts/ajaxindex.js"></script>

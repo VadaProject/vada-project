@@ -3,12 +3,12 @@
 
 namespace Vada;
 
-require "vendor/autoload.php";
+require __DIR__ . "/../vendor/autoload.php";
 
 $db = Model\Database::connect();
 $topicRepository = new Model\TopicRepository($db);
 ?>
-<?php require 'includes/page_top.php'; ?>
+<?php require __DIR__ . '/../includes/page_top.php'; ?>
 <main class="page-container">
     <h2>Welcome!</h2>
     <p>This is a website for discussion and learning that is based on Sanskritic
@@ -24,4 +24,4 @@ $topicRepository = new Model\TopicRepository($db);
     $topicsList->render();
     ?>
 </main>
-<?php require 'includes/page_bottom.php'; ?>
+<?php require __DIR__ . '/../includes/page_bottom.php'; ?>

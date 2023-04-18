@@ -1,5 +1,5 @@
 <?php
-require "vendor/autoload.php";
+require __DIR__ . "/../vendor/autoload.php";
 
 use Vada\View\SupportingForm;
 use Vada\Model\ClaimRepository;
@@ -14,7 +14,7 @@ $topicRepository = new TopicRepository($db);
 require "insert.php";
 
 $PAGE_TITLE = "Add claim";
-require 'includes/page_top.php';
+require __DIR__ . '/../includes/page_top.php';
 
 $topic_id = intval($_GET["tid"]) ?? null;
 if (empty($topic_id)) {
@@ -45,4 +45,4 @@ if (empty($topic)) {
     <script src="assets/scripts/add.js?timestamp=20230219"></script>
 </main>
 
-<?php include 'includes/page_bottom.php'; ?>
+<?php require __DIR__ . '/../includes/page_bottom.php'; ?>
