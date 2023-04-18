@@ -154,3 +154,24 @@ SET Claim.flag_type = LEFT(Flag.flagType, 50),
     Claim.rival_id = RivalFlag.claimIDFlagged,
     Claim.isRootRival = COALESCE(RivalFlag.isRootRival, FALSE);
 
+-- Create Group table --
+CREATE TABLE
+    IF NOT EXISTS `Group` (
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        name TINYTEXT NOT NULL,
+        description TINYTEXT,
+        access_code TINYTEXT NOT NULL,
+        CONSTRAINT unique_access_code UNIQUE (access_code)
+    );
+
+-- Create GroupTopic table --
+CREATE TABLE
+    IF NOT EXISTS `GroupTopic` (
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        group_id INT NOT NULL,
+        topic_id INT NOT NULL,
+        read_only BOOLEAN NOT NULL DEFAULT FALSE,
+        CONSTRAINT FK_GroupTopic_Group FOREIGN KEY (group_id) REFERENCES `Group` (id),
+        CONSTRAINT FK_GroupTopic_Topic FOREIGN KEY (topic_id) REFERENCES Topic (id),
+        CONSTRAINT unique_topic_group_pair UNIQUE (topic_id, group_id)
+    );
