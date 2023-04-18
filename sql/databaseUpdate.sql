@@ -190,7 +190,15 @@ CREATE TABLE
         group_id INT NOT NULL,
         topic_id INT NOT NULL,
         read_only BOOLEAN NOT NULL DEFAULT FALSE,
-        CONSTRAINT FK_GroupTopic_Group FOREIGN KEY (group_id) REFERENCES `Group` (id),
-        CONSTRAINT FK_GroupTopic_Topic FOREIGN KEY (topic_id) REFERENCES Topic (id),
+        CONSTRAINT FK_GroupTopic_Group FOREIGN KEY (group_id) REFERENCES `Group` (id) ON DELETE CASCADE,
+        CONSTRAINT FK_GroupTopic_Topic FOREIGN KEY (topic_id) REFERENCES Topic (id) ON DELETE CASCADE,
         CONSTRAINT unique_topic_group_pair UNIQUE (topic_id, group_id)
     );
+
+-- Migrate old topics to a Legacy Group --
+INSERT INTO `Group` VALUES (name, description, access_code) VALUES ("Vada Legacy Topics", "Old topics migrated from the previous version of The Vada Project", "KENNESAW1");
+
+INSERT INTO GroupTopic (topic_id, group_id)
+SELECT t.id, g.id
+FROM Topic t, `Group` g
+WHERE g.name = 'Vada Legacy Topics';

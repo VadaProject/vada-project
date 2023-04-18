@@ -19,6 +19,9 @@ class TopicsList
 
     public function render()
     {
+        if (count($this->topics) === 0) {
+            echo "<p>There are no topics here. Consider starting one!</p>";
+        }
         ?>
         <ul class="topics-list">
             <?php foreach ($this->topics as $topic) { ?>

@@ -237,6 +237,7 @@ input[type="button"],
 	display: inline-block;
 	font-family: 'Questrial', sans-serif;
 	font-size: 0.9rem;
+	line-height: inherit;
 	padding: 0.25rem 1ch;
 	text-align: center;
 	text-decoration: none;
@@ -256,20 +257,20 @@ input[type="button"]:active,
 }
 
 .btn-primary {
-	color: white;
-	background-color: var(--color-primary-2);
-	border-color: var(--color-primary);
+	color: var(--bg-color-3) !important;
+	background-color: var(--color-primary-2) !important;
+	border-color: var(--color-primary) !important;
 }
 
 .btn-primary:hover {
 	opacity: 0.9;
-	background-color: var(--color-primary-2);
-	border-color: var(--color-primary);
+	background-color: var(--color-primary-2) !important;
+	border-color: var(--color-primary) !important;
 }
 
 .btn-primary:active {
-	background-color: var(--color-primary);
-	border-color: var(--color-primary-2);
+	background-color: var(--color-primary) !important;
+	border-color: var(--color-primary-2) !important;
 }
 
 /* Input elements */
@@ -326,7 +327,6 @@ textarea {
 	padding: 20px;
 	border: 1px solid #888;
 	width: 80%;
-
 }
 
 /* Modal Content */
@@ -670,28 +670,13 @@ form label {
 }
 
 /* Topic list */
-
-.topics-list {
-	display: grid;
-	grid-gap: 0.5rem;
-	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));;
-	list-style: none;
-	padding-inline-start: 0;
-}
-
-.topics-list__item {
-	background: var(--bg-color-3);
-	border: 1px solid var(--color-body-2);
-	padding: 1rem;
+.topics-list__item__description::before {
+	content: " – ";
 }
 
 .topics-list__item__description {
-	display: block;
 	/* white-space: nowrap; */
 	text-overflow: ellipsis;
 	overflow: hidden;
 	height: 2rem;
-}
-.topics-list__item__description {
-
 }

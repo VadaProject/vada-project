@@ -1,4 +1,5 @@
 <?php
+// TODO: in a future revision this needs to be an admin only feature.
 namespace Vada;
 
 require __DIR__ . "/../vendor/autoload.php";
@@ -21,22 +22,20 @@ if (isset($_GET["gid"])) {
     $group_name_escaped = "<b>" . htmlspecialchars($group->name) . "</b>";
 }
 
+$groupName = $_POST["groupName"] ?? null;
 if (isset($_POST["name"])) {
     try {
-        $topic = new Model\Topic(
-            id: -1,
-            name: $_POST["name"],
-            description: $_POST["description"] ?? null,
-            ts: "now"
-        );
-        $topicRepository->insert($topic);
-        if ($group_id) {
-            $groupRepository->addTopicToGroup(topic_id: $topic->id, group_id: $group_id);
-        }
+        $group = [
+            "name" => $_POST["name"],
+            "description" => $_POST["description"] ?? null,
+        ];
+        $accessCode = $groupRepository->insertGroup(...$group);
+        $userAuthenticator->tryJoinGroup($accessCode);
         echo "Inserted!";
-        header("Location: topic.php?tid={$topic->id}");
+        header("Location: index.php");
         exit;
     } catch (\Exception $e) {
+        $error = htmlspecialchars($e->getMessage());
         error_log($e->getMessage());
         echo "Internal server error.";
         exit;
@@ -47,25 +46,23 @@ $PAGE_TITLE = "New Topic";
 require __DIR__ . '/../includes/page_top.php';
 ?>
 <main class="page-container">
-    <h2>Add New Topic</h2>
-    <p>This will create a new topic in
-        <?php
-        echo $group_name_escaped;
-        ?>.
-    </p>
+    <h2>Create group</h2>
+    <p>This will create a new group.</p>
     <form method="POST" target="_parent">
         <div>
             <div>
-                <label for="topic">Topic</label>
+                <label for="topic">Group</label>
                 <input class="w-100" type="text" id="topicInput" name="name"
-                    placeholder="Enter topic name..." required maxlength="100">
+                    placeholder="Enter group name..." required maxlength="100">
                 <label for="description">Description (optional)</label>
                 <input class="w-100" id="description" name="description"
                     placeholder="Enter a short description of the topic..."
                     maxlength="255">
             </div>
+            <p>
             <button class="btn-primary" type="submit"
                 id="submit">Submit</button>
+</p>
         </div>
     </form>
 </main>

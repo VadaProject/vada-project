@@ -40,6 +40,16 @@ class GroupRepository
         );
     }
     /**
+     * @return int[] The list of group_ids that a given topic is available to.
+     */
+    public function getGroupsOfTopic(int $topic_id)
+    {
+        return $this->db->column(
+            'SELECT group_id FROM GroupTopic WHERE topic_id = ?',
+            [$topic_id]
+        );
+    }
+    /**
      * Associates a topic with a group.
      * @throws Exception If 
      */
