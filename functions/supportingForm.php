@@ -94,7 +94,6 @@ class SupportingForm
             <option value="Tarka">Tarka</option>
         </select>
         <br>
-        <p></p>
         <!-- elements with the .[testimony/inference/etc]-only class are shown conditionally -->
         <p class="inference-only">
             ⓘ <a href="userguide.php#Inference" target="_blank">Inference (<i>anumāna</i>)</a> asserts
