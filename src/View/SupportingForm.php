@@ -24,7 +24,7 @@ class SupportingForm
         ?>
         <input type="hidden" id="topicInput"
             name="topic_id"
-            value="<?php echo $topic_id ?? ''; ?>">
+            value="<?=$topic_id ?? ''?>">
         <?php
     }
 
@@ -39,9 +39,9 @@ class SupportingForm
         if (isset($subject) && isset($targetP)) {
             ?>
             <input type="hidden" id="subjectInput" name="subject"
-                value="<?php echo htmlspecialchars($subject); ?>">
+                value="<?=htmlspecialchars($subject)?>">
             <input type="hidden" id="targetInput" name="targetP"
-                value="<?php echo htmlspecialchars($targetP); ?>">
+                value="<?=htmlspecialchars($targetP)?>">
             <?php
         } else {
             ?>
@@ -181,7 +181,7 @@ class SupportingForm
         ?>
         <div>
             <label for="flagType">
-                <?php echo $supportMeans; ?> Flags
+                <?=$supportMeans?> Flags
             </label>
             <select name="flagType" id="flagTypeSelect" required>
                 <option value="" selected>Select...</option>

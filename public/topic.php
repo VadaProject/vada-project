@@ -29,14 +29,14 @@ $PAGE_TITLE = "Topic: {$topic->name}";
 
 <div class="wrapper">
     <h2 style="margin-bottom: 0.5rem;">Topic:
-        <?php echo htmlspecialchars($topic->name); ?>
+        <?=htmlspecialchars($topic->name)?>
     </h2>
     <p style='max-width: 50rem; margin-inline: auto;'><b>Description:</b>
-        <?php echo $topic->getDescriptionHTML(); ?>
+        <?=$topic->getDescriptionHTML()?>
     </p>
     <p>
         <a class="btn btn-primary"
-            href="add.php?tid=<?php echo $topic->id; ?>">Add New Claim</a>
+            href="add.php?tid=<?=$topic->id?>">Add New Claim</a>
     </p>
     <?php
     $activityController->restoreActivityTopic($topic->id);

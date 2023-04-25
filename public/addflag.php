@@ -40,13 +40,13 @@ require "insert.php";
     $supportingForm = new SupportingForm();
     ?>
     <h2>Flagging claim #
-        <?php echo $claim->display_id; ?>
+        <?=$claim->display_id?>
     </h2>
     <form method="POST" id="myForm" target="_parent">
         <?php $supportingForm->showError($error ?? null); ?>
         <input type="hidden" name="flaggingOrSupporting" value="flagging">
         <input type="hidden" name="claimIDFlagged"
-            value="<?php echo $claim_id; ?>">
+            value="<?=$claim_id?>">
         <h3>What are you flagging it for?</h3>
         <?php 
         $supportingForm->topicInput($claim->topic_id); 

@@ -20,7 +20,7 @@ class ClaimDetails
         // this URL focuses the 
         $topic_url = "topic.php?tid={$this->claim->topic_id}#{$this->claim->display_id}";
         ?>
-        <p><a href='<?php echo $topic_url; ?>'>Back to topic</a></p>
+        <p><a href='<?=$topic_url?>'>Back to topic</a></p>
         <h2>
             <?php echo "Claim #{$this->claim->display_id}" ?>
         </h2>
@@ -39,7 +39,7 @@ class ClaimDetails
     {
         ?>
         <button class="openmodal myBtn" onclick="showFlagModal();">
-            <?php echo htmlspecialchars("Flag {$this->claim->supportMeans}"); ?>
+            <?=htmlspecialchars("Flag {$this->claim->supportMeans}")?>
         </button>
         <?php
     }
@@ -50,7 +50,7 @@ class ClaimDetails
             <div class="modal-content">
                 <span class="close" onclick="closeModal(this);">&times;</span>
                 <iframe
-                    src="<?php echo "addflag.php?cid={$this->claim->id}"; ?>"></iframe>
+                    src="<?="addflag.php?cid={$this->claim->id}"?>"></iframe>
             </div>
         </div>
     <?php }
@@ -61,7 +61,7 @@ class ClaimDetails
             <div class="modal-content">
                 <span class="close" onclick="closeModal(this);">&times;</span>
                 <iframe
-                    src="<?php echo "addsupport.php?cid={$this->claim->id}"; ?>"></iframe>
+                    src="<?="addsupport.php?cid={$this->claim->id}"?>"></iframe>
             </div>
         </div>
     <?php }
@@ -70,10 +70,10 @@ class ClaimDetails
     {
         ?>
         <span class="subject-display">
-            <?php echo htmlspecialchars($claim->subject); ?>
+            <?=htmlspecialchars($claim->subject)?>
         </span>
         <span class="target-display">
-            <?php echo htmlspecialchars($claim->targetP); ?>
+            <?=htmlspecialchars($claim->targetP)?>
         </span>.
         <?php
     }
@@ -81,10 +81,10 @@ class ClaimDetails
     {
         ?>
         <span class="subject-display">
-            <?php echo htmlspecialchars($claim->subject); ?>
+            <?=htmlspecialchars($claim->subject)?>
         </span>
         <span class="reason-display">
-            <?php echo htmlspecialchars($claim->reason); ?>
+            <?=htmlspecialchars($claim->reason)?>
         </span>.
         <?php
     }
@@ -94,14 +94,14 @@ class ClaimDetails
         ?>
         Whomever/Whatever
         <span class="reason-display">
-            <?php echo htmlspecialchars($claim->reason); ?>
+            <?=htmlspecialchars($claim->reason)?>
         </span>
         <span class="target-display">
-            <?php echo htmlspecialchars($claim->targetP); ?>
+            <?=htmlspecialchars($claim->targetP)?>
         </span>,
         as in the case of
         <span class="example-display">
-            <?php echo htmlspecialchars($claim->example); ?>
+            <?=htmlspecialchars($claim->example)?>
         </span>.
         <?php
     }
@@ -120,7 +120,7 @@ class ClaimDetails
                     <?php echo "<a href='?cid={$this->parent_claim->id}'>#{$this->parent_claim->display_id}</a>" ?>)
                 </th>
                 <td>
-                    <?php echo self::displayThesisStatement($this->claim); ?>
+                    <?=self::displayThesisStatement($this->claim)?>
                 </td>
                 <td>
                     <?php echo "<a class='btn' href='?cid={$this->parent_claim->id}'>Flag Thesis</a>" ?>
@@ -175,9 +175,9 @@ class ClaimDetails
         <p><label>Transcription:</label>
             <!-- TODO: style this -->
             <textarea readonly
-                style="display: block; max-width: 100%; min-width: 100%; height: auto"><?php echo $this->claim->transcription; ?></textarea>
+                style="display: block; max-width: 100%; min-width: 100%; height: auto"><?=$this->claim->transcription?></textarea>
         <p><label>Citation:</label>
-            <?php echo $this->claim->citation; ?>
+            <?=$this->claim->citation?>
         </p>
         <?php self::makeLinkAnchor($url); ?>
         </p>
@@ -188,11 +188,11 @@ class ClaimDetails
         $url = $this->claim->URL ?? $this->claim->citationURL ?? "";
         ?>
         <p><label>Citation:</label>
-            <?php echo $this->claim->citation; ?>
+            <?=$this->claim->citation?>
         </p>
         <?php self::makeLinkAnchor($url); ?>
         <p><label>Timestamp:</label>
-            <?php echo $this->claim->vidtimestamp; ?>
+            <?=$this->claim->vidtimestamp?>
         </p>
     <?php }
 

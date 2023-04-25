@@ -80,12 +80,12 @@ require __DIR__ . '/../includes/page_top.php';
             </h3>
             <p>
                 <b>Description:</b>
-                <?php echo htmlspecialchars($group->description ?: "(no description)"); ?>
+                <?=htmlspecialchars($group->description ?: "(no description)")?>
             </p>
             <p>
                 <a class="btn btn-primary"
-                    href="addtopic.php?gid=<?php echo $group->id; ?>">Add topic</a>
-                <a class="btn" href="?leaveGroup=<?php echo $group->id; ?>">Leave
+                    href="addtopic.php?gid=<?=$group->id?>">Add topic</a>
+                <a class="btn" href="?leaveGroup=<?=$group->id?>">Leave
                     group</a>
             </p>
             <?php

@@ -27,8 +27,8 @@ class TopicsList
             <?php foreach ($this->topics as $topic) { ?>
                 <li class="topics-list__item">
                     <a class="topics-list__item__link"
-                        href="<?php echo $topic->getURL(); ?>">
-                        <?php echo htmlspecialchars($topic->name); ?>
+                        href="<?=$topic->getURL()?>">
+                        <?=htmlspecialchars($topic->name)?>
                     </a>
                     <span class="topics-list__item__description">
                         <?php

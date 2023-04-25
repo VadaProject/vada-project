@@ -20,10 +20,10 @@ class ClaimCard
     {
         ?>
         <span class="stem"></span>
-        <input id="<?php echo $this->claim->display_id; ?>" type="checkbox"
+        <input id="<?=$this->claim->display_id?>" type="checkbox"
             name="active_claim">
         <label class="claim" <?php if ($this->rival_claim) { ?>style="background:#FFFFE0" <?php } ?>
-            for="<?php echo $this->claim->display_id; ?>">
+            for="<?=$this->claim->display_id?>">
             <?php
 
             switch ($this->flag_type) {
@@ -82,7 +82,7 @@ class ClaimCard
 
             $url = "details.php?cid={$this->claim->id}";
             ?>
-            <a class="btn btn-primary" href="<?php echo $url; ?>">
+            <a class="btn btn-primary" href="<?=$url?>">
                 Details
             </a>
         </label>
