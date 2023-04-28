@@ -5,12 +5,12 @@ namespace Vada\Model;
 class UserAuthenticator
 {
     protected GroupRepository $groups;
-    protected UserSessionManager $session;
+    protected CookieManager $cookies;
 
-    public function __construct(GroupRepository $groupRepository, UserSessionManager $userSessionManager)
+    public function __construct(GroupRepository $groupRepository, CookieManager $cookieManager)
     {
         $this->groups = $groupRepository;
-        $this->session = $userSessionManager;
+        $this->cookies = $cookieManager;
     }
 
     /**
@@ -19,7 +19,8 @@ class UserAuthenticator
     public function getAllActiveGroups()
     {
         $groups = [];
-        foreach ($this->session->getGroups() as $code) {
+        $data = $this->cookies->getData();
+        foreach ($this->cookies->getData() as $code) {
             $group = $this->groups->getGroupByAccessCode($code);
             if (!is_null($group)) {
                 $groups[] = $group;
@@ -32,7 +33,7 @@ class UserAuthenticator
      * Is
      */
     public function isInGroup(int $group_id) {
-        $code = $this->session->getGroups()[$group_id] ?? null;
+        $code = $this->cookies->getData()[$group_id] ?? null;
         $group = $this->groups->getGroupByID($group_id);
         return $group && $code == $group->access_code;
     }
@@ -57,14 +58,14 @@ class UserAuthenticator
         if (is_null($group)) {
             throw new \Exception("Access code invalid.");
         }
-        $this->session->addGroup($group->id, $access_code);
+        $this->cookies->set($group->id, $access_code);
         return $group->id;
     }
 
     public function leaveGroup(int $group_id) {
-        $this->session->removeGroup($group_id);
+        $this->cookies->remove($group_id);
     }
     public function logoutAllGroups() {
-        $this->session->resetAccessCodes();
+        $this->cookies->reset();
     }
 }

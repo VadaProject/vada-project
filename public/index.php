@@ -8,7 +8,7 @@ require __DIR__ . "/../config/.env.php";
 
 $db = Model\Database::connect();
 $groupRepository = new Model\GroupRepository($db);
-$userAuthenticator = new Model\UserAuthenticator($groupRepository, new Model\UserSessionManager("VadaGroups"));
+$userAuthenticator = new Model\UserAuthenticator($groupRepository, new Model\CookieManager("VadaGroups"));
 $topicRepository = new Model\TopicRepository($db);
 
 $accessCode = $_POST["accessCode"] ?? null;

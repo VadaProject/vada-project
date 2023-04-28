@@ -10,7 +10,7 @@ use Vada\Model\Database;
 $db = Database::connect();
 $topicRepository = new TopicRepository($db);
 $groupRepository = new Model\GroupRepository($db);
-$userAuthenticator = new Model\UserAuthenticator($groupRepository, new Model\UserSessionManager("VadaGroups"));
+$userAuthenticator = new Model\UserAuthenticator($groupRepository, new Model\CookieManager("VadaGroups"));
 
 $group_name_escaped = "public";
 if (isset($_GET["gid"])) {
