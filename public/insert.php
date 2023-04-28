@@ -56,7 +56,7 @@ try {
         case "flagging":
             $thesis_id = null;
             if ($flag_type == 'Thesis Rival') {
-                $rivaled_claim = $claimRepository->getClaimByID($rival_id);
+                $rivaled_claim = $claimRepository->getClaimByID($flagged_id);
                 $has_rival = $rivaled_claim->rival_id ? true : false;
                 if ($has_rival) {
                     $display_id = $rivaled_claim->display_id;
