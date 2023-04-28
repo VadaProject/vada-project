@@ -16,6 +16,6 @@ switch (basename($_SERVER['SCRIPT_NAME'])) {
 ?>
 <title><?=htmlspecialchars($PAGE_TITLE) ?? ""?> - Vāda Project</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="assets/stylesheets/global.css?timestamp=20230219">
+<link rel="stylesheet" href="assets/stylesheets/global.css?timestamp=20230428">
 <link rel="icon" href="assets/img/icon.svg"/>
 <script src="assets/scripts/jquery-3.3.1.min.js" type="text/javascript"></script>

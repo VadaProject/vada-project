@@ -60,6 +60,6 @@ require "insert.php";
         <div>
             <button type="submit" id="submit">Submit</button>
         </div>
-        <script src="assets/scripts/add.js?timestamp=20230219"></script>
+        <script src="assets/scripts/add.js?timestamp=20230428"></script>
     </form>
 </body>

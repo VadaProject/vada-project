@@ -42,7 +42,7 @@ if (empty($topic)) {
         <button type="submit" id="submit">Submit</button>
         </div>
     </form>
-    <script src="assets/scripts/add.js?timestamp=20230219"></script>
+    <script src="assets/scripts/add.js?timestamp=20230428"></script>
 </main>
 
 <?php require __DIR__ . '/../includes/page_bottom.php'; ?>
