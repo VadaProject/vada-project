@@ -129,6 +129,10 @@ class ActivityController
     private function restoreActivityRIVAL($claim_id)
     {
         $claim = $this->claimRepository->getClaimByID($claim_id);
+        if (!$claim->rival_id) {
+            return;
+        }
+        $rival_id = $claim->rival_id;
         // Finds the flagger, and continues the recursion by invoking
         // restoreActivity
         // set of all too-early and too-late
@@ -136,12 +140,9 @@ class ActivityController
         foreach ($this->claimRepository->getFlagsAndSupports($claim_id) as $flagsupport_id) {
             $this->restoreActivity($flagsupport_id);
         }
-        // check active status of flagging claims OF RIVAL COMPANION
-        // finds the companion
-        $rival_id = $claim->rival_id;
-        // recurse. run restoreActivity on all flags and supports (not thesis rivals).
-        foreach ($this->claimRepository->getFlagsAndSupports($rival_id) as $rivals_flag_id) {
-            $this->restoreActivity($rivals_flag_id);
+        // recurse. run restoreActivity on rival's children.
+        foreach ($this->claimRepository->getFlagsAndSupports($rival_id) as $flag_id) {
+            $this->restoreActivity($flag_id);
         }
         // rivalA : supportless --> rivalb should be active. does rivalb have active TE/TL?
         // rivalB : needs to be active AND it doesn't have a too early / too late AND needs at least one support itself
