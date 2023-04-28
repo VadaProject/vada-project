@@ -1,0 +1,6 @@
+# If hosting Vada on a shared webhost (such as Hostinger),
+# put this file in the root HTML directory to redirect queries into a
+# subdirectory called vada/
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !vada/
+RewriteRule ^(.*)$ vada/$1 [L]

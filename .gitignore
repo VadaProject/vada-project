@@ -510,6 +510,3 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,linux,windows,php-cs-fixer,visualstudio,visualstudiocode,composer
-
-# we have to ignore this so we don't clobber Hostinger's own usage.
-.htaccess
