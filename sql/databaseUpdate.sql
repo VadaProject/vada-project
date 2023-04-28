@@ -1,11 +1,9 @@
 -- This script updates existing instances of the Vada Project 2.0 to the new schema. --
 -- Convert charsets to utf8mb4 --
-ALTER TABLE claimsdb CONVERT TO CHARACTER
-SET
+ALTER TABLE claimsdb CONVERT TO CHARACTER SET
     utf8mb4 COLLATE utf8mb4_general_ci;
 
-ALTER TABLE flagsdb CONVERT TO CHARACTER
-SET
+ALTER TABLE flagsdb CONVERT TO CHARACTER SET
     utf8mb4 COLLATE utf8mb4_general_ci;
 
 -- Drop unused columns --
@@ -71,10 +69,7 @@ WHERE
         FROM
             claimsdb
     )
-    OR
-WHERE
-    isRootRival != 0
-    AND flagsdb.claimIDFlagged NOT IN (
+    OR flagsdb.claimIDFlagged NOT IN (
         SELECT
             claimsdb.claimID
         FROM
@@ -118,6 +113,7 @@ SET
     c.topic_id = t.id;
 
 -- Create a foreign key constraint for Claim's topic_id --
+ALTER TABLE Claim
 ADD CONSTRAINT fk_claim_topic FOREIGN KEY (topic_id) REFERENCES Topic (id) ON DELETE CASCADE;
 
 -- Drop old topic column
@@ -196,7 +192,7 @@ CREATE TABLE
     );
 
 -- Migrate old topics to a Legacy Group --
-INSERT INTO `Group` VALUES (name, description, access_code) VALUES ("Vada Legacy Topics", "Old topics migrated from the previous version of The Vada Project", "KENNESAW1");
+INSERT INTO `Group`(name, description, access_code) VALUES ("Vada Legacy Topics", "Old topics migrated from the previous version of The Vada Project", "__INSERT_PASSWORD__");
 
 INSERT INTO GroupTopic (topic_id, group_id)
 SELECT t.id, g.id
