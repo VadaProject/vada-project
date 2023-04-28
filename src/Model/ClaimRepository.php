@@ -273,8 +273,7 @@ class ClaimRepository
         return (bool) $this->db->cell(
             'SELECT EXISTS (
                 SELECT DISTINCT id FROM Claim 
-                WHERE id = ? 
-                    AND id NOT IN (SELECT DISTINCT flagged_id FROM Claim)
+                WHERE flagged_id = null
             )',
             $claim_id
         );
