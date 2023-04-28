@@ -61,8 +61,8 @@ require __DIR__ . '/../includes/page_top.php';
         </form>
         <div>
             <h2>Create a group</h2>
-            For debugging purposes only.
-            <a class="btn btn-primary" href="creategroup.php">New group</a>
+            <p>Create a new discussion group to get a group code.</p>
+            <p><a class="btn btn-primary" href="creategroup.php">New group</a></p>
         </div>
     </div>
     </div>
