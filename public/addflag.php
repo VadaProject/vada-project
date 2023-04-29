@@ -1,16 +1,20 @@
 <?php
-require __DIR__ . "/../vendor/autoload.php";
-use Vada\Model\ClaimRepository;
-use Vada\Model\TopicRepository;
-use Vada\Model\Database;
-use Vada\View\SupportingForm;
+/**
+ * This page renders in an iframe and inserts a support.
+ * Closely mirrors addsupport.php, to the point of duplication.
+ * TODO: refactor them to be closer together.
+ */
+namespace Vada;
 
-$db = Database::connect();
-$claimRepository = new ClaimRepository($db);
-$topicRepository = new TopicRepository($db);
+require __DIR__ . "/../vendor/autoload.php";
+
+$db = Model\Database::connect();
+$claimRepository = new Model\ClaimRepository($db);
+$topicRepository = new Model\TopicRepository($db);
+$userAuthenticator = new Model\UserAuthenticator(new Model\GroupRepository($db), new Model\CookieManager("VadaGroups"));
 
 // handle database insertion, then render page.
-require "insert.php";
+require __DIR__ . "/../src/Model/insert.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,11 +37,14 @@ require "insert.php";
     // the claim_id to support is read from a URL param.
     $claim_id = intval($_GET["cid"]);
     $claim = $claimRepository->getClaimByID($claim_id);
+    if (!$userAuthenticator->canAccessTopic($claim->topic_id)) {
+        exit("Error: Access denied. Please join a group with access to this topic.");
+    }
     if (is_null($claim)) {
         echo "<h2>Error: a claim with the ID #$claim_id does not exist.</h2>";
         return;
     }
-    $supportingForm = new SupportingForm();
+    $supportingForm = new View\SupportingForm();
     ?>
     <h2>Flagging claim #
         <?=$claim->display_id?>

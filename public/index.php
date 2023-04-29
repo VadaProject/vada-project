@@ -6,11 +6,13 @@ namespace Vada;
 require __DIR__ . "/../vendor/autoload.php";
 require __DIR__ . "/../config/.env.php";
 
+// TODO: ugly bad per-page dependency injection.
 $db = Model\Database::connect();
 $groupRepository = new Model\GroupRepository($db);
 $userAuthenticator = new Model\UserAuthenticator($groupRepository, new Model\CookieManager("VadaGroups"));
 $topicRepository = new Model\TopicRepository($db);
 
+// TODO: move into a GroupController class
 $accessCode = $_POST["accessCode"] ?? null;
 if (isset($accessCode)) {
     try {

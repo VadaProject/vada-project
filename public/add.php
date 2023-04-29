@@ -11,7 +11,7 @@ $claimRepository = new ClaimRepository($db);
 $topicRepository = new TopicRepository($db);
 
 // handle database insertion, then render page.
-require "insert.php";
+require __DIR__ . "/../src/Model/insert.php";
 
 $PAGE_TITLE = "Add claim";
 require __DIR__ . '/../includes/page_top.php';

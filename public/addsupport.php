@@ -1,18 +1,17 @@
 <?php
+/** This page renders in an iframe and inserts a support. */
+namespace Vada;
+
 require __DIR__ . "/../vendor/autoload.php";
+
 // handle database insertion, then render page.
+require __DIR__ . "/../src/Model/insert.php";
 
-require "insert.php";
 
-
-use Vada\Model\ClaimRepository;
-use Vada\Model\TopicRepository;
-use Vada\Model\Database;
-use Vada\View\SupportingForm;
-
-$db = Database::connect();
-$claimRepository = new ClaimRepository($db);
-$topicRepository = new TopicRepository($db);
+$db = Model\Database::connect();
+$claimRepository = new Model\ClaimRepository($db);
+$topicRepository = new Model\TopicRepository($db);
+$userAuthenticator = new Model\UserAuthenticator(new Model\GroupRepository($db), new Model\CookieManager("VadaGroups"));
 
 ?>
 <!DOCTYPE html>
@@ -39,11 +38,14 @@ if (empty($claim)) {
     echo "<h2>Error: a claim with the ID #$claim_id does not exist.</h2>";
     return;
 }
+if (!$userAuthenticator->canAccessTopic($claim->topic_id)) {
+    exit("Error: Access denied. Please join a group with access to this topic.");
+}
 if ($claim->COS == "support") {
     echo "<h2>Error: claim $claim_id is a support and cannot be supported.</h2>";
     return;
 }
-$supportingForm = new SupportingForm();
+$supportingForm = new View\SupportingForm();
 ?>
 <h2>Supporting claim #
     <?=$claim->display_id?>

@@ -1,18 +1,23 @@
 <?php
+/**
+ * This page displays the argument in full detail.
+ * It also shows the addflag and addsupport modals.
+ * Lastly it contains the Disqus integration. TODO: abstract that.
+ */
+namespace Vada;
+
 require __DIR__ . "/../vendor/autoload.php";
 
-/*
-This displays the argument in full detail and pushes any user interaction/submissions to add.php.
-*/
 use Vada\Model\ClaimRepository;
 use Vada\Model\TopicRepository;
 use Vada\Model\Database;
 use Vada\View\ClaimDetails;
 
+// TODO: ugly bad per-page dependency injection.
 $db = Database::connect();
 $claimRepository = new ClaimRepository($db);
 $topicRepository = new TopicRepository($db);
-
+$userAuthenticator = new Model\UserAuthenticator(new Model\GroupRepository($db), new Model\CookieManager("VadaGroups"));
 ?>
 <?php
 if (empty($_GET['cid'])) {
@@ -22,6 +27,9 @@ $claim_id = intval($_GET['cid']); // get claim id from URL search tags
 $claim = $claimRepository->getClaimByID($claim_id);
 if (empty($claim)) {
     exit("Error: claim $claim_id does not exist.");
+}
+if (!$userAuthenticator->canAccessTopic($claim->topic_id)) {
+    exit("Error: Access denied. Please join a group with access to this topic.");
 }
 $parent_claim = $claimRepository->getClaimByID($claim->flagged_id ?? null);
 $PAGE_TITLE = "Claim #{$claim->display_id}";

@@ -1,25 +1,23 @@
 <?php
-require __DIR__ . "/../vendor/autoload.php";
-
-/*
-This script is the target endpoint for add.php form submissions.
+/**
+ * This script is called from add, addflag, addsupport
+ * Takes POSTed data from the forms, and inserts into the database.
+ * On failure, sets the $error variable to a user-readable message.
+ * On success, redirects to the new claim's topic page.
+ * 
+ * TODO: this logic should be abstracted further, then moved into the respective add forms.
 */
-
-// TODO: this logic should be abstracted, then moved into the respective add forms.
+namespace Vada;
 
 if (empty($_POST["topic_id"])) {
     // the form has not been submitted. continue.
     return;
 }
 
-use Vada\Model\Database;
-use Vada\Model\ClaimRepository;
-use Vada\Controller\ActivityController;
-
-$db = Database::connect();
-$claimRepository = new ClaimRepository($db);
-$topicRepository = new \Vada\Model\TopicRepository($db);
-$activityController = new ActivityController($claimRepository);
+$db = Model\Database::connect();
+$claimRepository = new Model\ClaimRepository($db);
+$topicRepository = new Model\TopicRepository($db);
+$activityController = new Controller\ActivityController($claimRepository);
 
 // Get unescaped values from POST.
 
@@ -89,7 +87,7 @@ try {
     $new_claim = $claimRepository->getClaimByID($thesis_id ?? $support_id);
     $topic_url_part = urlencode($topic_trimmed);
     header("Location: {$topic->getURL()}#{$new_claim->display_id}");
-} catch (Exception $ex) {
+} catch (\Exception $ex) {
     error_log($ex->getMessage());
     $error = "A database error occured, insertion failed: " . $ex->getMessage();
 } finally {
