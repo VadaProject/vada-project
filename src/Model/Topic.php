@@ -10,7 +10,7 @@ class Topic
     public string|null $description;
     public \DateTime $ts;
     
-    public function __construct(int $id = -1, string $name, string $description = null, string $ts = null)
+    public function __construct(int $id, string $name, string $description = null, string $ts = null)
     {
         $this->id = $id;
         $this->name = $name;
