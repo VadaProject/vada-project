@@ -26,13 +26,7 @@ class ClaimRepository
         }
         // inject an extra column, with the display_id
         $row = $this->db->row(
-            'SELECT c.*, display.display_id
-            FROM Claim c
-            JOIN (SELECT topic_id, id,
-                    ROW_NUMBER() OVER (PARTITION BY topic_id ORDER BY id) AS display_id
-                FROM Claim
-            ) display ON c.id = display.id
-            WHERE c.id = ?',
+            'SELECT * FROM ClaimDisplayID WHERE id = ?',
             $claim_id
         );
         if (empty($row)) {
