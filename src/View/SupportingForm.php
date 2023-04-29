@@ -192,9 +192,9 @@ class SupportingForm
                         <option value="Itself Unestablished">Itself Unestablished</option>
                         <option value="Hostile">Hostile</option>
                         <option value="Too Narrow">Too Narrow</option>
-                        <option value="Too Broad (Counterexample)">Too Broad (Counterexample)
+                        <option value="Counterexample">Counterexample
                         </option>
-                        <option value="Too Broad (Unestablished Universal)">Too Broad
+                        <option value="Unestablished Universal">Too Broad
                             (Unestablished
                             Universal)</option>
                         <option value="Contrived Universal">Contrived Universal
@@ -248,10 +248,10 @@ class SupportingForm
                             not present, or is not known to be present, with the target property
                             in the example; or (c) the example is the same as, or is contained
                             within, the subject.</p>
-                        <p data-value="Too Broad (Counterexample)">ⓘ <i>Too Broad
+                        <p data-value="Counterexample">ⓘ <i>Too Broad
                                 (Counterexample)</i>: The reason property is present without the
                             target property in a specifiable counterexample.</p>
-                        <p data-value="Too Broad (Unestablished Universal)">ⓘ <i>Too Broad
+                        <p data-value="Unestablished Universal">ⓘ <i>Too Broad
                                 (Unestablished Universal)</i>: There is no causal or conceptual
                             reason to assume a universal association between the reason property
                             and the target property; therefore, unspecifiable counterexamples

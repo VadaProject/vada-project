@@ -12,3 +12,12 @@ FROM
 ORDER BY 
   c1.topic_id, 
   c1.id;
+
+-- Rename flag types
+UPDATE Claim
+SET flag_type = "Unestablished Universal"
+WHERE flag_type = "Too Broad (Unestablished Universal)";
+
+UPDATE Claim
+SET flag_type = "Counterexample"
+WHERE flag_type = "Too Broad (Counterexample)";
