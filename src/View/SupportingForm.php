@@ -194,27 +194,24 @@ class SupportingForm
                         <option value="Too Narrow">Too Narrow</option>
                         <option value="Counterexample">Counterexample
                         </option>
-                        <option value="Unestablished Universal">Too Broad
-                            (Unestablished
-                            Universal)</option>
+                        <option value="Unestablished Universal">Unestablished Universal</option>
                         <option value="Contrived Universal">Contrived Universal
                         </option>
                         <?php
                         break;
                     case 'Perception':
                         ?>
-                        <option value="No Sense Object Contact">No Sense-Object
-                            Contact</option>
+                        <option value="No Sense Object Contact">No Contact</option>
                         <option value="Depends On Words">Depends on Words
                         </option>
-                        <option value="Errant">Errant</option>
+                        <option value="Errant">False</option>
                         <option value="Ambiguous">Ambiguous</option>
                         <?php
                         break;
                     case 'Testimony':
                         ?>
                         <option value="No Direct Familiarity">No direct familiarity</option>
-                        <option value="Errant Info">Errant information</option>
+                        <option value="Errant Info">False</option>
                         <option value="Ambiguous">Ambiguous</option>
                         <option value="Faithless">Faithless</option>
                         <option value="Misstatement">Misstatement</option>
