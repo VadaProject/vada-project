@@ -191,12 +191,11 @@ class SupportingForm
                         <option value="Unestablished Subject">Unestablished Subject</option>
                         <option value="Itself Unestablished">Itself Unestablished</option>
                         <option value="Too Narrow">Too Narrow</option>
-                        <option value="Counterexample">Counterexample
-                        </option>
+                        <option value="Counterexample">Counterexample</option>
                         <option value="Unestablished Universal">Unestablished Universal</option>
-                        <option value="Contrived Universal">Contrived Universal
+                        <option value="Contrived Universal">Contrived Universal</option>
                         <option value="Hostile">Hostile</option>
-                        </option>
+                        
                         <?php
                         break;
                     case 'Perception':
