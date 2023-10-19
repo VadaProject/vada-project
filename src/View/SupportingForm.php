@@ -190,12 +190,12 @@ class SupportingForm
                         ?>
                         <option value="Unestablished Subject">Unestablished Subject</option>
                         <option value="Itself Unestablished">Itself Unestablished</option>
-                        <option value="Hostile">Hostile</option>
                         <option value="Too Narrow">Too Narrow</option>
                         <option value="Counterexample">Counterexample
                         </option>
                         <option value="Unestablished Universal">Unestablished Universal</option>
                         <option value="Contrived Universal">Contrived Universal
+                        <option value="Hostile">Hostile</option>
                         </option>
                         <?php
                         break;
@@ -212,8 +212,8 @@ class SupportingForm
                         ?>
                         <option value="No Direct Familiarity">No direct familiarity</option>
                         <option value="Errant Info">False</option>
-                        <option value="Ambiguous">Ambiguous</option>
                         <option value="Faithless">Faithless</option>
+                        <option value="Ambiguous">Ambiguous</option>
                         <option value="Misstatement">Misstatement</option>
                         <?php
                         break;
