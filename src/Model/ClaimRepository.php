@@ -224,10 +224,12 @@ class ClaimRepository
                 "isRootRival" => $is_root_rival
             ]
         );
+        // update the rivaled claim
         $this->db->update(
             "Claim",
             [
-                "rival_id" => $id
+                "rival_id" => $id,
+                "isRootRival" => $is_root_rival
             ],
             [
                 "id" => $rival_id
@@ -266,8 +268,9 @@ class ClaimRepository
     {
         return (bool) $this->db->cell(
             'SELECT EXISTS (
-                SELECT DISTINCT id FROM Claim 
-                WHERE flagged_id = null
+                SELECT DISTINCT id FROM Claim
+                WHERE id = ?
+                AND flagged_id IS NULL
             )',
             $claim_id
         );
