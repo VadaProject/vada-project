@@ -1,9 +1,0 @@
-{
-    "editor.formatOnSave": false,
-    "[php]": {
-    },
-    "php-cs-fixer.toolPath": "vendor/bin/php-cs-fixer",
-    "phpcs.executablePath": "vendor/bin/phpcs",
-    "php.validate.executablePath": "../../bin/php",
-    "php.version": "v8.1.6-Xampp",
-}
