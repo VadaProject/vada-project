@@ -12,5 +12,10 @@
             echo 'class="active"';
         } ?>
             href="about.php">About</a>
+        <a <?php
+        if ('User Guide' == $CURRENT_PAGE) {
+            echo 'class="active"';
+        } ?>
+            href="userguide.php">User Guide</a>
         <div>
 </header>
