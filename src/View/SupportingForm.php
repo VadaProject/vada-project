@@ -239,7 +239,7 @@ class SupportingForm
                         <p data-value="Hostile">ⓘ <i>Hostile</i>: The reason property
                             establishes that the target property is not present in the subject.
                         </p>
-                        <p data-value="Too Narrow">ⓘ <i>Too Narrow</i>: ither (a) the example is
+                        <p data-value="Too Narrow">ⓘ <i>Too Narrow</i>: Either (a) the example is
                             ambiguous, in doubt, or non-existent; or (b) the reason property is
                             not present, or is not known to be present, with the target property
                             in the example; or (c) the example is the same as, or is contained
