@@ -41,6 +41,8 @@ require __DIR__ . '/../includes/page_top.php';
             new
             claims using protocols of <i>vāda</i> and <i>pramāṇavāda</i>, or
             participate in and observe pre-existing debates.</p>
+
+            <p>Please reach out to Amy Donahue at adonahu3 "at" kennesaw.edu to collaborate. 
     </section>
     <div
         style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); grid-gap: 1rem;">
